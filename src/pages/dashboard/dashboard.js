@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { KeyboardArrowUp, LeakAdd, LiveHelp, LocalShipping, Settings } from '@material-ui/icons';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
@@ -41,7 +42,7 @@ export default class dashboard extends Component {
                 <div className='dash'> 
                     <div className='widgets'>
                         <Widget 
-                            redirect='/transaction' 
+                            redirect='/transactions' 
                             title='S & L' 
                             link='Supply and Logistics'
                             backgroundColor= '#d25f20'
