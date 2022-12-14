@@ -25,7 +25,6 @@ function Transaction(props) {
                             )} 
                     />
                     <Widget 
-                        redirect='/transport' 
                         title='TRANSPORT' 
                         link='Transport to IP'
                         backgroundColor='#046350'
