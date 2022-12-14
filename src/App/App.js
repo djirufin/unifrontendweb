@@ -8,6 +8,7 @@ import Transfer from '../pages/logistic/transfer/Transfer';
 import Transaction from '../pages/logistic/Transaction';
 import Acknowledge from '../pages/logistic/acknowledge/Acknowledge';
 import Trace from '../pages/logistic/trace/Trace';
+import searchProduct from '../pages/logistic/trace/searchProduct';
 
 const theme = createTheme({
   palette: {
@@ -58,6 +59,7 @@ function App() {
               <Route path="/transaction" exact component={ Transaction } />
               <Route path="/acknowledge" exact component={ Acknowledge } />
               <Route path="/trace" exact component={ Trace } />
+              <Route path="/search" exact component={ searchProduct } />
             </Switch>
           </div>
           <CssBaseline />

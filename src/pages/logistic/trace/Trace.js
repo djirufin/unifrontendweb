@@ -1,4 +1,4 @@
-import { Assignment, CheckCircle, DirectionsBus, EventNote, LocalShipping, Search, SendSharp } from '@material-ui/icons';
+import { CameraAlt, Scanner, Search } from '@material-ui/icons';
 import React from 'react';
 import Widget from '../../dashboard/Widget';
 
@@ -8,35 +8,34 @@ function Trace(props) {
            <div className='dash'> 
                 <div className='widgets'>
                     <Widget 
-                        redirect='/transport' 
-                        title='TRANSPORT' 
-                        link='Transport to IP'
+                        redirect='/search' 
+                        title='SEARCH PRODUCT' 
+                        link='Search product'
                         backgroundColor='#046350'
                         color='#fff'
                         icon={(
-                                <DirectionsBus
+                                <Search
                                     className="icon"
-                                    fontSize='large'
+                                    fontSize='medium'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#000'
                                     }}
                                 />
                             )} 
                     />
                     <Widget 
-                        redirect='/availability' 
-                        title='AVAILABILITY' 
-                        link='Monitoring availability of products'
+                        title='SCAN PRODUCT' 
+                        link='Scan product'
                         backgroundColor='#046350'
                         color='#fff'
                         icon={(
-                                <CheckCircle
+                                <Scanner
                                     className="icon"
-                                    fontSize='large'
+                                    fontSize='medium'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#000'
                                     }}
                                 />
                             )} 
@@ -44,18 +43,17 @@ function Trace(props) {
                 </div>
                 <div className='widgets'>
                     <Widget 
-                        redirect='/inventory' 
-                        title='IP INVENTORY' 
-                        link='Implementing partner inventory'
+                        title='SNAP PRODUCT' 
+                        link='Snap product'
                         backgroundColor='#046350'
                         color='#fff'
                         icon={(
-                                <EventNote
+                                <CameraAlt
                                     className="icon"
-                                    fontSize='large'
+                                    fontSize='medium'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#000'
                                     }}
                                 />
                             )} 
