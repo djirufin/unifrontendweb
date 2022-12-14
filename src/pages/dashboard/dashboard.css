@@ -1,0 +1,94 @@
+.dash {
+  padding: 4rem;
+}
+
+.widgets {
+  display: flex;
+  padding: 15px;
+  gap: 15px;
+  justify-content: center;
+}
+
+.widget {
+  display: flex;
+  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.466);
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  border-radius: 10px;
+  height: 200px;
+  width: 200px;
+  padding-left: 10px;
+}
+.widget:hover {
+  cursor: pointer;
+  background-color: #6dcde6;
+}
+  .left,
+  .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .duo {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+  }
+
+  .duoPlus {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .lien {
+    display: flex;
+    text-decoration: none;
+    text-decoration-color: none;
+    color: black;
+  }
+    .title {
+      font-weight: bold;
+      font-size: 12px;
+      color: rgb(160, 160, 160);
+      padding: 4px;
+    }
+
+    .counter {
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    .link {
+      padding-top: 5px;
+      font-size: 11px;
+      flex-wrap: wrap;
+      /* border-bottom: 1px solid gray; */
+    }
+
+    .bottom {
+      border-bottom: 1px solid rgba(181, 168, 168, 0.655);
+      width: 170px;
+    }
+
+    .percentage {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      
+    }
+
+    .percentage.positive {
+      color: green;
+    }
+     
+    .percentage.negative {
+        color: red;
+      }
+    
+
+    .icon {
+      font-size: 5px;
+      padding: 3px;
+      border-radius: 17px;
+    } 
