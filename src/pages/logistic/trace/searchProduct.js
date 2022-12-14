@@ -62,7 +62,7 @@ function searchProduct(props) {
                         <br />
                         <Controls.Button 
                             type='submit'
-                            text='DISPATCH'
+                            text='SEARCH'
                         />
                     </Grid>
                 </Grid>

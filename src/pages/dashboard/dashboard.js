@@ -39,6 +39,7 @@ export default class dashboard extends Component {
         
         return(
             <>
+                <Header />
                 <div className='dash'> 
                     <div className='widgets'>
                         <Widget 

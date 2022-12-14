@@ -1,12 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { AppBar, Toolbar, Grid, InputBase, IconButton, Badge, makeStyles } from '@material-ui/core'
-import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
-import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import SearchIcon from '@material-ui/icons/Search';
 import * as authService from '../services/authService'
 import { Redirect } from 'react-router-dom';
-import { CollectionsOutlined, Person } from '@material-ui/icons';
+import {  Person } from '@material-ui/icons';
 import SideMenu from './SideMenu';
 
 
@@ -44,14 +42,14 @@ export default function Header(props) {
     // }
     return (
         <>
-        <SideMenu />
+        {/* <SideMenu /> */}
         <AppBar position="static" className={classes.root}>
             <Toolbar>
                 <Grid container
                     alignItems="center">
                     <Grid item>
                         <InputBase
-                            placeholder={currentUser ? currentUser.eglise : ""}
+                            placeholder={currentUser ? currentUser.name : ""}
                             className={classes.searchInput}
                             startAdornment={<Person fontSize="small" />}
                         />
