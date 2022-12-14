@@ -15,7 +15,7 @@ const initialeValues = {
 
 }
 
-export default function TransferForm(props) {
+export default function DispatchForm(props) {
     const { addOrEdit, recordForEdit } = props;
     const [currentUser, setCurrentUser] = useState(adminService.getCurrentUser());
     

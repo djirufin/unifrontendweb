@@ -12,6 +12,7 @@ import searchProduct from '../pages/logistic/trace/searchProduct';
 import Availability from '../pages/logistic/availability/Availability';
 import Issues from '../pages/logistic/issues/Issues';
 import Inventory from '../pages/logistic/inventory/Inventory';
+import Dispatch from '../pages/logistic/dispatch/Dispatch';
 
 const theme = createTheme({
   palette: {
@@ -66,6 +67,7 @@ function App() {
               <Route path="/availability" exact component={ Availability } />
               <Route path="/issues" exact component={ Issues } />
               <Route path="/inventory" exact component={ Inventory } />
+              <Route path="/dispatch" exact component={ Dispatch } />
             </Switch>
           </div>
           <CssBaseline />
