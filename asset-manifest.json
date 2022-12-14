@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/unifrontendweb/static/css/main.7fb08d1d.css",
+    "main.js": "/unifrontendweb/static/js/main.93554846.js",
+    "index.html": "/unifrontendweb/index.html",
+    "main.7fb08d1d.css.map": "/unifrontendweb/static/css/main.7fb08d1d.css.map",
+    "main.93554846.js.map": "/unifrontendweb/static/js/main.93554846.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7fb08d1d.css",
+    "static/js/main.93554846.js"
+  ]
+}
