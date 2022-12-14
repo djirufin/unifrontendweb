@@ -13,6 +13,7 @@ import Availability from '../pages/logistic/availability/Availability';
 import Issues from '../pages/logistic/issues/Issues';
 import Inventory from '../pages/logistic/inventory/Inventory';
 import Dispatch from '../pages/logistic/dispatch/Dispatch';
+import Logistics from '../pages/logistic/Logistics';
 
 const theme = createTheme({
   palette: {
@@ -59,6 +60,7 @@ function App() {
             <Switch>
             <Route path="/" exact component={ Login } />
               <Route path="/dashboard" exact component={ dashboard } />
+              <Route path="/logistics" exact component={ Logistics } />
               <Route path="/transfer" exact component={ Transfer } />
               <Route path="/transactions" exact component={ Transaction } />
               <Route path="/acknowledge" exact component={ Acknowledge } />

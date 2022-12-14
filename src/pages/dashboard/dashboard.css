@@ -2,6 +2,10 @@
   padding: 4rem;
 }
 
+.logis {
+  padding-top: 10rem;
+}
+
 .widgets {
   display: flex;
   padding: 15px;

@@ -42,7 +42,7 @@ export default class dashboard extends Component {
                 <div className='dash'> 
                     <div className='widgets'>
                         <Widget 
-                            redirect='/transactions' 
+                            redirect='/logistics' 
                             title='S & L' 
                             link='Supply and Logistics'
                             backgroundColor= '#d25f20'
@@ -52,7 +52,7 @@ export default class dashboard extends Component {
                                         className="icon"
                                         fontSize='large'
                                         style={{
-                                            backgroundColor: "rgba(160, 160, 160, 0.349)",
+                                            backgroundColor: "rgba(219, 211, 211, 0.705)",
                                             color: '#fff'
                                         }}
                                     />
@@ -69,7 +69,7 @@ export default class dashboard extends Component {
                                         className="icon"
                                         fontSize='large'
                                         style={{
-                                            backgroundColor: "rgba(160, 160, 160, 0.349)",
+                                            backgroundColor: "rgba(219, 211, 211, 0.705)",
                                             color: '#fff'
                                         }}
                                     />
@@ -88,7 +88,7 @@ export default class dashboard extends Component {
                                         className="icon"
                                         fontSize='large'
                                         style={{ 
-                                            backgroundColor: "rgba(160, 160, 160, 0.349)",
+                                            backgroundColor: "rgba(219, 211, 211, 0.705)",
                                             color: '#fff'
                                         }}
                                     />
@@ -105,7 +105,7 @@ export default class dashboard extends Component {
                                     className="icon"
                                     fontSize='large'
                                     style={{
-                                        backgroundColor: "rgba(160, 160, 160, 0.349)",
+                                        backgroundColor: "rgba(219, 211, 211, 0.705)",
                                         color: '#fff'
                                     }}
                                 />

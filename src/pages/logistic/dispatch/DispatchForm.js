@@ -8,8 +8,8 @@ import * as adminService from "../../../services/adminService";
 import { useState } from "react";
 
 const initialeValues = {
-    logistic_type: '',
-    partner:'',
+    product: '',
+    qantity:'',
     agent:'',
     staff:'',
 
@@ -21,14 +21,14 @@ export default function DispatchForm(props) {
     
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
-        if ('logistic_type' in fieldValues)
-            temp.logistic_type = fieldValues.logistic_type ? "" : "This field is required."
-        if ('partner' in fieldValues)
-            temp.partner = fieldValues.partner ? "" : "This field is required."
-        if ('agent' in fieldValues)
-            temp.agent = fieldValues.agent ? "" : "This field is required."
-        if ('staff' in fieldValues)
-            temp.staff = fieldValues.staff ? "" : "This field is required."
+        if ('product' in fieldValues)
+            temp.product = fieldValues.product ? "" : "This field is required."
+        if ('quantity' in fieldValues)
+            temp.quantity = fieldValues.quantity ? "" : "This field is required."
+        // if ('agent' in fieldValues)
+        //     temp.agent = fieldValues.agent ? "" : "This field is required."
+        // if ('staff' in fieldValues)
+        //     temp.staff = fieldValues.staff ? "" : "This field is required."
         setErrors({
             ...temp
         })
@@ -65,39 +65,36 @@ export default function DispatchForm(props) {
             <Grid container>
                 <Grid item xs={6}>
                     <Controls.Input
-                        name="logistic_type"
-                        label="Select Logistic type"
-                        value={values.logistic_type}
+                        name="product"
+                        label="Select product"
+                        value={values.product}
                         onChange={handleInputChange}
-                        error={errors.logistic_type}
+                        error={errors.product}
                     />
-                    <Controls.Select
+                    {/* <Controls.Select
                         label="Select partner"
                         name="partner"
                         value={values.partner}
                         onChange={handleInputChange}
                         options={adminService.getAutorisation()}
                         error={errors.partner}
-                    />
+                    /> */}
                 </Grid>
                 <Grid item xs={6}>
                     <Controls.Input
-                        name="agent"
-                        label="Select Agent"
-                        value={values.agent}
+                        name="quantity"
+                        label="Quantity"
+                        value={values.quantity}
                         onChange={handleInputChange}
-                        error={errors.agent}
+                        error={errors.quantity}
                     />
-                    <Controls.Input
+                    {/* <Controls.Input
                         name="staff"
                         label="Select staff"
                         value={values.staff}
                         onChange={handleInputChange}
                         error={errors.staff}
-                    />
-                        <Controls.Button
-                            type="submit"
-                            text="Transfer" />
+                    /> */}
                 </Grid>
             </Grid>
         </Form>
