@@ -1,6 +1,5 @@
-import { InputAdornment, makeStyles, Paper, Toolbar } from '@material-ui/core';
+import { Grid, InputAdornment, makeStyles, Paper, Toolbar } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
-import { TimelineSeparator } from '@material-ui/lab';
 import React from 'react';
 import Controls from '../../../components/controls/Controls';
 
@@ -15,11 +14,6 @@ const Styles = makeStyles(theme => ({
         right: '1rem'
     },
     head: {
-        position: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        margin: 5,
-        padding: 1,
         color: 'gray'
     }
 }))
@@ -42,27 +36,36 @@ function searchProduct(props) {
                 </Toolbar> 
             </Paper>
             <Paper className={classes.pageContent}>
-                <div className={classes.head}>
-                    <div>
-                        <p>Batch number : {}</p>
-                        <p>Reference : {}</p>
-                        <p>Waybill number : {}</p>
-                    </div>
-                    <TimelineSeparator />
-                    <div>
-                        <p>Sender First name : {}</p>
-                        <p>Sender Last name : {}</p>
-                        <p>Sender Phone : {}</p>
-                        <p>Sender Email : {}</p>
-                    </div>
-                    <TimelineSeparator />
-                    <div>
-                        <p>Receiver First name : {}</p>
-                        <p>Receiver Last name : {}</p>
-                        <p>Receiver Phone : {}</p>
-                        <p>Receiver Email : {}</p>
-                    </div>
-                </div>
+                <Grid className={classes.head} container>
+                    <Grid item xs={4}>
+                        <div>
+                            <p>Batch number : {}</p>
+                            <p>Reference : {}</p>
+                            <p>Waybill number : {}</p>
+                        </div>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <div>
+                            <p>Sender First name : {}</p>
+                            <p>Sender Last name : {}</p>
+                            <p>Sender Phone : {}</p>
+                            <p>Sender Email : {}</p>
+                        </div>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <div>
+                            <p>Receiver First name : {}</p>
+                            <p>Receiver Last name : {}</p>
+                            <p>Receiver Phone : {}</p>
+                            <p>Receiver Email : {}</p>
+                        </div>
+                        <br />
+                        <Controls.Button 
+                            type='submit'
+                            text='DISPATCH'
+                        />
+                    </Grid>
+                </Grid>
             </Paper>
             
         </>
