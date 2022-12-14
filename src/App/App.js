@@ -48,7 +48,7 @@ const useStyles = makeStyles({
 })
 
 function App() {
-  const classes = useStyles();
+  const classes = useStyles(); 
 
   return (
     <>
