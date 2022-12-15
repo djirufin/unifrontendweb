@@ -58,7 +58,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <div className={classes.appMain}>
             <Switch>
-            <Route path="/" exact component={ Login } />
+              <Route path="/unifrontendweb" exact component={ Login } />
               <Route path="/dashboard" exact component={ dashboard } />
               <Route path="/logistics" exact component={ Logistics } />
               <Route path="/transfer" exact component={ Transfer } />
@@ -72,7 +72,6 @@ function App() {
               <Route path="/dispatch" exact component={ Dispatch } />
             </Switch>
           </div>
-          <CssBaseline />
         </ThemeProvider>
       </BrowserRouter>
     </>

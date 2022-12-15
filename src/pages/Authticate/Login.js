@@ -76,15 +76,14 @@ export default function Login(props) {
     //             ...recordForEdit
     //         })
     // }, [recordForEdit])
-    const align = { paddingLeft: '400px' }
-    const img = {gap: '15px', position:'center', padding:'0px', height: '90px', margin:'0rem'};
-    const paperStyle={ padding:'20px', height:'85vh', width:350, margin:"50px"}
+    const img = {position:'center', height: '80px'};
+    const paperStyle={ padding:'20px', height:'75vh', width:350, margin:"50px"}
     const btnstyle={margin:'8px 0'}
 
     return (
         <>
             <Form onSubmit={handleSubmit}>
-                <Grid style={align}>
+                <div align='center'>
                     <Paper style={paperStyle}>
                         <Grid align='center'>
                             <img style={img} src='logoUni.jpg'/>
@@ -137,7 +136,7 @@ export default function Login(props) {
                             />
                         </div>
                     </Paper>
-                </Grid>
+                </div>
             </Form>
         </>
     );
