@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { withStyles } from "@material-ui/core";
 import "../App/App.css"
@@ -34,7 +35,7 @@ const SideMenu = (props) => {
     
     return (
         <div className={classes.sideMenu}>
-            <img className={classes.img} src='lg.png'/>
+            <img className={classes.img} src='lg.png' alt=''/>
             {(currentUser) ? 
                 (currentUser.roles.toString() === "ROLE_LOCAL") ? 
                 <ul className='SibeMenuList'>

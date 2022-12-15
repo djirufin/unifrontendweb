@@ -1,9 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import './dashboard.css'
-import { LeakAdd, LiveHelp, LocalShipping, Settings } from "@material-ui/icons";
 import * as membreService from '../../services/membreService';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 
 const Widget = ({ redirect, title, icon, link, color, backgroundColor }) => {
 

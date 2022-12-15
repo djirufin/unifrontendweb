@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Table, TableHead, TableRow, TableCell, makeStyles, TablePagination, TableSortLabel } from '@material-ui/core'
-import Input from './controls/Input';
-import Controls from './controls/Controls';
+
 
 const useStyles = makeStyles(theme => ({
     table: {

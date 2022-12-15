@@ -63,7 +63,7 @@ export default function Header(props) {
                                 onClick={() =>logOut()} 
                             />
                         </IconButton> :
-                        (<div><Redirect to='/unifrontendweb' /></div>)}
+                        (<div><Redirect to='/' /></div>)}
                     </Grid>
                 </Grid>
             </Toolbar>

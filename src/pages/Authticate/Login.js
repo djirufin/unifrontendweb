@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
@@ -77,7 +78,7 @@ export default function Login(props) {
     //         })
     // }, [recordForEdit])
     const img = {position:'center', height: '80px'};
-    const paperStyle={ padding:'20px', height:'75vh', width:350, margin:"50px"}
+    const paperStyle={ padding:'15px', height:'75vh', width:250, margin:"3rem", justifyContent: 'center', flex:1}
     const btnstyle={margin:'8px 0'}
 
     return (
@@ -86,8 +87,8 @@ export default function Login(props) {
                 <div align='center'>
                     <Paper style={paperStyle}>
                         <Grid align='center'>
-                            <img style={img} src='logoUni.jpg'/>
-                            <h2>LOGIN IN</h2>
+                            <img style={img} src={'logoUni.jpg'} />
+                            <h4>LOGIN IN</h4>
                         </Grid>
                         {values.message && (
                             <div className='form-group'>

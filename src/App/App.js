@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { makeStyles, CssBaseline, createTheme, ThemeProvider } from '@material-ui/core';
+import { makeStyles, createTheme, ThemeProvider } from '@material-ui/core';
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import dashboard from '../pages/dashboard/dashboard';
 import Login from '../pages/Authticate/Login';
@@ -58,7 +58,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <div className={classes.appMain}>
             <Switch>
-              <Route path="/unifrontendweb" exact component={ Login } />
+              <Route path="/" exact component={ Login } />
               <Route path="/dashboard" exact component={ dashboard } />
               <Route path="/logistics" exact component={ Logistics } />
               <Route path="/transfer" exact component={ Transfer } />
