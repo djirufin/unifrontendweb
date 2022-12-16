@@ -62,7 +62,7 @@ function App() {
             <Switch>
               <Route path="/" exact component={ Login } />
               <Route path="/dashboard" exact component={ dashboard } />
-              <Route path="logistics" exact component={ Logistics } />
+              <Route path="/logistics" exact component={ Logistics } />
               <Route path="/transfer" exact component={ Transfer } />
               <Route path="/transactions" exact component={ Transaction } />
               <Route path="/acknowledge" exact component={ Acknowledge } />
