@@ -60,7 +60,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <div className={classes.appMain}>
             <Switch>
-              <Route path="/" exact component={ Login } />
+              <Route path="/trackit" exact component={ Login } />
               <Route path="/dashboard" exact component={ dashboard } />
               <Route path="/logistics" exact component={ Logistics } />
               <Route path="/transfer" exact component={ Transfer } />
