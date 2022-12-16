@@ -55,7 +55,7 @@ export default function Header(props) {
                                 onClick={() =>logOut()} 
                             />
                         </IconButton> :
-                        (<div><Redirect to='/trackit' /></div>)}
+                        (<div><Redirect to='/' /></div>)}
                     </Grid>
                 </Grid>
             </Toolbar>

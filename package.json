@@ -1,5 +1,4 @@
 {
-  "homepage": "https://www.digitale-it.com/trackit/",
   "name": "unifrontendweb",
   "version": "0.1.0",
   "private": true,
@@ -26,7 +25,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "https://djirufin.github.io/unifrontendweb",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
