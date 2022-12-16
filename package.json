@@ -25,7 +25,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "https://djirufin.github.io/unifrontendweb",
+    "start": "HOST=https://www.digitale-it.com/trackit react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
