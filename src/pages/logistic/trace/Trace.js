@@ -1,10 +1,12 @@
 import { CameraAlt, Scanner, Search } from '@material-ui/icons';
 import React from 'react';
+import Header from '../../../components/Header';
 import Widget from '../../dashboard/Widget';
 
 function Trace(props) {
     return ( 
         <> 
+           <Header />
            <div className='dash'> 
                 <div className='widgets'>
                     <Widget 

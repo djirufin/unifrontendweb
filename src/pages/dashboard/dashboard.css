@@ -3,7 +3,7 @@
 }
 
 .logis {
-  padding-top: 10rem;
+  padding: 7rem;
 }
 
 .widgets {
@@ -19,12 +19,21 @@
   box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
   border-radius: 10px;
   height: 200px;
-  width: 200px;
+  width: 300px;
   padding-left: 10px;
 }
 .widget:hover {
-  cursor: pointer;
-  background-color: #6dcde6;
+  object-fit: cover;
+    object-position: 50% 50%;
+    height: 190px;
+    max-width: none;
+    width: 290px;
+    width: '-webkit-fill-available';
+    width: '-moz-available';
+    transition: 'transform' 1s ease;
+    -ms-transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
   .left,
   .right {
@@ -72,7 +81,7 @@
 
     .bottom {
       border-bottom: 1px solid rgba(181, 168, 168, 0.655);
-      width: 170px;
+      width: 16rem;
     }
 
     .percentage {
@@ -94,5 +103,5 @@
     .icon {
       font-size: 5px;
       padding: 3px;
-      border-radius: 17px;
+      border-radius: 1rem;
     } 

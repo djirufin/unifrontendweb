@@ -1,10 +1,11 @@
-import { Assignment, CheckCircle, DirectionsBus, EventNote, LocalShipping, Search, SendSharp } from '@material-ui/icons';
 import React from 'react';
 import Widget from '../dashboard/Widget';
+import Header from '../../components/Header'
 
 function Transaction(props) {
     return (
         <>
+            <Header />
             <div className='dash'> 
                 <div className='widgets'>
                     <Widget 
@@ -14,12 +15,15 @@ function Transaction(props) {
                         color= '#fff'
                         backgroundColor= '#d25f20'
                         icon={(
-                                <SendSharp
+                                <img
+                                    src='transfer.png'
+                                    alt=''
                                     className="icon"
-                                    fontSize='large'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#fff',
+                                        width:  40,
+                                        borderRadius: 60
                                     }}
                                 />
                             )} 
@@ -30,12 +34,15 @@ function Transaction(props) {
                         backgroundColor='#046350'
                         color='#fff'
                         icon={(
-                                <DirectionsBus
+                                <img
+                                    src='transport.png'
+                                    alt=''
                                     className="icon"
-                                    fontSize='large'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#fff',
+                                        width:  40,
+                                        borderRadius: 60
                                     }}
                                 />
                             )} 
@@ -47,12 +54,15 @@ function Transaction(props) {
                         backgroundColor='#20b0d2'
                         color='#fff'
                         icon={(
-                                <CheckCircle
+                                <img
+                                    src='available.png'
+                                    alt=''
                                     className="icon"
-                                    fontSize='large'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#5bf54d'
+                                        color: '#fff',
+                                        width:  40,
+                                        borderRadius: 60
                                     }}
                                 />
                             )} 
@@ -64,12 +74,15 @@ function Transaction(props) {
                         backgroundColor='#98face'
                         color='#fff'
                         icon={(
-                                <LocalShipping
+                                <img
+                                    src='ipdispatch.png'
+                                    alt=''
                                     className="icon"
-                                    fontSize='large'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#fff',
+                                        width:  40,
+                                        borderRadius: 60
                                     }}
                                 />
                             )} 
@@ -83,12 +96,15 @@ function Transaction(props) {
                         backgroundColor='#20b0d2'
                         color='#fff'
                         icon={(
-                                <LocalShipping
+                                <img
+                                    src='ack.png'
+                                    alt=''
                                     className="icon"
-                                    fontSize='large'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#fff',
+                                        width:  40,
+                                        borderRadius: 60
                                     }}
                                 />
                             )} 
@@ -100,12 +116,15 @@ function Transaction(props) {
                         backgroundColor='#98face'
                         color='#fff'
                         icon={(
-                                <Search
+                                <img
+                                    src='trace.png'
+                                    alt=''
                                     className="icon"
-                                    fontSize='large'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#fff',
+                                        width:  40,
+                                        borderRadius: 60
                                     }}
                                 />
                             )} 
@@ -117,12 +136,15 @@ function Transaction(props) {
                         color= '#fff'
                         backgroundColor= '#d25f20'
                         icon={(
-                                <Assignment
+                                <img
+                                    src='quality.png'
+                                    alt=''
                                     className="icon"
-                                    fontSize='large'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#fff',
+                                        width:  40,
+                                        borderRadius: 60
                                     }}
                                 />
                             )} 
@@ -134,12 +156,15 @@ function Transaction(props) {
                         backgroundColor='#046350'
                         color='#fff'
                         icon={(
-                                <EventNote
+                                <img
+                                    src='inventory.png'
+                                    alt=''
                                     className="icon"
-                                    fontSize='large'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#fff',
+                                        width:  40,
+                                        borderRadius: 60
                                     }}
                                 />
                             )} 

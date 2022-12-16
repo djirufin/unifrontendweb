@@ -1,52 +1,54 @@
-import { LocalShippingOutlined, Timeline } from '@material-ui/icons';
+import { LiveHelp } from '@material-ui/icons';
 import React from 'react';
-import Header from '../../components/Header';
-import Widget from '../dashboard/Widget';
+import Header from '../../../components/Header';
+import Widget from '../../dashboard/Widget';
 
-function Logistics(props) {
+function Nutrition(props) {
     return (
         <>
             <Header />
             <div className='logis'> 
                 <div className='widgets'>
                     <Widget 
-                        redirect='/transactions' 
-                        title='Transactions' 
-                        link='Logistics and supplies transactions'
+                        redirect='/adhoc' 
+                        title='Adhoc' 
+                        link='Adhoc and user monitoring'
                         backgroundColor= '#d25f20'
                         color='#fff'
                         icon={(
-                                <LocalShippingOutlined
+                                <LiveHelp
                                     className="icon"
                                     fontSize='large'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#fff',
+                                        borderRadius: 80
                                     }}
                                 />
                             )} 
                     />
                     <Widget 
-                        redirect='/kpi'
-                        title='KPI' 
-                        link='Key Performance Indicator'
-                        backgroundColor='#20b0d2'
+                        redirect='/regular'
+                        title='Regular' 
+                        link='Regular and user monitoring'
+                        backgroundColor= '#d25f20'
                         color='#fff'
                         icon={(
-                                <Timeline
+                                <LiveHelp
                                     className="icon"
                                     fontSize='large'
                                     style={{
                                         backgroundColor: "rgba(219, 211, 211, 0.705)",
-                                        color: '#fff'
+                                        color: '#fff',
+                                        borderRadius: 80
                                     }}
                                 />
                             )} 
                     />
                 </div>
-            </div>  
+            </div> 
         </>
     );
 }
 
-export default Logistics;
+export default Nutrition;

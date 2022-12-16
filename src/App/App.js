@@ -14,6 +14,8 @@ import Issues from '../pages/logistic/issues/Issues';
 import Inventory from '../pages/logistic/inventory/Inventory';
 import Dispatch from '../pages/logistic/dispatch/Dispatch';
 import Logistics from '../pages/logistic/Logistics';
+import Eum from '../pages/eum/Eum';
+import Nutrition from '../pages/eum/nutrition/Nutrition';
 
 const theme = createTheme({
   palette: {
@@ -70,6 +72,8 @@ function App() {
               <Route path="/issues" exact component={ Issues } />
               <Route path="/inventory" exact component={ Inventory } />
               <Route path="/dispatch" exact component={ Dispatch } />
+              <Route path="/eum" exact component={ Eum } />
+              <Route path="/nutrition" exact component={ Nutrition } />
             </Switch>
           </div>
         </ThemeProvider>
