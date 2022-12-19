@@ -56,12 +56,11 @@ function App() {
 
   return (
     <>
-      <BrowserRouter basename='/unifrontendweb'>
-        <ThemeProvider theme={theme}>
-          <div className={classes.appMain}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter basename='/unifrontendweb'>
             <Switch>
-              <Route exact path="/unifrontendweb" element={ <Login /> } />
-              <Route path="/dashboard" element={ dashboard } />
+              <Route exact path="/" component={ Login } />
+              <Route path="/dashboard" component={ dashboard } />
               {/* <Route path="/logistics"  component={ Logistics } />
               <Route path="/transfer" component={ Transfer } />
               <Route path="/transactions" component={ Transaction } />
@@ -75,9 +74,8 @@ function App() {
               <Route path="/eum" component={ Eum } />
               <Route path="/nutrition" component={ Nutrition } /> */}
             </Switch>
-          </div>
-        </ThemeProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </ThemeProvider>
     </>
   );
 }
