@@ -41,7 +41,7 @@ export default function Login(props) {
             values.loading = true
                 authService.login(values.username, values.password)
                     .then(() => {
-                        props.history.push("/dashboard")
+                        props.history.push("/unifrontendweb/dashboard")
                         window.location.reload();
                     },
                     error => {
