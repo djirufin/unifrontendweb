@@ -26,14 +26,8 @@ export default class dashboard extends Component {
             this.setState({ currentUser: currentUser, userReady: false})
         }
     }
-    handleNext() {
-        <Redirect to={'/transaction'} />
-    }
 
     render() {
-        if(this.state.redirect) {
-            return <Redirect to={this.state.redirect} />
-        }
 
         const { currentUser, userReady } = this.state;
         

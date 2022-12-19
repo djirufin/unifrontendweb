@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import './App.css';
 import { makeStyles, createTheme, ThemeProvider } from '@material-ui/core';
@@ -57,9 +58,9 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <BrowserRouter basename='/unifrontendweb'>
             <Switch>
-              <Route exact path="/" component={ Login } />
+              <Route exact path="/unifrontendweb" component={ Login } />
               <Route path="/dashboard" component={ dashboard } />
               <Route path="/logistics"  component={ Logistics } />
               <Route path="/transfer" component={ Transfer } />
