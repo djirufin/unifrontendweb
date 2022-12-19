@@ -58,9 +58,9 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <BrowserRouter basename='/unifrontendweb'>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Switch>
-              <Route exact path="/unifrontendweb" component={ Login } />
+              <Route exact path="/" component={ Login } />
               <Route path="/dashboard" component={ dashboard } />
               <Route path="/logistics"  component={ Logistics } />
               <Route path="/transfer" component={ Transfer } />
