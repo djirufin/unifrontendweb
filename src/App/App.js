@@ -56,24 +56,24 @@ function App() {
 
   return (
     <>
-      <BrowserRouter basename='/trackit'>
+      <BrowserRouter basename='/unifrontendweb'>
         <ThemeProvider theme={theme}>
           <div className={classes.appMain}>
             <Switch>
-              <Route path="/trackit" exact component={ Login } />
-              <Route path="/dashboard" exact component={ dashboard } />
-              <Route path="/logistics" exact component={ Logistics } />
-              <Route path="/transfer" exact component={ Transfer } />
-              <Route path="/transactions" exact component={ Transaction } />
-              <Route path="/acknowledge" exact component={ Acknowledge } />
-              <Route path="/trace" exact component={ Trace } />
-              <Route path="/search" exact component={ searchProduct } />
-              <Route path="/availability" exact component={ Availability } />
-              <Route path="/issues" exact component={ Issues } />
-              <Route path="/inventory" exact component={ Inventory } />
-              <Route path="/dispatch" exact component={ Dispatch } />
-              <Route path="/eum" exact component={ Eum } />
-              <Route path="/nutrition" exact component={ Nutrition } />
+              <Route exact path="/unifrontendweb" element={ <Login /> } />
+              <Route path="/dashboard" element={ dashboard } />
+              {/* <Route path="/logistics"  component={ Logistics } />
+              <Route path="/transfer" component={ Transfer } />
+              <Route path="/transactions" component={ Transaction } />
+              <Route path="/acknowledge" component={ Acknowledge } />
+              <Route path="/trace" component={ Trace } />
+              <Route path="/search" component={ searchProduct } />
+              <Route path="/availability" component={ Availability } />
+              <Route path="/issues" component={ Issues } />
+              <Route path="/inventory" component={ Inventory } />
+              <Route path="/dispatch" component={ Dispatch } />
+              <Route path="/eum" component={ Eum } />
+              <Route path="/nutrition" component={ Nutrition } /> */}
             </Switch>
           </div>
         </ThemeProvider>
