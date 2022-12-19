@@ -56,13 +56,13 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename='/trackit'>
         <ThemeProvider theme={theme}>
           <div className={classes.appMain}>
             <Switch>
-              <Route path="/unifrontendweb" exact component={ Login } />
-              <Route path="/unifrontendweb/dashboard" exact component={ dashboard } />
-              <Route path="/unifrontendweb/logistics" exact component={ Logistics } />
+              <Route path="/trackit" exact component={ Login } />
+              <Route path="/dashboard" exact component={ dashboard } />
+              <Route path="/logistics" exact component={ Logistics } />
               <Route path="/transfer" exact component={ Transfer } />
               <Route path="/transactions" exact component={ Transaction } />
               <Route path="/acknowledge" exact component={ Acknowledge } />
