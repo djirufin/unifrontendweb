@@ -43,7 +43,7 @@ export default class dashboard extends Component {
                 <div className='dash'> 
                     <div className='widgets'>
                         <Widget 
-                            redirect='/logistics' 
+                            redirect='/unifrontendweb/logistics' 
                             title='S & L' 
                             link='Supply and Logistics'
                             backgroundColor= '#d25f20'
