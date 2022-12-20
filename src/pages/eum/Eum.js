@@ -11,19 +11,19 @@ function Eum(props) {
                     <Cards 
                         redirect='/nutrition'
                         link='Nutrition'
-                        backgroundImage="url(/unifrontendweb/nutrition.jpg)"
+                        backgroundImage="url(/nutrition.jpg)"
                         color='#fff' 
                     />
                     <Cards 
                         redirect='/wash'
                         link='Wash'
-                        backgroundImage="url(/unifrontendweb/wash.jpg)"
+                        backgroundImage="url(/wash.jpg)"
                         color='#fff'
                     />
                     <Cards 
                         redirect='/education'
                         link='Education'
-                        backgroundImage="url(/unifrontendweb/education.jpg)"
+                        backgroundImage="url(/education.jpg)"
                         color='#fff'
                     />
                 </div>

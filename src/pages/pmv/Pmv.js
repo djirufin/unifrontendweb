@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Form, useForm } from '../../components/useForm';
 import * as adminService from "../../services/adminService";
@@ -97,6 +99,25 @@ function Pmv(props) {
                                 options={adminService.getAutorisation()}
                                 error={errors.staff_name}
                             />
+                            <Controls.DatePicker 
+                                label="PMV Date Travel"
+                                name="pmv_date_travel"
+                                value={values.pmv_date_travel}
+                                onChange={handleInputChange}
+                            />
+                            <Controls.Input 
+                                label="telephone"
+                                name="telephone"
+                                value={values.telephone}
+                                onChange={handleInputChange}
+                                error={errors.telephone}
+                            />
+                            <Controls.DatePicker 
+                                label="Date by Traveller"
+                                name="date_by_traveller"
+                                value={values.date_by_traveller}
+                                onChange={handleInputChange}
+                            />
                         </Grid>
                         <Grid item xs={6}>
                             <Controls.Input
@@ -113,9 +134,30 @@ function Pmv(props) {
                                 onChange={handleInputChange}
                                 error={errors.ta_number}
                             />
-                                <Controls.Button
-                                    type="submit"
-                                    text="Transfer" />
+                            <Controls.Input
+                                name="ta_nuemailmber"
+                                label="Email address"
+                                value={values.email}
+                                onChange={handleInputChange}
+                                error={errors.email}
+                            />
+                            <Controls.Input
+                                name="initial_name"
+                                label="Name Initial"
+                                value={values.initial_name}
+                                onChange={handleInputChange}
+                                error={errors.initial_name}
+                            />
+                            <Controls.Input
+                                name="comment_by_supervisor"
+                                label="Comments by supervisor "
+                                value={values.comment_by_supervisor}
+                                onChange={handleInputChange}
+                                error={errors.comment_by_supervisor}
+                            />
+                            <Controls.Button
+                                type="submit"
+                                text="Transfer" />
                         </Grid>
                     </Grid>
                 </Form> 
