@@ -5,6 +5,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import Controls from '../../../components/controls/Controls';
 import { Form, useFormAdmin } from '../../../components/useFormAdmin';
+import Header from '../../../components/Header'
 
 
 const useStyles = makeStyles(theme => ({
@@ -70,6 +71,7 @@ function Dispatch(props) {
 
     return (
         <>
+            <Header />
             <Form onSubmit={handleSubmit}>
                 <Paper className={classes.pageContent}>
                     <Grid container>

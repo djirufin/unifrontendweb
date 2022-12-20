@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { makeStyles, Paper, TableBody } from '@material-ui/core';
 import React, { useState } from 'react';
+import Header from '../../../components/Header';
 import useTableMembre from '../../../components/useTableMembre';
 
 
@@ -55,6 +56,7 @@ function Issues(props) {
     } = useTableMembre(records, headCells, filterFn);
     return (
         <>
+            <Header />
             <Paper className={classes.pageContent}>   
                 <TblContainer>
                     <TblHead />

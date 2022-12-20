@@ -5,6 +5,7 @@ import { Form, useForm } from '../../components/useForm';
 import * as adminService from "../../services/adminService";
 import { Grid, Paper } from '@material-ui/core';
 import Controls from '../../components/controls/Controls';
+import Header from '../../components/Header'
 
 const initialFValues = {
     office_location: '',
@@ -80,6 +81,7 @@ function Pmv(props) {
 
     return (
         <>
+            <Header />
             <Paper>
                 <Form onSubmit={handleSubmit}>
                     <Grid container>

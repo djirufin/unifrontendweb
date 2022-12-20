@@ -6,6 +6,7 @@ import * as adminService from "../../../services/adminService";
 import Popup from "../../../components/Popup";
 import TransferForm from './TransferForm';
 import useTableAdmin from '../../../components/useTableAdmin';
+import Header from '../../../components/Header'
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
@@ -110,51 +111,9 @@ export default function Transfer() {
 
     return (
         <>
-            {/* <Header /> */}
+            <Header />
             <Paper className={classes.pageContent}>
                 <TransferForm />
-                {/* <Toolbar>
-                    <Controls.Input
-                        label="Recherche"
-                        className={classes.searchInput}
-                        InputProps={{
-                            startAdornment: (<InputAdornment position="start">
-                                <Search />
-                            </InputAdornment>)
-                        }}
-                        onChange={handleSearch}
-                    />
-                    <Controls.Button
-                        text="Ajouter"
-                        variant="outlined"
-                        startIcon={<AddIcon />}
-                        className={classes.newButton}
-                        onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
-                    />
-                </Toolbar> */}
-                {/* <TblContainer>
-                    <TblHead />
-                    <TableBody>
-                        {
-                            recordsAfterPagingAndSorting().map(user =>
-                                (<TableRow key={user.id}>
-                                    <TableCell>{user.eglise}</TableCell>
-                                    <TableCell>{user.cota}</TableCell>
-                                    <TableCell>{user.versement}</TableCell>
-                                    <TableCell>{user.creationdate}</TableCell>
-                                    <TableCell>
-                                        <Controls.ActionButton
-                                            color="primary"
-                                            onClick={() => { openInPopup(user) }}>
-                                            <EditOutlinedIcon fontSize="small" />
-                                        </Controls.ActionButton>
-                                    </TableCell>
-                                </TableRow>)
-                            )
-                        }
-                    </TableBody>
-                </TblContainer>
-                <TblPagination /> */}
             </Paper>
             <Paper className={classes.pageContent}>
                 <p>idProduit : </p>

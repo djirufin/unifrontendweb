@@ -13,7 +13,7 @@ function Transaction(props) {
                         title='TRANSFER' 
                         link='Transfer from IP'
                         color= '#fff'
-                        backgroundColor= '#d25f20'
+                        backgroundColor= 'rgb(236, 64, 122)'
                         icon={(
                                 <img
                                     src='transfer.png'
@@ -31,7 +31,7 @@ function Transaction(props) {
                     <Widget 
                         title='TRANSPORT' 
                         link='Transport to IP'
-                        backgroundColor='#046350'
+                        backgroundColor= 'rgb(73, 163, 241)'
                         color='#fff'
                         icon={(
                                 <img
@@ -51,7 +51,7 @@ function Transaction(props) {
                         redirect='/availability' 
                         title='AVAILABILITY' 
                         link='Monitoring availability of products'
-                        backgroundColor='#20b0d2'
+                        backgroundColor='rgb(52, 71, 103)'
                         color='#fff'
                         icon={(
                                 <img
@@ -71,7 +71,7 @@ function Transaction(props) {
                         redirect='/dispatch' 
                         title='IP DISPATCH' 
                         link='Implementing partner dispatch'
-                        backgroundColor='#98face'
+                        backgroundColor='rgb(102, 187, 106)'
                         color='#fff'
                         icon={(
                                 <img
@@ -93,7 +93,7 @@ function Transaction(props) {
                         redirect='/acknowledge' 
                         title='ACKNOWLEDGE' 
                         link='Acknowledge product from warehouse'
-                        backgroundColor='#20b0d2'
+                        backgroundColor='rgb(66, 66, 74)'
                         color='#fff'
                         icon={(
                                 <img
@@ -113,7 +113,7 @@ function Transaction(props) {
                         redirect='/trace' 
                         title='TRACE' 
                         link='Trace product by batch number'
-                        backgroundColor='#98face'
+                        backgroundColor='rgb(67, 160, 71)'
                         color='#fff'
                         icon={(
                                 <img
@@ -134,7 +134,7 @@ function Transaction(props) {
                         title='ISSUES' 
                         link='Monitoring the quality of products'
                         color= '#fff'
-                        backgroundColor= '#d25f20'
+                        backgroundColor= 'rgb(216, 27, 96)'
                         icon={(
                                 <img
                                     src='quality.png'
@@ -153,7 +153,7 @@ function Transaction(props) {
                         redirect='/inventory' 
                         title='IP INVENTORY' 
                         link='Implementing partner inventory'
-                        backgroundColor='#046350'
+                        backgroundColor='rgb(26, 115, 232)'
                         color='#fff'
                         icon={(
                                 <img

@@ -64,11 +64,12 @@ export default function TransferForm(props) {
         <Form onSubmit={handleSubmit}>
             <Grid container>
                 <Grid item xs={6}>
-                    <Controls.Input
+                    <Controls.Select
                         name="logistic_type"
                         label="Select Logistic type"
                         value={values.logistic_type}
                         onChange={handleInputChange}
+                        options={adminService.getAutorisation()}
                         error={errors.logistic_type}
                     />
                     <Controls.Select
@@ -81,18 +82,20 @@ export default function TransferForm(props) {
                     />
                 </Grid>
                 <Grid item xs={6}>
-                    <Controls.Input
+                    <Controls.Select
                         name="agent"
                         label="Select Agent"
                         value={values.agent}
                         onChange={handleInputChange}
+                        options={adminService.getAutorisation()}
                         error={errors.agent}
                     />
-                    <Controls.Input
+                    <Controls.Select
                         name="staff"
                         label="Select staff"
                         value={values.staff}
                         onChange={handleInputChange}
+                        options={adminService.getAutorisation()}
                         error={errors.staff}
                     />
                         <Controls.Button

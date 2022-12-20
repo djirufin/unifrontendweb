@@ -4,6 +4,7 @@ import {  Search } from '@material-ui/icons';
 import React, { useState } from 'react';
 import Controls from '../../../components/controls/Controls';
 import useTableMembre from '../../../components/useTableMembre';
+import Header from '../../../components/Header'
 
 
 const useStyles = makeStyles(theme => ({
@@ -57,6 +58,7 @@ function Acknowledge(props) {
 
     return (
         <>
+            <Header />
             <Paper className={classes.pageContent}>
                 <div className={classes.head}>
                     <h3>Acknowledgement</h3> 

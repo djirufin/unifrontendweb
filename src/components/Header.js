@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { AppBar, Toolbar, Grid, InputBase, IconButton, Badge, makeStyles } from '@material-ui/core'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import * as authService from '../services/authService'
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import {  Person } from '@material-ui/icons';
 import SideMenu from './SideMenu';
 
@@ -55,7 +55,7 @@ export default function Header(props) {
                                 onClick={() =>logOut()} 
                             />
                         </IconButton> :
-                        (<div><NavLink to='/unifrontendweb' /></div>)}
+                        (<div><Redirect to='/' /></div>)}
                     </Grid>
                 </Grid>
             </Toolbar>

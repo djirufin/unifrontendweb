@@ -2,6 +2,7 @@ import { Grid, InputAdornment, makeStyles, Paper, Toolbar } from '@material-ui/c
 import { Search } from '@material-ui/icons';
 import React from 'react';
 import Controls from '../../../components/controls/Controls';
+import Header from '../../../components/Header';
 
 
 const Styles = makeStyles(theme => ({
@@ -22,6 +23,7 @@ function searchProduct(props) {
     const classes = Styles()
     return (
         <>
+            <Header />
             <Paper className={classes.pageContent}>
                 <Toolbar>
                     <Controls.Input

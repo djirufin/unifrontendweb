@@ -40,7 +40,7 @@ export default class dashboard extends Component {
                             redirect='/logistics' 
                             title='S & L' 
                             link='Supply and Logistics'
-                            backgroundColor= '#d25f20'
+                            backgroundColor= 'rgb(216, 27, 96)' 
                             color= '#fff'
                             icon={(
                                     <LocalShipping
@@ -57,7 +57,7 @@ export default class dashboard extends Component {
                             redirect='/eum'
                             title='EUM'
                             link='End User Monitoring'
-                            backgroundColor='#20b0d2'
+                            backgroundColor='rgb(26, 115, 232)'
                             color='#fff'
                             icon={(
                                     <LiveHelp
@@ -76,7 +76,7 @@ export default class dashboard extends Component {
                             redirect='/pmv'
                             title='PMV'
                             link='Performance Monitoring Visit'
-                            backgroundColor='#046350'
+                            backgroundColor= 'rgb(52, 71, 103)'
                             color='#fff'
                             icon={ (
                                     <LeakAdd
@@ -93,7 +93,7 @@ export default class dashboard extends Component {
                             redirect='/setting'
                             title='Settings'
                             link='Configuration the application'
-                            backgroundColor='#98face'
+                            backgroundColor='rgb(67, 160, 71)'
                             color='#fff'
                             icon={(
                                 <Settings

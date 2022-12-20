@@ -4,6 +4,7 @@ import React from 'react';
 import { useState } from 'react';
 import Controls from '../../../components/controls/Controls';
 import useTableMembre from '../../../components/useTableMembre';
+import Header from '../../../components/Header'
 
 
 const useStyles = makeStyles(theme => ({
@@ -58,6 +59,7 @@ function Availability(props) {
 
     return (
         <>
+            <Header />
             <Paper className={classes.pageContent}>   
                 <TblContainer>
                     <TblHead />

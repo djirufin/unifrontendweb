@@ -13,7 +13,7 @@ function Trace(props) {
                         redirect='/search' 
                         title='SEARCH PRODUCT' 
                         link='Search product'
-                        backgroundColor='#046350'
+                        backgroundColor='#1c505c'
                         color='#fff'
                         icon={(
                                 <Search
@@ -29,7 +29,7 @@ function Trace(props) {
                     <Widget 
                         title='SCAN PRODUCT' 
                         link='Scan product'
-                        backgroundColor='#046350'
+                        backgroundColor='#1c505c'
                         color='#fff'
                         icon={(
                                 <Scanner
@@ -47,7 +47,7 @@ function Trace(props) {
                     <Widget 
                         title='SNAP PRODUCT' 
                         link='Snap product'
-                        backgroundColor='#046350'
+                        backgroundColor='#1c505c'
                         color='#fff'
                         icon={(
                                 <CameraAlt

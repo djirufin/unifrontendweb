@@ -13,7 +13,7 @@ function Logistics(props) {
                         redirect='/transactions' 
                         title='Transactions' 
                         link='Logistics and supplies transactions'
-                        backgroundColor= '#d25f20'
+                        backgroundColor= 'rgb(73, 163, 241)'
                         color='#fff'
                         icon={(
                                 <LocalShippingOutlined
@@ -30,7 +30,7 @@ function Logistics(props) {
                         redirect='/kpi'
                         title='KPI' 
                         link='Key Performance Indicator'
-                        backgroundColor='#20b0d2'
+                        backgroundColor='rgb(26, 115, 232)'
                         color='#fff'
                         icon={(
                                 <Timeline
