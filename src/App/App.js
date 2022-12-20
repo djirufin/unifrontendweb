@@ -17,6 +17,7 @@ import Dispatch from '../pages/logistic/dispatch/Dispatch';
 import Logistics from '../pages/logistic/Logistics';
 import Eum from '../pages/eum/Eum';
 import Nutrition from '../pages/eum/nutrition/Nutrition';
+import Pmv from '../pages/pmv/Pmv';
 
 const theme = createTheme({
   palette: {
@@ -60,8 +61,8 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
             <Switch>
-              <Route exact path="/unifrontendweb/" component={ Login } />
-              <Route path="/unifrontendweb/dashboard" component={ dashboard } />
+              <Route exact path="/" component={ Login } />
+              <Route path="/dashboard" component={ dashboard } />
               <Route path="/logistics"  component={ Logistics } />
               <Route path="/transfer" component={ Transfer } />
               <Route path="/transactions" component={ Transaction } />
@@ -74,6 +75,7 @@ function App() {
               <Route path="/dispatch" component={ Dispatch } />
               <Route path="/eum" component={ Eum } />
               <Route path="/nutrition" component={ Nutrition } />
+              <Route path="/pmv" component={ Pmv } />
             </Switch>
         </BrowserRouter>
       </ThemeProvider>
