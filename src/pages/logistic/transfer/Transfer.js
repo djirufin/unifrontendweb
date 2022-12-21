@@ -1,33 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState } from 'react'
-import { Paper, makeStyles } from '@material-ui/core';
+import { Paper, makeStyles, Grid } from '@material-ui/core';
 import * as adminService from "../../../services/adminService";
 import Popup from "../../../components/Popup";
 import TransferForm from './TransferForm';
 import useTableAdmin from '../../../components/useTableAdmin';
 import Header from '../../../components/Header'
 import Controls from '../../../components/controls/Controls';
+import { Add } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
         margin: theme.spacing(1),
         padding: theme.spacing(1), 
-        width: '70%',
         
     },
     searchInput: {
         width: '50%',
         right: '1rem'
     },
-    newButton: {
-        position: 'absolute',
-        right: '10px'
+    qty: {
+        width: '20%',
     },
-    newButton1: {
-        position: 'absolute',
-        right: '9rem'
-    }
 }))
 
 
@@ -114,14 +109,18 @@ export default function Transfer() {
     return (
         <>
             <Header />
-            <Paper className={classes.pageContent}>
-                <TransferForm />
-            </Paper>
-            <Paper className={classes.pageContent}>
-                <p>idProduit : </p>
-                <p>Agent : </p>
-                <p>Telephone : </p>
-            </Paper>
+            <Grid >
+                <Paper className={classes.pageContent}>
+                    <div>
+                        <TransferForm />
+                    </div>
+                </Paper>
+                <Paper className={classes.pageContent}>
+                    <p>idProduit : </p>
+                    <p>Agent : </p>
+                    <p>Telephone : </p>
+                </Paper>
+            </Grid>
             <Popup
                 title="Formulaire Eglise"
                 openPopup={openPopup}

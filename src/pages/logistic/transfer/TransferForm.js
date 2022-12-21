@@ -2,11 +2,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import { useFormAdmin, Form } from "../../../components/useFormAdmin";
-import { Grid, InputAdornment, } from '@material-ui/core';
+import { Grid, InputAdornment, makeStyles, } from '@material-ui/core';
 import Controls from "../../../components/controls/Controls";
 import * as adminService from "../../../services/adminService";
 import { useState } from "react";
 import { Search } from "@material-ui/icons";
+import classNames from "classnames";
 
 const initialeValues = {
     logistic_type: '',
@@ -17,6 +18,12 @@ const initialeValues = {
     disabled: true
 
 }
+
+const useStyles = makeStyles(theme => ({
+    searchInput: {
+        width: '90%',
+    },
+}))
 
 const searchBy = () => ([
     { id: 'waybill', title: 'WayBill' },
@@ -82,8 +89,7 @@ export default function TransferForm(props) {
             })
     }, [recordForEdit])
 
-    
-    console.log(values.searchby);
+    const classes = useStyles();
     
 
     return (
@@ -139,6 +145,7 @@ export default function TransferForm(props) {
                             </InputAdornment>)
                         }}
                         onChange={handleSearch}
+                        className={classes.searchInput}
                         disabled={(!values.searchby) ? true : false}
                     />
                     <div> 
