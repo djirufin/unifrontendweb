@@ -7,11 +7,13 @@ import Popup from "../../../components/Popup";
 import TransferForm from './TransferForm';
 import useTableAdmin from '../../../components/useTableAdmin';
 import Header from '../../../components/Header'
+import Controls from '../../../components/controls/Controls';
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
-        margin: theme.spacing(4),
-        padding: theme.spacing(3),
+        margin: theme.spacing(1),
+        padding: theme.spacing(1), 
+        width: '70%',
         
     },
     searchInput: {

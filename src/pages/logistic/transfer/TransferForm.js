@@ -2,21 +2,31 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import { useFormAdmin, Form } from "../../../components/useFormAdmin";
-import { Grid, } from '@material-ui/core';
+import { Grid, InputAdornment, } from '@material-ui/core';
 import Controls from "../../../components/controls/Controls";
 import * as adminService from "../../../services/adminService";
 import { useState } from "react";
+import { Search } from "@material-ui/icons";
 
 const initialeValues = {
     logistic_type: '',
     partner:'',
     agent:'',
     staff:'',
+    searchby: '',
+    disabled: true
 
 }
 
+const searchBy = () => ([
+    { id: 'waybill', title: 'WayBill' },
+    { id: 'materialName', title: 'Material Name' },
+    { id: 'referenceMaterial', title: 'Reference Material' }
+])
+
 export default function TransferForm(props) {
     const { addOrEdit, recordForEdit } = props;
+    const [search, setSearch] = useState(null);
     const [currentUser, setCurrentUser] = useState(adminService.getCurrentUser());
     
     const validate = (fieldValues = values) => {
@@ -43,6 +53,19 @@ export default function TransferForm(props) {
             addOrEdit(values, resetForm);
         }
     }
+
+    const handleSearch = e => {
+        // let target = e.target;
+        // setFilterFn({
+        //     fn: records => {
+        //         if (target.value === "")
+        //             return records;
+        //         else
+        //             return records.filter(x => x.eglise.toLowerCase().includes(target.value))
+        //     }
+        // })
+    }
+
     const {
         values,
         setValues,
@@ -59,11 +82,14 @@ export default function TransferForm(props) {
             })
     }, [recordForEdit])
 
+    
+    console.log(values.searchby);
+    
 
     return (
         <Form onSubmit={handleSubmit}>
             <Grid container>
-                <Grid item xs={6}>
+                {/* <Grid item xs={6}>
                     <Controls.Select
                         name="logistic_type"
                         label="Select Logistic type"
@@ -80,9 +106,9 @@ export default function TransferForm(props) {
                         options={adminService.getAutorisation()}
                         error={errors.partner}
                     />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={6}>
-                    <Controls.Select
+                    {/* <Controls.Select
                         name="agent"
                         label="Select Agent"
                         value={values.agent}
@@ -97,10 +123,31 @@ export default function TransferForm(props) {
                         onChange={handleInputChange}
                         options={adminService.getAutorisation()}
                         error={errors.staff}
+                    /> */}
+                    <Controls.RadioGroup
+                        label='Search By'
+                        name="searchby"
+                        value={values.searchby}
+                        onChange={handleInputChange}
+                        items={searchBy()}
                     />
+                    <Controls.Input
+                        label="Search Transaction"
+                        InputProps={{
+                            startAdornment: (<InputAdornment position="start">
+                                <Search />
+                            </InputAdornment>)
+                        }}
+                        onChange={handleSearch}
+                        disabled={(!values.searchby) ? true : false}
+                    />
+                    <div> 
                         <Controls.Button
                             type="submit"
-                            text="Transfer" />
+                            text="Search" 
+                            disabled={(!values.searchby) ? true : false}
+                        />
+                    </div>
                 </Grid>
             </Grid>
         </Form>
