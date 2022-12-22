@@ -55,18 +55,6 @@ export default function TransferForm(props) {
         }
     }
 
-    // const handleSearch = e => {
-    //     // let target = e.target;
-    //     // setFilterFn({
-    //     //     fn: records => {
-    //     //         if (target.value === "")
-    //     //             return records;
-    //     //         else
-    //     //             return records.filter(x => x.eglise.toLowerCase().includes(target.value))
-    //     //     }
-    //     // })
-    // }
-
     const {
         values,
         setValues,
@@ -87,42 +75,8 @@ export default function TransferForm(props) {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <Grid container>
-                {/* <Grid item xs={6}>
-                    <Controls.Select
-                        name="logistic_type"
-                        label="Select Logistic type"
-                        value={values.logistic_type}
-                        onChange={handleInputChange}
-                        options={adminService.getAutorisation()}
-                        error={errors.logistic_type}
-                    />
-                    <Controls.Select
-                        label="Select partner"
-                        name="partner"
-                        value={values.partner}
-                        onChange={handleInputChange}
-                        options={adminService.getAutorisation()}
-                        error={errors.partner}
-                    />
-                </Grid> */}
+            <Grid >
                 <Grid item xs={6}>
-                    {/* <Controls.Select
-                        name="agent"
-                        label="Select Agent"
-                        value={values.agent}
-                        onChange={handleInputChange}
-                        options={adminService.getAutorisation()}
-                        error={errors.agent}
-                    />
-                    <Controls.Select
-                        name="staff"
-                        label="Select staff"
-                        value={values.staff}
-                        onChange={handleInputChange}
-                        options={adminService.getAutorisation()}
-                        error={errors.staff}
-                    /> */}
                     <Controls.RadioGroup
                         label='Search By'
                         name="searchby"

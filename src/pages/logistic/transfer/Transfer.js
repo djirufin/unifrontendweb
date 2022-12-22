@@ -68,7 +68,7 @@ export default function Transfer() {
                 if (target.value === "")
                     return records;
                 else
-                    return records.filter(x => x.waybill_number.toLowerCase().includes(target.value))
+                    return records.filter(x => x.reference_material.toLowerCase().includes(target.value))
             }
         })
     }
@@ -98,7 +98,7 @@ export default function Transfer() {
                     <TableBody>
                         {
                             recordsAfterPagingAndSorting().map(transfer =>
-                                (<TableRow>
+                                (<TableRow key={transfer.id}>
                                     <TableCell>{transfer.waybill_number}</TableCell>
                                     <TableCell>{transfer.material_name}</TableCell>
                                     <TableCell>{transfer.reference_material}</TableCell>
