@@ -1,27 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import './dashboard.css'
-import * as membreService from '../../services/membreService';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
 const Widget = ({ redirect, title, icon, link, color, backgroundColor }) => {
-
-const [sumMembre, setSumMembre] = useState([]);
-const [currentUser, setCurrentUser] = useState(membreService.getCurrentUser());
-
-const getmembre = () => {
-  (currentUser ? (currentUser.roles.toString() === "ROLE_LOCAL") ? 
-  (membreService.getSumMembre(currentUser.matricule)) : (membreService.getSum()) : membreService.getSum())
-  .then((res) => {
-    setSumMembre(res.data)
-  });
-}
-
-useEffect(() => {
-  getmembre();
-}, []);
-
     return (
         <div style={{backgroundColor: backgroundColor}} className='widget'>
           <a className='lien' href={redirect}>

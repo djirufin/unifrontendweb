@@ -8,13 +8,13 @@ import * as adminService from "../../../services/adminService";
 import { useState } from "react";
 import { Search } from "@material-ui/icons";
 import classNames from "classnames";
+import DataListInput from "react-datalist-input";
 
 const initialeValues = {
     logistic_type: '',
     partner:'',
     agent:'',
     staff:'',
-    searchby: '',
     disabled: true
 
 }
@@ -25,14 +25,8 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const searchBy = () => ([
-    { id: 'waybill', title: 'WayBill' },
-    { id: 'materialName', title: 'Material Name' },
-    { id: 'referenceMaterial', title: 'Reference Material' }
-])
-
 export default function TransferForm(props) {
-    const { addOrEdit, recordForEdit } = props;
+    const { addOrEdit, recordForEdit, handleSearch, items, searchby } = props;
     const [search, setSearch] = useState(null);
     const [currentUser, setCurrentUser] = useState(adminService.getCurrentUser());
     
@@ -61,17 +55,17 @@ export default function TransferForm(props) {
         }
     }
 
-    const handleSearch = e => {
-        // let target = e.target;
-        // setFilterFn({
-        //     fn: records => {
-        //         if (target.value === "")
-        //             return records;
-        //         else
-        //             return records.filter(x => x.eglise.toLowerCase().includes(target.value))
-        //     }
-        // })
-    }
+    // const handleSearch = e => {
+    //     // let target = e.target;
+    //     // setFilterFn({
+    //     //     fn: records => {
+    //     //         if (target.value === "")
+    //     //             return records;
+    //     //         else
+    //     //             return records.filter(x => x.eglise.toLowerCase().includes(target.value))
+    //     //     }
+    //     // })
+    // }
 
     const {
         values,
@@ -90,7 +84,6 @@ export default function TransferForm(props) {
     }, [recordForEdit])
 
     const classes = useStyles();
-    
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -135,26 +128,33 @@ export default function TransferForm(props) {
                         name="searchby"
                         value={values.searchby}
                         onChange={handleInputChange}
-                        items={searchBy()}
+                        items={items}
                     />
                     <Controls.Input
-                        label="Search Transaction"
+                        DataListInput='data'
                         InputProps={{
                             startAdornment: (<InputAdornment position="start">
                                 <Search />
                             </InputAdornment>)
                         }}
-                        onChange={handleSearch}
                         className={classes.searchInput}
                         disabled={(!values.searchby) ? true : false}
+                        onChange={handleSearch}
                     />
-                    <div> 
+                    <datalist id="data">
+                        <option>One</option>
+                        <option>Two</option>
+                        <option>Three</option>
+                        <option>Four</option>
+                        <option>Five</option>
+                    </datalist>
+                    {/* <div> 
                         <Controls.Button
                             type="submit"
                             text="Search" 
                             disabled={(!values.searchby) ? true : false}
                         />
-                    </div>
+                    </div> */}
                 </Grid>
             </Grid>
         </Form>

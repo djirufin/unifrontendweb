@@ -43,8 +43,8 @@ export default function useTableAdmin(records, headCells,filterFn) {
             setOrderBy(cellId)
         }
 
-        return (<TableHead>
-            <TableRow>
+        return (<TableHead >
+            <TableRow align='center'>
                 {
                     headCells.map(headCell => (
                         <TableCell key={headCell.id}

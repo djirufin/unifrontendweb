@@ -19,17 +19,9 @@ export default class dashboard extends Component {
     }
 
     componentDidMount() {
-        const currentUser = authService.getCurrentUser();
-
-        if(!currentUser) {
-            this.setState({ redirect : "/"});
-            this.setState({ currentUser: currentUser, userReady: false})
-        }
     }
 
     render() {
-
-        const { currentUser, userReady } = this.state;
         
         return(
             <>

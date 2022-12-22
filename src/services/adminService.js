@@ -1,7 +1,7 @@
 import axios from "axios";
 import { authHeader } from "./authHeader";
 
-const ASSOCIATION_API_BASE_URL = "http://localhost:8080/users";
+const TRANSFER_API_BASE_URL = "http://localhost:8080/transfer";
 const head = {
     'Content-Type': 'application/json'
 }
@@ -13,30 +13,16 @@ export const getAutorisation = () => ([
     { id: 'coordination', title: 'Coordination' }
 ])
 
+export const searchBy = () => ([
+    { id: 'waybill_number', title: 'WayBill' },
+    { id: 'material_name', title: 'Material Name' },
+    { id: 'reference_material', title: 'Reference Material' }
+])
 
-export function insertAdmin(user) {
-    return axios.post(ASSOCIATION_API_BASE_URL, user, {headers : authHeader(), head})
+export function getAllTransfer() {
+    return axios.get(TRANSFER_API_BASE_URL+"/getAll", {headers : authHeader()})
 }
 
-export function getAllRegion() {
-    return axios.get(ASSOCIATION_API_BASE_URL+"/regions", {headers : authHeader()});
-}
-
-export function getAllZone(name) {
-    return axios.get(ASSOCIATION_API_BASE_URL+"/zones/"+name, {headers : authHeader()});
-}
-
-export function getAllLocal(name) {
-    return axios.get(ASSOCIATION_API_BASE_URL+"/locales/"+name, {headers : authHeader()});
-}
-
-export function getAdminDisable() {
-    return axios.get(ASSOCIATION_API_BASE_URL+"/disable", {headers : authHeader()});
-}
-
-export function updateAdmin(userId, user) {
-    return axios.put(ASSOCIATION_API_BASE_URL + '/' + userId, user, {headers : authHeader(),head})
-}
 
 export function getCurrentUser() {
     return JSON.parse(localStorage.getItem('user'));

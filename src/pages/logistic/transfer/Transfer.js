@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState } from 'react'
-import { Paper, makeStyles, Grid } from '@material-ui/core';
+import { Paper, makeStyles, Grid, TableBody, TableRow, TableCell, ButtonGroup } from '@material-ui/core';
 import * as adminService from "../../../services/adminService";
-import Popup from "../../../components/Popup";
 import TransferForm from './TransferForm';
 import useTableAdmin from '../../../components/useTableAdmin';
 import Header from '../../../components/Header'
 import Controls from '../../../components/controls/Controls';
-import { Add } from '@material-ui/icons';
+import { Add, Remove } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
@@ -17,8 +16,8 @@ const useStyles = makeStyles(theme => ({
         
     },
     searchInput: {
-        width: '50%',
-        right: '1rem'
+        width: '50px',
+        right:'2px',
     },
     qty: {
         width: '20%',
@@ -27,10 +26,10 @@ const useStyles = makeStyles(theme => ({
 
 
 const headCells = [
-    { id: 'eglise', label: 'Eglise Local' },
-    { id: 'cota', label: 'Montant Cotisation' },
-    { id: 'versement', label: 'Versement' },
-    { id: 'dateVersement', label: 'Date' },
+    { id: 'waybill_number', label: 'WayBill Number' },
+    { id: 'material_name', label: 'Material Name' },
+    { id: 'reference_material', label: 'Reference Material' },
+    { id: 'quantity', label: 'Quantity Material' },
     { id: 'actions', label: 'Action', disableSorting: true }
 ]
 
@@ -41,22 +40,19 @@ export default function Transfer() {
     const [records, setRecords] = useState([]);
     const [currentUser, setCurrentUser] = useState(adminService.getCurrentUser());
 
-    const getAlladmin = () => {
-        (currentUser ? (currentUser.roles.toString() === "ROLE_ZONE") ? 
-        (adminService.getAllLocal(currentUser.eglise)) : (adminService.getAllZone(currentUser.eglise)) : (adminService.getAllZone(currentUser.eglise)))
+    const getAllTransfer = () => {
+        adminService.getAllTransfer()
         .then((res) => {
             setRecords(res.data)
         });
     }
     
     useEffect(() => {
-        getAlladmin();
+        getAllTransfer();
     }, []);
 
     const [filterFn, setFilterFn] = useState({ fn: records => { return records; } })
     const [openPopup, setOpenPopup] = useState(false)
-    // const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
-    // const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
 
     const {
         TblContainer,
@@ -72,33 +68,9 @@ export default function Transfer() {
                 if (target.value === "")
                     return records;
                 else
-                    return records.filter(x => x.eglise.toLowerCase().includes(target.value))
+                    return records.filter(x => x.waybill_number.toLowerCase().includes(target.value))
             }
         })
-    }
-
-    const addOrEdit = (user, resetForm) => {
-        // eslint-disable-next-line no-lone-blocks
-        {(user.id) ?
-            adminService.updateAdmin(user.id, user) :
-
-            console.log(user)
-            console.log(user.id)
-        }
-        if(!user.id) {
-            adminService.insertAdmin(user);
-            console.log(user)
-            console.log(user.id)
-        }
-        // setNotify({
-        //     isOpen: true,
-        //     message: 'Submit Successfully',
-        //     type: 'success'
-        // })
-        resetForm()
-        setRecordForEdit(null)
-        setOpenPopup(false)
-        getAlladmin()
     }
 
     const openInPopup = user => {
@@ -106,34 +78,69 @@ export default function Transfer() {
         setOpenPopup(true)
     }
 
+    const [itemCount, setItemCount] = useState(1);
+
     return (
         <>
             <Header />
             <Grid >
                 <Paper className={classes.pageContent}>
                     <div>
-                        <TransferForm />
+                        <TransferForm 
+                            handleSearch={handleSearch}
+                            items={adminService.searchBy()}
+                        />
                     </div>
                 </Paper>
-                <Paper className={classes.pageContent}>
-                    <p>idProduit : </p>
-                    <p>Agent : </p>
-                    <p>Telephone : </p>
+                <Paper >
+                    <TblContainer>
+                    <TblHead />
+                    <TableBody>
+                        {
+                            recordsAfterPagingAndSorting().map(transfer =>
+                                (<TableRow>
+                                    <TableCell>{transfer.waybill_number}</TableCell>
+                                    <TableCell>{transfer.material_name}</TableCell>
+                                    <TableCell>{transfer.reference_material}</TableCell>
+                                    <TableCell>
+                                        <ButtonGroup>
+                                            <Controls.Button
+                                                onClick={() => {
+                                                setItemCount(Math.max(itemCount - 1, 0));
+                                                }}
+                                                startIcon={<Remove />}
+                                                size='small'
+                                                style={{backgroundColor: 'rgb(216, 27, 96)'}}
+                                            />
+                                            <Controls.Input
+                                                value={itemCount}
+                                                className={classes.searchInput}
+                                                size='small'
+                                            />
+                                            <Controls.Button
+                                                onClick={() => {
+                                                setItemCount(itemCount + 1);
+                                                }}
+                                                startIcon={<Add />}
+                                                size='small'
+                                                style={{backgroundColor: 'rgb(26, 115, 232)'}}
+                                            />
+                                        </ButtonGroup>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Controls.Button
+                                            style={{backgroundColor:"rgb(67, 160, 71)"}}
+                                            startIcon={<Add />}
+                                            text='Add'
+                                        />
+                                    </TableCell>
+                                </TableRow>)
+                            )
+                        }
+                    </TableBody>
+                </TblContainer>
                 </Paper>
             </Grid>
-            <Popup
-                title="Formulaire Eglise"
-                openPopup={openPopup}
-                setOpenPopup={setOpenPopup}
-            >
-                <TransferForm
-                    recordForEdit={recordForEdit}
-                    addOrEdit={addOrEdit} />
-            </Popup>
-            {/* <Notification
-                notify={notify}
-                setNotify={setNotify}
-            /> */}
         </>
     )
 }
