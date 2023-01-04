@@ -81,7 +81,7 @@ export default function NewOrder() {
     }, []);
 
     const supplier = [
-        orgByType.map
+        
     ]
 
     const {
@@ -111,9 +111,9 @@ export default function NewOrder() {
                     <Grid container>
                         <Grid item xs={6}>
                             <Controls.Select
-                            value={logisticType}
-                            onChange={changeLogisticType}
-                            options={listType}
+                                value={logisticType}
+                                onChange={changeLogisticType}
+                                options={listType}
                             />
                             <Controls.Input
                             label="Search"
@@ -155,15 +155,12 @@ export default function NewOrder() {
                 </TblContainer>
                 {/* <p>Authorized person : <strong>{(result[0]["Authorized Person"])}</strong></p>
                 <p>IP : <strong>{result[0]["Consignee Name"]}</strong></p> */}
-                <Form>
-                    <Grid item xs={6}>
+                
                         <select>
                             {orgByType.map(type => (
                                 <option id={type.id}> {type.name} </option>
                             ) )}
                         </select>
-                    </Grid>
-                </Form>
             </Paper>)
             : null
             }            
