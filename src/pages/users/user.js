@@ -82,7 +82,7 @@ function Users(props) {
             console.log(user.id)
         }
         if(!user.id) {
-            userService.insertAdmin(user);
+            userService.addUuser(user);
             console.log(user)
             console.log(user.id)
         }
@@ -92,9 +92,9 @@ function Users(props) {
         //     type: 'success'
         // })
         resetForm()
-        setRecordForEdit(null)
-        setOpenPopup(false)
-        allUsers()
+        // setRecordForEdit(null)
+        // setOpenPopup(false)
+        // allUsers()
     }
 
     const openInPopup = user => {

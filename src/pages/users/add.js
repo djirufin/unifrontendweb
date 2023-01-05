@@ -2,9 +2,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import { useForm, Form } from "../../components/useForm";
-import { Grid, } from '@material-ui/core';
+import { FormControl, Grid, Select as MuiSelect, MenuItem, InputLabel, } from '@material-ui/core';
 import Controls from "../../components/controls/Controls";
 import * as userService from "../../services/userService";
+import * as manageService from '../../services/managementService'
 import { useState } from "react";
 
 
@@ -18,12 +19,15 @@ const initialeValues = {
     firstname: '',
     lastname:'',
     username:'',
+    password:'',
     email:'',
+    role:'',
+    organisation_id: ''
 }
 
 export default function AddUserForm(props) {
     const { addOrEdit, recordForEdit } = props;
-    const [currentUser, setCurrentUser] = useState(userService.getCurrentUser());
+    const [options, setOptions] = useState([]);
     
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -46,9 +50,22 @@ export default function AddUserForm(props) {
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()) {
+            values.password = "test1234"
             addOrEdit(values, resetForm);
         }
     }
+
+    const getOrgByType = () => {
+        manageService.getOrganisation()
+        .then((res) => {
+            setOptions(res.data)
+        });
+    }
+    
+    useEffect(() => {
+        getOrgByType();
+    }, []);
+
     const {
         values,
         setValues,
@@ -84,6 +101,13 @@ export default function AddUserForm(props) {
                         onChange={handleInputChange}
                         error={errors.lastname}
                     />
+                    <Controls.Select
+                        label="Role"
+                        name="role"
+                        value={values.role}
+                        onChange={handleInputChange}
+                        options={userService.Role()}
+                    />
                 </Grid>
                 <Grid item xs={6}>
                     <Controls.Input
@@ -100,6 +124,20 @@ export default function AddUserForm(props) {
                         onChange={handleInputChange}
                         error={errors.email}
                     />
+                    <FormControl variant="outlined">
+                            <InputLabel>{"Organisation"}</InputLabel>
+                            <MuiSelect
+                                label="Organisation"
+                                name="organisation_id"
+                                value={values.organisation_id}
+                                onChange={handleInputChange}>
+                                {
+                                    options.filter((i) => i.name!== "Undefined").map(
+                                        item => (<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)
+                                    )
+                                }
+                            </MuiSelect>
+                    </FormControl>
                     <div>
                         <Controls.Button
                             text="Close"

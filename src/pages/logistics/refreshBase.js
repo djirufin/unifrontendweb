@@ -1,73 +1,43 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Grid } from '@material-ui/core';
-import React from 'react';
-import { useEffect } from 'react';
-import Controls from '../../components/controls/Controls';
-import { Form, useForm } from '../../components/useForm';
+import React, { Component } from "react";
+import Papa from "papaparse";
+import * as logisticService from "../../services/logisticService"
+import { Grid } from "@material-ui/core";
+import Controls from "../../components/controls/Controls";
 
-const initialeValues = {
-    refresh: ''
-}
-
-export default function RefreshBase(props) {
-
-    const { addOrEdit, recordForEdit } = props;
-    
-    const validate = (fieldValues = values) => {
-        let temp = { ...errors }
-        if ('refresh' in fieldValues)
-            temp.refresh = fieldValues.refresh ? "" : "This field is required."
-        setErrors({
-            ...temp
-        })
-
-        if (fieldValues === values)
-            return Object.values(temp).every(x => x === "")
+class RefreshBase extends Component {
+    state = { display: "" };
+    changeHandler = (event) => {
+      // Passing file data (event.target.files[0]) to parse using Papa.parse
+      this.setState({ display: "Chargement en cours" });
+      Papa.parse(event.target.files[0], {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+            console.log(results.data)
+          logisticService
+            .loadZrost(results.data)
+            .then((response) => this.setState({ display: response.data }))
+            .catch((err) =>
+              this.setState({ display: "erreur loading " + err.message })
+            );
+        },
+      });
+    };
+    render() {
+      return (
+        <React.Fragment>
+            <Grid container>
+              <Grid item xs={12}>
+                <Controls.Input
+                   type="file"
+                   onChange={this.changeHandler}
+                   accept=".csv"
+                />
+              </Grid>
+              <h4>{this.state.display}</h4>
+            </Grid>
+        </React.Fragment>
+      );
     }
-
-    const handleSubmit = e => {
-        e.preventDefault()
-        if (validate()) {
-            addOrEdit(values, resetForm);
-        }
-    }
-    const {
-        values,
-        setValues,
-        errors,
-        setErrors,
-        handleInputChange,
-        resetForm
-    } = useForm(initialeValues, true, validate);
-
-    useEffect(() => {
-        if (recordForEdit !== null)
-            setValues({
-                ...recordForEdit
-            })
-    }, [recordForEdit])
-
-    return (
-        <>
-            <Form onSubmit={handleSubmit}>
-                <Grid container>
-                    <Grid item xs={14}>
-                        <Controls.Input
-                            name="refresh"
-                            type='file'
-                            accept=".csv"
-                            value={values.refresh}
-                            onChange={handleInputChange}
-                            // error={errors.refresh}
-                        />
-                        <div>
-                            <Controls.Button
-                                type="submit"
-                                text="Submit" />
-                        </div>
-                    </Grid>
-                </Grid>
-            </Form>
-        </>
-    );
 }
+export default RefreshBase;

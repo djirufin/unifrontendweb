@@ -92,7 +92,7 @@ export default function Organisation(props) {
                     <TblHead />
                     <TableBody>
                         {
-                            recordsAfterPagingAndSorting().map(user =>
+                            recordsAfterPagingAndSorting().filter((i) => i.name!== "Undefined").map(user =>
                                 (<TableRow key={user.id}>
                                     <TableCell>{user.name}</TableCell>
                                     <TableCell>{user.type}</TableCell>

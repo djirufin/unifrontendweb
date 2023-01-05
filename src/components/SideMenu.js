@@ -22,8 +22,8 @@ const style = {
     img: {
         position: 'center',
         padding: '0px',
-        width: '150px',
-        margin: '2rem'
+        width: '200px',
+        margin: '1rem'
         
     }
 }
@@ -35,7 +35,7 @@ const SideMenu = (props) => {
     
     return (
         <div className={classes.sideMenu}>
-            <img className={classes.img} src='lg.png' alt=''/>
+            <img className={classes.img} src='logo.png' alt='' />
             {(currentUser) ? 
                 (currentUser.roles.toString() === "ROLE_USER") ? 
                 <ul className='SibeMenuList'>

@@ -1,7 +1,7 @@
 import { DashboardOutlined, HomeWorkOutlined, ListAltOutlined, MonetizationOnOutlined, } from '@material-ui/icons';
 import React from 'react';
 
-// PROFILE COORDINATION
+// PROFILE ADIN
 export const SideMenuData = [
     {
         title: "Users",
@@ -13,11 +13,11 @@ export const SideMenuData = [
         icon: <ListAltOutlined />,
         link: "/logistic/no"
     },
-    {
-        title: "Stock Material",
-        icon: <ListAltOutlined />,
-        link: "/logistic/mm"
-    },
+    // {
+    //     title: "Stock Material",
+    //     icon: <ListAltOutlined />,
+    //     link: "/logistic/mm"
+    // },
     {
         title: "Organisation",
         icon: <ListAltOutlined />,
