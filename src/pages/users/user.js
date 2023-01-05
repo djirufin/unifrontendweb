@@ -8,9 +8,9 @@ import Controls from '../../components/controls/Controls';
 import Header from '../../components/Header';
 import * as userService from "../../services/userService";
 import { useEffect } from 'react';
-import useTable from '../../components/useTable';
 import Popup from '../../components/Popup';
 import AddUserForm from './add';
+import useTable from '../../components/useTableUser';
 
 
 const useStyles = makeStyles(theme => ({
@@ -155,16 +155,16 @@ function Users(props) {
                         }
                     </TableBody>
                 </TblContainer>
-                {/* <TblPagination /> */}
+                <TblPagination />
                 <Popup
-                title="Formulaire Eglise"
-                openPopup={openPopup}
-                setOpenPopup={setOpenPopup}
-            >
-                <AddUserForm
-                    recordForEdit={recordForEdit}
-                    addOrEdit={addOrEdit} />
-            </Popup>
+                    title="User Form"
+                    openPopup={openPopup}
+                    setOpenPopup={setOpenPopup}
+                >
+                    <AddUserForm
+                        recordForEdit={recordForEdit}
+                        addOrEdit={addOrEdit} />
+                </Popup>
             </Paper>
 
         </div>

@@ -1,12 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState } from 'react'
-import { Paper, makeStyles, TableBody, TableRow, TableCell,Grid } from '@material-ui/core';
+import { Paper, makeStyles, TableBody, TableRow, TableCell,Grid, Toolbar } from '@material-ui/core';
 import * as logisticService from '../../services/logisticService';
 import * as manageService from "../../services/managementService"
 import Controls from "../../components/controls/Controls";
 import useTable from '../../components/useTable';
 import Header from '../../components/Header';
 import { Form } from '../../components/useForm';
+import Popup from '../../components/Popup';
+import AddUserForm from '../users/add';
+import RefreshBase from './refreshBase';
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
@@ -17,6 +20,10 @@ const useStyles = makeStyles(theme => ({
         width: '70%',
         left: '0rem'
     },
+    newButton: {
+        position: 'absolute',
+        right: '10px'
+    }
 }))
 
 const headCells = [
@@ -52,6 +59,7 @@ export default function NewOrder() {
     const [selectedOption, setSelectedOption] = useState("waybill");
     const [selectedOption2, setSelectedOption2] = useState("purchase_order");
     const [logisticType, setLogisticType] = useState("zrost");
+    const [openPopup, setOpenPopup] = useState(false)
 
     const handleSearchChange = (e) => {
         if(selectedOption) {
@@ -80,9 +88,14 @@ export default function NewOrder() {
         getOrgByType();
     }, []);
 
-    const supplier = [
+    const addOrEdit = (user, resetForm) => {
         
-    ]
+        console.log("bonjour")
+        resetForm()
+        setRecordForEdit(null)
+        setOpenPopup(false)
+    }
+
 
     const {
         TblContainer,
@@ -102,10 +115,18 @@ export default function NewOrder() {
     const onChangeSearch = (e) => {
         setSelectedOption(e.target.value)
     }
-    console.log("SUPPLIER", orgByType)
+
     return (
         <>
             <Header />
+            <Toolbar>
+                <Controls.Button
+                    text="RefreshBase"
+                    variant="outlined"
+                    className={classes.newButton}
+                    onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
+                />
+            </Toolbar>
             <Paper className={classes.pageContent}>
                 <Form onSubmit={handleSearchChange}>
                     <Grid container>
@@ -136,8 +157,17 @@ export default function NewOrder() {
                         </Grid>
                     </Grid>
                 </Form>
+                <Popup
+                    title="Refresh Base"
+                    openPopup={openPopup}
+                    setOpenPopup={setOpenPopup}
+                >
+                    <RefreshBase
+                        recordForEdit={recordForEdit}
+                        addOrEdit={addOrEdit} />
+                </Popup>
             </Paper>
-            {(result !== []) ? (<Paper className={classes.pageContent}>
+            {(result.length > 0) && (<Paper className={classes.pageContent}>
                 <TblContainer>
                     <TblHead />
                     <TableBody>
@@ -153,16 +183,16 @@ export default function NewOrder() {
                         }
                     </TableBody>
                 </TblContainer>
-                {/* <p>Authorized person : <strong>{(result[0]["Authorized Person"])}</strong></p>
-                <p>IP : <strong>{result[0]["Consignee Name"]}</strong></p> */}
-                
-                        <select>
-                            {orgByType.map(type => (
-                                <option id={type.id}> {type.name} </option>
-                            ) )}
-                        </select>
+                <p>Authorized person : <strong>{result[0]["Authorized Person"]}</strong></p>
+                <p>IP : <strong>{result[0]["Consignee Name"]}</strong></p>
+                        <form>
+                            <select>
+                                {orgByType.map(type => (
+                                    <option id={type.id}> {type.name} </option>
+                                ) )}
+                            </select>
+                        </form>
             </Paper>)
-            : null
             }            
         </>
     )
