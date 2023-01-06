@@ -31,7 +31,7 @@ export const SideMenuDataIPADMIN = [
     {
         title: "Acknowledge",
         icon: <DashboardOutlined />,
-        link: "/acknowledge"
+        link: "/logistic/acknowledge"
     },
 ];
 

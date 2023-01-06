@@ -7,6 +7,7 @@ import Login from '../pages/authentication/Login';
 import NewOrder from '../pages/logistics/neworder';
 import Logistics from '../pages/logistics';
 import Organisation from '../pages/users/organisation';
+import Acknowledge from '../pages/logistics/acknowledge';
 
 const theme = createTheme({
   palette: {
@@ -58,6 +59,7 @@ function App() {
               <Route exact path='/logistic/no' component={ NewOrder } />
               <Route exact path="/logistic/mm" component={ Logistics } />
               <Route exact path="/management/org" component={ Organisation } />
+              <Route exact path="/logistic/acknowledge" component={ Acknowledge } />
             </Switch>
           </div>
           <CssBaseline />

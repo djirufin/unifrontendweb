@@ -1,10 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { InputAdornment, makeStyles, Paper, TableBody, TableCell, TableRow, Toolbar } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 import React from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import Controls from '../../components/controls/Controls';
+import Header from '../../components/Header';
 import useTable from '../../components/useTable';
+import * as authService from '../../services/authService';
+import * as logisticService from "../../services/logisticService";
 
 const useStyles = makeStyles((theme) => ({
     pageContent: {
@@ -22,17 +27,29 @@ const useStyles = makeStyles((theme) => ({
   }));
   
   const headCells = [
-    { id: "release_order", label: "Release Order" },
     { id: "waybill", label: "Waybill Number" },
-    { id: "material", label: "Material" },
     { id: "material_description", label: "Material Description" },
     { id: "quantity", label: "RO Quantity" },
+    {id: "quantity_Report", label: "Quantity Report"}
   ];
 
 export default function Acknowledge(props) {
     const classes = useStyles();
     const [records, setRecords] = useState([]);
-    const [filterFn, setFilterFn] = useState({ fn: records => { return records; } })
+    const [filterFn, setFilterFn] = useState({ fn: records => { return records; } });
+    const [currentUser, setCurrentUser] = useState(authService.getCurrentUser());
+
+    const acknowledge = () => {
+        ((currentUser) ? (currentUser.roles.toString() === "ROLE_IPADMIN") ?
+        (logisticService.acknowledge(currentUser.organisation, "P")) : logisticService.getMaterial() : logisticService.getMaterial())
+        .then((res) => {
+            setRecords(res.data)
+        });
+    }
+    
+    useEffect(() => {
+        acknowledge();
+    }, []);
 
     const {
         TblContainer,
@@ -40,9 +57,12 @@ export default function Acknowledge(props) {
         TblPagination,
         recordsAfterPagingAndSorting
     } = useTable(records, headCells, filterFn);
+    console.log("ACKNOWLEDGE ", currentUser.organisation)
     return (
         <>
+            <Header />
             <Paper className={classes.pageContent}>
+                <p></p>
                 <Toolbar>
                     <Controls.Input
                         label="Recherche"
@@ -68,9 +88,9 @@ export default function Acknowledge(props) {
                         {
                             recordsAfterPagingAndSorting().map(user =>
                                 (<TableRow key={user.id}>
-                                    <TableCell>{user.firstname}</TableCell>
-                                    <TableCell>{user.lastname}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
+                                    <TableCell>{user["Waybill Number"]}</TableCell>
+                                    <TableCell>{user["Material Description"]}</TableCell>
+                                    <TableCell>{user["RO Quantity"]}</TableCell>
                                     {/* <TableCell>
                                         <Controls.ActionButton
                                             color="primary"

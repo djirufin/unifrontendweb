@@ -1,7 +1,7 @@
 import axios from "axios";
 import { authHeader } from "./authHeader";
 
-const ASSOCIATION_API_BASE_URL = "https://www.digitale-it.com/unicef/api";
+const ASSOCIATION_API_BASE_URL = "http://localhost:8080/api";
 const head = {
     'Content-Type': 'application/json'
 }
