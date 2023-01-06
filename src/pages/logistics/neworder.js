@@ -14,11 +14,12 @@ import * as manageService from "../../services/managementService";
 import Controls from "../../components/controls/Controls";
 import useTable from "../../components/useTable";
 import Header from "../../components/Header";
+import Popup from '../../components/Popup'
 import { Form } from "../../components/useForm";
 import { listUsersByOrg } from "../../services/userService";
-import Popup from "../../components/Popup";
+import { sendEmail } from "../../services/emailService";
 import { Forward } from "@material-ui/icons";
-import RefreshBase from "./refreshBase";
+import RefreshBase from './refreshBase'
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
   searchInput: {
+    width: "70%",
     left: "0rem",
   },
   newButton: {
@@ -39,6 +41,7 @@ const headCells = [
   { id: "waybill", label: "Waybill Number" },
   { id: "material", label: "Material" },
   { id: "material_description", label: "Material Description" },
+  { id: "quantity", label: "RO Quantity" },
 ];
 
 const listType = [
@@ -67,6 +70,11 @@ export default function NewOrder() {
   });
   const [orgByType, setOrgByType] = useState([]);
   const [userByOrg, setUserByOrg] = useState([]);
+  const [userByIP, setUserByIP] = useState([]);
+  const [driver, setDriver] = useState("");
+  const [ipSpoc, setIpSpoc] = useState("");
+  const [receiverEmail, setReceiverEmail] = useState("");
+  const [organisationName, setOrganisationName] = useState("");
   const [selectOrganisation, setSelectOrganisation] = useState("");
   const [searchText, setSearchText] = useState("");
   const [messageTransferStatus, setMessageTransferStatus] = useState("");
@@ -85,6 +93,8 @@ export default function NewOrder() {
         setResult(response.data);
         setStatut(1);
       });
+
+    getOrgByType();
   };
 
   const getOrgByType = () => {
@@ -95,22 +105,54 @@ export default function NewOrder() {
 
   const handleOrgChange = (e) => {
     setSelectOrganisation(e.target.value);
+    setOrganisationName(e.target.options[e.target.selectedIndex].text);
     getEmployeeByType(e.target.value);
+    //if result > 0, load consignee spoc
+    getPointOfContact(result[0]["Consignee"]);
   };
 
   const getEmployeeByType = (id) => {
     listUsersByOrg(id)
       .then((response) => {
-        console.log(response.data);
         setUserByOrg(response.data);
       })
       .catch((err) => console.log(err));
   };
 
-  useEffect(() => {
-    getOrgByType();
-  }, []);
+  const getPointOfContact = (id) => {
+    listUsersByOrg(id)
+      .then((response) => {
+        setUserByIP(response.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
+  const processTransfer = () => {
+    setMessageTransferStatus("Transfert en cours... ");
+    //Update pickstatus
+    logisticService.transferMaterial(
+      logisticType,
+      result[0]["id"],
+      organisationName,
+      driver,
+      ipSpoc
+    );
+    //send email
+    sendEmail(
+      receiverEmail,
+      "Transfer UNICEF",
+      "Vous allez recevoir des dons du UNICEF. Le waybill est " +
+        result[0]["Waybill Number"]
+    );
+    //set message to display
+    setMessageTransferStatus(
+      "Transfert effectuee... un email sera bien envoyee"
+    );
+  };
+
+  /*useEffect(() => {
+    getOrgByType();
+  }, []);*/
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(result, headCells, filterFn);
@@ -126,24 +168,23 @@ export default function NewOrder() {
   const onChangeSearch = (e) => {
     setSelectedOption(e.target.value);
   };
-  console.log("SUPPLIER", orgByType);
   return (
     <>
       <Header />
       <Paper className={classes.pageContent}>
-        <Toolbar>
-                {(statut === 1 && result.length === 0) ?
-                    (<h3 style={{color:"red"}}>Nous avons rien pu trouver, veuillez 
-                        refraichir votre base en cliquant sur 
-                        <Forward fontSize='small' /> 
-                    </h3>) : null
-                }
-            <Controls.Button
-                text="RefreshBase"
-                variant="outlined"
-                className={classes.newButton}
-                onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
-            />
+      <Toolbar>
+          {(statut === 1) ? (result.length === 0) ?
+              (<h3 style={{color:"red"}}>Nous avons rien pu trouver, veuillez 
+                  refraichir votre base en cliquant sur 
+                  <Forward fontSize='small' /> 
+              </h3>) : null : null
+          }
+          <Controls.Button
+              text="RefreshBase"
+              variant="outlined"
+              className={classes.newButton}
+              onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
+          />
         </Toolbar>
         <Form onSubmit={handleSearchChange}>
           <Grid container>
@@ -197,55 +238,76 @@ export default function NewOrder() {
                   <TableCell>{user["Waybill Number"]}</TableCell>
                   <TableCell>{user["Material"]}</TableCell>
                   <TableCell>{user["Material Description"]}</TableCell>
+                  <TableCell>{user["RO Quantity"]}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </TblContainer>
-          <div>
-            <p>
-                Authorized person :{" "}
-                <strong>{result[0]["Authorized Person"]}</strong>
-            </p>
-            <p>
-                IP : <strong>{result[0]["Consignee Name"]}</strong>
-            </p>
-            Select Dispatching company :{" "}
-            <select onChange={(e) => handleOrgChange(e)}>
-                <option value="">Select supplier</option>
-                {orgByType.map((type, index) => (
-                <option value={type.id} key={index}>
-                    {" "}
-                    {type.name}{" "}
-                </option>
+          <p>
+            Authorized person :{" "}
+            <strong>{result[0]["Authorized Person"]}</strong>
+          </p>
+          Select Dispatching company :{" "}
+          <select onChange={(e) => handleOrgChange(e)}>
+            <option value="">Select supplier</option>
+            {orgByType.map((type, index) => (
+              <option value={type.id} key={index}>
+                {" "}
+                {type.name}{" "}
+              </option>
+            ))}
+          </select>
+          &nbsp;&nbsp;&nbsp;
+          {selectOrganisation !== "" && (
+            <>
+              <select
+                onChange={(e) => {
+                  setDriver(e.target.options[e.target.selectedIndex].text);
+                  console.log(
+                    "email",
+                    userByOrg[e.target.selectedIndex - 1]["email"],
+                    e.target.selectedIndex
+                  );
+                }}
+              >
+                <option>Select driver</option>
+                {userByOrg.map((user, index) => (
+                  <option id={user.id} key={index}>
+                    {user.firstname + " " + user.lastname}
+                  </option>
                 ))}
-            </select>
-            {selectOrganisation !== "" && (
-                <>
-                <p>
-                    Select driver{" "}
-                    <select>
-                    {userByOrg.map((user, index) => (
-                        <option id={user.id} key={index}>
-                        {user.firstname + " " + user.lastname}
-                        </option>
-                    ))}
-                    </select>
-                </p>
-                <p>
-                    <Controls.Button
-                    text="Transferer"
-                    variant="outlined"
-                    onClick={() => {
-                        setMessageTransferStatus(
-                        "Transfert en cours... un email sera bien envoyee"
-                        );
-                    }}
-                    />{" "}
-                    {messageTransferStatus}
-                </p>
-                </>
-            )}
-          </div>
+              </select>
+              <p>
+                IP : <strong>{result[0]["Consignee Name"]}</strong>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <select
+                  onChange={(e) => {
+                    setIpSpoc(e.target.options[e.target.selectedIndex].text);
+                    setReceiverEmail(
+                      userByIP[e.target.selectedIndex - 1]["email"]
+                    );
+                  }}
+                >
+                  <option>Select Point of contact</option>
+                  {userByIP.map((user, index) => (
+                    <option id={user.id} key={index}>
+                      {user.firstname + " " + user.lastname}
+                    </option>
+                  ))}
+                </select>
+              </p>
+              <p>
+                <Controls.Button
+                  text="Transferer"
+                  variant="outlined"
+                  onClick={() => {
+                    processTransfer();
+                  }}
+                />{" "}
+                {messageTransferStatus}
+              </p>
+            </>
+          )}
         </Paper>
       ) : null}
     </>
