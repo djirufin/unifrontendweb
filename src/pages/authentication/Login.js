@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid,Paper } from '@material-ui/core'
 import Controls from '../../components/controls/Controls';
 import { useFormL, Form } from '../../components/useFormL';
@@ -18,6 +18,8 @@ const initialValues = {
 
 export default function Login(props) {
     //const { addOrEdit, recordForEdit } = props
+
+    const [currentUser, setCurrentUser] = useState(authService.getCurrentUser());
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -40,7 +42,8 @@ export default function Login(props) {
             values.loading = true
                 authService.login(values.username, values.password)
                     .then(() => {
-                        props.history.push("/users")
+                            props.history.push("/users")
+                        
                         window.location.reload();
                     },
                     error => {

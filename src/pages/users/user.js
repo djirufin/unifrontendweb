@@ -92,9 +92,9 @@ function Users(props) {
         //     type: 'success'
         // })
         resetForm()
-        // setRecordForEdit(null)
-        // setOpenPopup(false)
-        // allUsers()
+        setRecordForEdit(null)
+        setOpenPopup(false)
+        allUsers()
     }
 
     const openInPopup = user => {
@@ -114,7 +114,6 @@ function Users(props) {
         <div>
             <Header />
             <Paper className={classes.pageContent}>
-
                 <Toolbar>
                     {/* <Controls.Input
                         label="Recherche"

@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { withStyles } from "@material-ui/core";
 import "../App/App.css"
-import { SideMenuData, SideMenuDataModerator, SideMenuDataRegion, SideMenuDataUser } from './SideMenuData';
+import { SideMenuDataADMIN, SideMenuDataIPADMIN, SideMenuDataUSER } from './SideMenuData';
 import * as authService from '../services/authService'
 
 // withStyles & makeStyles
@@ -39,7 +39,7 @@ const SideMenu = (props) => {
             {(currentUser) ? 
                 (currentUser.roles.toString() === "ROLE_USER") ? 
                 <ul className='SibeMenuList'>
-                    {SideMenuDataModerator.map((val, key) => {
+                    {SideMenuDataUSER.map((val, key) => {
                         return (
                             <li 
                                 key={key} 
@@ -56,28 +56,9 @@ const SideMenu = (props) => {
                         )
                     })}
                 </ul> :
-                (currentUser.roles.toString() === "ROLE_ZONE") ? 
+                (currentUser.roles.toString() === "ROLE_IPADMIN") ? 
                 <ul className='SibeMenuList'>
-                    {SideMenuDataUser.map((val, key) => {
-                        return (
-                            <li 
-                                key={key} 
-                                className='row'
-                                id={window.location.pathname === val.link ? "active" : ""}
-                                onClick={() => {
-                                    window.location.pathname = val.link
-                                }}>
-                                <div id='icon'>{val.icon}</div>
-                                <div id='title'>
-                                    {val.title}
-                                </div>
-                            </li>
-                        )
-                    })}
-                </ul> : 
-                (currentUser.roles.toString() === "ROLE_REGION") ? 
-                <ul className='SibeMenuList'>
-                    {SideMenuDataRegion.map((val, key) => {
+                    {SideMenuDataIPADMIN.map((val, key) => {
                         return (
                             <li 
                                 key={key} 
@@ -96,7 +77,7 @@ const SideMenu = (props) => {
                 </ul> : 
                 (currentUser.roles.toString() === "ROLE_ADMIN") ? 
                 <ul className='SibeMenuList'>
-                    {SideMenuData.map((val, key) => {
+                    {SideMenuDataADMIN.map((val, key) => {
                         return (
                             <li 
                                 key={key} 

@@ -7,6 +7,8 @@ import Controls from "../../components/controls/Controls";
 import * as userService from "../../services/userService";
 import * as manageService from '../../services/managementService'
 import { useState } from "react";
+import { generate } from "@wcj/generate-password";
+import { sendEmail } from "../../services/emailService";
 
 
 // const genderItems = [
@@ -48,11 +50,12 @@ export default function AddUserForm(props) {
     }
 
     const handleSubmit = e => {
-        e.preventDefault()
         if (validate()) {
-            values.password = "test1234"
+            values.password = generate()
             addOrEdit(values, resetForm);
+            sendEmail(values.email, "User creation", "Votre compte a ete cree dans la plateform trackiteum.org, veuillez y acceder en utilisant le username "+values.username+" et le password "+values.password)
         }
+        e.preventDefault()
     }
 
     const getOrgByType = () => {

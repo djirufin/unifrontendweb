@@ -1,8 +1,8 @@
-import { DashboardOutlined, HomeWorkOutlined, ListAltOutlined, MonetizationOnOutlined, } from '@material-ui/icons';
+import { DashboardOutlined, ListAltOutlined } from '@material-ui/icons';
 import React from 'react';
 
-// PROFILE ADIN
-export const SideMenuData = [
+// PROFILE ADMIN
+export const SideMenuDataADMIN = [
     {
         title: "Users",
         icon: <DashboardOutlined />,
@@ -25,44 +25,18 @@ export const SideMenuData = [
     },
     
 ];
-// PROFILE REGION
-export const SideMenuDataRegion = [
+
+// PROFILE IPARTNER
+export const SideMenuDataIPADMIN = [
     {
-        title: "Dashboard",
+        title: "Acknowledge",
         icon: <DashboardOutlined />,
-        link: "/dashboard"
-    },
-    {
-        title: "Paiements",
-        icon: <MonetizationOnOutlined />,
-        link: "/paiements"
-    },
-    {
-        title: "Zones",
-        icon: <HomeWorkOutlined />,
-        link: "/zones"
+        link: "/acknowledge"
     },
 ];
-// PROFILE ZONE
-export const SideMenuDataUser = [
-    {
-        title: "Dashboard",
-        icon: <DashboardOutlined />,
-        link: "/dashboard"
-    },
-    {
-        title: "Paiements",
-        icon: <MonetizationOnOutlined />,
-        link: "/paiements"
-    },
-    {
-        title: "Eglises",
-        icon: <HomeWorkOutlined />,
-        link: "/eglises"
-    },
-];
+
 // PROFILE USER
-export const SideMenuDataModerator = [
+export const SideMenuDataUSER = [
     {
         title: "Users",
         icon: <DashboardOutlined />,
