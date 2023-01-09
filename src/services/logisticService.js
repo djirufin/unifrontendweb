@@ -15,11 +15,11 @@ export function getMaterial() {
 }
 
 export function loadZrost(lzrost) {
-  return axios.post(API_BASE_URL+"/zrost", {lzrost}, {headers : authHeader(), head})
+  return axios.post(API_BASE_URL+"/public/logistics/zrost", {lzrost}, {headers : authHeader(), head})
 }
 
 export function acknowledge(consignee, pickstatus) {
-  return axios.post(
+  return axios.get(
     API_BASE_URL+
     "/public/logistics/acknowledge?consignee=" + 
     consignee + 

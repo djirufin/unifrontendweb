@@ -72,7 +72,9 @@ export default function NewOrder() {
   const [userByOrg, setUserByOrg] = useState([]);
   const [userByIP, setUserByIP] = useState([]);
   const [driver, setDriver] = useState("");
+  const [phoneDriver, setPhoneDriver] = useState("");
   const [ipSpoc, setIpSpoc] = useState("");
+  const [mlleVehicule, setMlleVehicule] = useState("");
   const [receiverEmail, setReceiverEmail] = useState("");
   const [organisationName, setOrganisationName] = useState("");
   const [selectOrganisation, setSelectOrganisation] = useState("");
@@ -135,7 +137,8 @@ export default function NewOrder() {
       result[0]["id"],
       organisationName,
       driver,
-      ipSpoc
+      ipSpoc,
+      mlleVehicule
     );
     //send email
     sendEmail(
@@ -277,6 +280,15 @@ export default function NewOrder() {
                   </option>
                 ))}
               </select>
+              &nbsp;&nbsp;&nbsp;
+              {driver !== "" && (
+                <input value={phoneDriver} />
+              )}
+              &nbsp;&nbsp;&nbsp;
+
+              <input name="mlleVehicule" onChange={(e) => {
+                setMlleVehicule(e.target.value)
+              }} value={mlleVehicule} placeholder="matricule vehicule" />
               <p>
                 IP : <strong>{result[0]["Consignee Name"]}</strong>
                 &nbsp;&nbsp;&nbsp;&nbsp;

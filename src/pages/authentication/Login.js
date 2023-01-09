@@ -19,8 +19,6 @@ const initialValues = {
 export default function Login(props) {
     //const { addOrEdit, recordForEdit } = props
 
-    const [currentUser, setCurrentUser] = useState(authService.getCurrentUser());
-
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
         if ('username' in fieldValues)

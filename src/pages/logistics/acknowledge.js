@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { InputAdornment, makeStyles, Paper, TableBody, TableCell, TableRow, Toolbar } from '@material-ui/core';
-import { Search } from '@material-ui/icons';
+import { makeStyles, Paper, TableBody, TableCell, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -16,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(0.4),
       padding: theme.spacing(1),
     },
-    searchInput: {
-      width: "70%",
+    qty: {
+      width: "30%",
       left: "0rem",
     },
     newButton: {
@@ -57,31 +56,11 @@ export default function Acknowledge(props) {
         TblPagination,
         recordsAfterPagingAndSorting
     } = useTable(records, headCells, filterFn);
-    console.log("ACKNOWLEDGE ", currentUser.organisation)
+    //console.log("ACKNOWLEDGE ", currentUser.organisation)
     return (
         <>
             <Header />
             <Paper className={classes.pageContent}>
-                <p></p>
-                <Toolbar>
-                    <Controls.Input
-                        label="Recherche"
-                        className={classes.searchInput}
-                        InputProps={{
-                            startAdornment: (<InputAdornment position="start">
-                                <Search/>
-                            </InputAdornment>)
-                        }}
-                        // onChange={handleSearch}
-                    />
-                    {/* <Controls.Button
-                        text="Ajouter"
-                        variant="outlined"
-                        startIcon={<Add />}
-                        className={classes.newButton}
-                        onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
-                    /> */}
-                </Toolbar>
                 <TblContainer>
                     <TblHead />
                     <TableBody>
@@ -91,19 +70,19 @@ export default function Acknowledge(props) {
                                     <TableCell>{user["Waybill Number"]}</TableCell>
                                     <TableCell>{user["Material Description"]}</TableCell>
                                     <TableCell>{user["RO Quantity"]}</TableCell>
-                                    {/* <TableCell>
-                                        <Controls.ActionButton
-                                            color="primary"
-                                            onClick={() => { openInPopup(user) }}>
-                                            <EditOutlined fontSize="small" />
-                                        </Controls.ActionButton>
-                                    </TableCell> */}
+                                    <TableCell>
+                                        <Controls.Input
+                                            name="qtyReport"
+                                            size="small"
+                                            className={classes.qty}
+                                        />
+                                    </TableCell>
                                 </TableRow>)
                             )
                         }
                     </TableBody>
                 </TblContainer>
-                <TblPagination />
+                {/* <TblPagination /> */}
             </Paper>
         </>
     );
