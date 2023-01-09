@@ -21,6 +21,10 @@ export function listUsers() {
     return axios.get(ASSOCIATION_API_BASE_URL+"/public/users", {headers : authHeader()});
 }
 
+export function UserById(name) {
+    return axios.get(ASSOCIATION_API_BASE_URL+"/public/user/"+name, {headers : authHeader()});
+}
+
 export function listUsersByOrg(id) {
     return axios.get(ASSOCIATION_API_BASE_URL + "/public/users/organisation?id=" + id, {
       headers: authHeader(),

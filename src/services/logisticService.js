@@ -40,19 +40,23 @@ export function searchMaterial(searchBy, product) {
   );
 }
 
-export function transferMaterial(source, id, supplier, driver, ip_spoc) {
+export function transferMaterial(source, waybill, supplier, driver, ip_spoc, mlleVehicule, phoneDriver) {
   return axios.get(
     API_BASE_URL +
       "/public/logistics/transfer?source=" +
       source +
-      "&id=" +
-      id +
+      "&waybill=" +
+      waybill +
       "&supplier=" +
       supplier +
       "&driver=" +
       driver +
       "&ipspoc=" +
-      ip_spoc,
+      ip_spoc +
+      "&mlleVehicule=" +
+      mlleVehicule +
+      "&phoneDriver=" +
+      phoneDriver,
     { headers: authHeader(), head }
   );
 }

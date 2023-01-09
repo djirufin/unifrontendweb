@@ -16,7 +16,7 @@ import useTable from "../../components/useTable";
 import Header from "../../components/Header";
 import Popup from '../../components/Popup'
 import { Form } from "../../components/useForm";
-import { listUsersByOrg } from "../../services/userService";
+import { listUsersByOrg, UserById } from "../../services/userService";
 import { sendEmail } from "../../services/emailService";
 import { Forward } from "@material-ui/icons";
 import RefreshBase from './refreshBase'
@@ -134,22 +134,23 @@ export default function NewOrder() {
     //Update pickstatus
     logisticService.transferMaterial(
       logisticType,
-      result[0]["id"],
+      result[0]["Waybill Number"],
       organisationName,
       driver,
       ipSpoc,
-      mlleVehicule
+      mlleVehicule,
+      phoneDriver
     );
     //send email
     sendEmail(
       receiverEmail,
       "Transfer UNICEF",
-      "Vous allez recevoir des dons du UNICEF. Le waybill est " +
-        result[0]["Waybill Number"]
+      "Vous allez recevoir des dons de UNICEF. Le waybill est " +
+        <strong>{result[0]["Waybill Number"]}</strong> 
     );
     //set message to display
     setMessageTransferStatus(
-      "Transfert effectuee... un email sera bien envoyee"
+      "Transfert effectuee... un email a bien ete envoye"
     );
   };
 
@@ -266,10 +267,12 @@ export default function NewOrder() {
               <select
                 onChange={(e) => {
                   setDriver(e.target.options[e.target.selectedIndex].text);
+                  setPhoneDriver(userByOrg[e.target.selectedIndex - 1]["email"])
                   console.log(
                     "email",
                     userByOrg[e.target.selectedIndex - 1]["email"],
-                    e.target.selectedIndex
+                    e.target.selectedIndex,
+                    phoneDriver
                   );
                 }}
               >
@@ -282,7 +285,7 @@ export default function NewOrder() {
               </select>
               &nbsp;&nbsp;&nbsp;
               {driver !== "" && (
-                <input value={phoneDriver} />
+                <input name="phoneDriver" type="text" disabled value={phoneDriver} />
               )}
               &nbsp;&nbsp;&nbsp;
 

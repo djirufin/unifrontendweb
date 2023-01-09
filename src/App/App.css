@@ -39,7 +39,7 @@
 
 tbody tr:hover.selected td,
 tbody tr:hover td {
-  background-color: #EFEFEF;
+  
   cursor: pointer;
 }
 tbody tr.selected td {
