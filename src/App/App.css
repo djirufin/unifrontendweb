@@ -5,6 +5,24 @@
     width: 100%;
 }
 
+.ouvert {
+    display: inline;
+    list-style-type: none;
+    margin: 0%;
+}
+
+.SibeMenuList .ouvert .row {
+    height: 40px;
+}
+
+.ouvert .row #title {
+    flex: 90%;
+}
+
+.ferme {
+    display: none;
+}
+
 
 .SibeMenuList .row {
     width: 100%;

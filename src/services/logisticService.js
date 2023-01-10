@@ -15,18 +15,29 @@ export function getMaterial() {
 }
 
 export function loadZrost(lzrost) {
-  return axios.post(API_BASE_URL+"/public/logistics/zrost", {lzrost}, {headers : authHeader(), head})
+  return axios.post(
+    API_BASE_URL + "/public/logistics/zrost",
+    { lzrost },
+    { headers: authHeader(), head }
+  );
 }
 
 export function acknowledge(consignee, pickstatus) {
   return axios.get(
-    API_BASE_URL+
-    "/public/logistics/acknowledge?consignee=" + 
-    consignee + 
-    "&pickstatus=" +
-    pickstatus, 
-    {headers : authHeader(), head} 
+    API_BASE_URL +
+      "/public/logistics/acknowledge?consignee=" +
+      consignee +
+      "&pickstatus=" +
+      pickstatus,
+    { headers: authHeader(), head }
   );
+}
+
+export function traceProduct(batch) {
+  return axios.get(API_BASE_URL + "/public/logistics/trace?batch=" + batch, {
+    headers: authHeader(),
+    head,
+  });
 }
 
 export function searchMaterial(searchBy, product) {
@@ -40,7 +51,15 @@ export function searchMaterial(searchBy, product) {
   );
 }
 
-export function transferMaterial(source, waybill, supplier, driver, ip_spoc, mlleVehicule, phoneDriver) {
+export function transferMaterial(
+  source,
+  waybill,
+  supplier,
+  driver,
+  ip_spoc,
+  mlleVehicule,
+  phoneDriver
+) {
   return axios.get(
     API_BASE_URL +
       "/public/logistics/transfer?source=" +
