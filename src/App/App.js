@@ -16,6 +16,7 @@ import Acknowledge from "../pages/logistics/acknowledge";
 import Trace from "../pages/logistics/trace";
 import Issues from "../pages/logistics/issues";
 import Inventory from "../pages/logistics/inventory";
+import Dashboard from "../pages/dashboard/dashboard";
 
 const theme = createTheme({
   palette: {
@@ -62,18 +63,15 @@ function App() {
           <div className={classes.appMain}>
             <Switch>
               <Route exact path="/" component={Login} />
-              <Route exact path="/users" component={Users} />
+              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/management/use" component={Users} />
+              <Route exact path="/management/org" component={Organisation} />
               <Route exact path="/logistic/no" component={NewOrder} />
               <Route exact path="/logistic/tp" component={Trace} />
               <Route exact path="/logistic/av" component={Logistics} />
               <Route exact path="/logistic/qp" component={Issues} />
               <Route exact path="/logistic/ii" component={Inventory} />
-              <Route exact path="/management/org" component={Organisation} />
-              <Route
-                exact
-                path="/logistic/acknowledge"
-                component={Acknowledge}
-              />
+              <Route exact path="/logistic/ack" component={Acknowledge} />
             </Switch>
           </div>
           <CssBaseline />

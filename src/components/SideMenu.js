@@ -10,8 +10,6 @@ import {
 import * as authService from "../services/authService";
 import Sidebar from "./Sidebar";
 
-// withStyles & makeStyles
-
 const style = {
   sideMenu: {
     display: "flex",

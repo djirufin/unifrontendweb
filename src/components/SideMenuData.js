@@ -1,10 +1,12 @@
 import {
   DashboardOutlined,
+  Group,
   LeakAdd,
   ListAltOutlined,
   LiveHelp,
   LocalShipping,
-  PersonAdd,
+  Receipt,
+  Send,
   Sort,
 } from "@material-ui/icons";
 import React from "react";
@@ -18,8 +20,8 @@ export const SideMenuDataADMIN = [
   },
   {
     title: "Users",
-    icon: <PersonAdd />,
-    link: "/users",
+    icon: <Group />,
+    link: "/management/use",
   },
   {
     title: "Organisations",
@@ -81,16 +83,26 @@ export const SideMenuDataADMIN = [
   {
     title: "Perform Monitoring Visit",
     icon: <LeakAdd />,
-    link: "/management/org",
+    link: "/monitoring/pmv",
   },
 ];
 
 // PROFILE IPARTNER
 export const SideMenuDataIPADMIN = [
   {
-    title: "Acknowledge",
+    title: "Dashboard",
     icon: <DashboardOutlined />,
-    link: "/logistic/acknowledge",
+    link: "/dashboard",
+  },
+  {
+    title: "Acknowledge",
+    icon: <Receipt />,
+    link: "/logistic/ack",
+  },
+  {
+    title: "IP Dispatch",
+    icon: <Send />,
+    link: "/logistic/id",
   },
 ];
 
