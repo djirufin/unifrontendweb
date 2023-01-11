@@ -7,10 +7,10 @@ const head = {
   "Content-Type": "application/json",
 };
 
-export function sendEmail(to, subject, text) {
+export function sendEmail(to, subject, text, cc) {
   return axios.post(
     API_BASE_URL + "/auth/email",
-    { to, subject, text },
+    { to, subject, text, cc },
     { head }
   );
 }

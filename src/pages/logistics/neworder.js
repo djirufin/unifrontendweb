@@ -14,12 +14,13 @@ import * as manageService from "../../services/managementService";
 import Controls from "../../components/controls/Controls";
 import useTable from "../../components/useTable";
 import Header from "../../components/Header";
-import Popup from '../../components/Popup'
+import Popup from "../../components/Popup";
 import { Form } from "../../components/useForm";
 import { listUsersByOrg, UserById } from "../../services/userService";
 import { sendEmail } from "../../services/emailService";
 import { Forward } from "@material-ui/icons";
-import RefreshBase from './refreshBase'
+import RefreshBase from "./refreshBase";
+import Select from "react-select";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -27,13 +28,13 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
   searchInput: {
-    width: "70%",
+    width: "50%",
     left: "0rem",
   },
   newButton: {
-      position: 'absolute',
-      right: '10px'
-  }
+    position: "absolute",
+    right: "10px",
+  },
 }));
 
 const headCells = [
@@ -86,6 +87,8 @@ export default function NewOrder() {
   const [selectedOption2, setSelectedOption2] = useState("purchase_order");
   const [logisticType, setLogisticType] = useState("zrost");
   const [openPopup, setOpenPopup] = useState(false);
+  const [ccOption, setCcOption] = useState([]);
+  const [ccList, setCcList] = useState([]);
 
   const handleSearchChange = (e) => {
     e.preventDefault();
@@ -97,11 +100,18 @@ export default function NewOrder() {
       });
 
     getOrgByType();
+    getUserByOrg();
   };
 
   const getOrgByType = () => {
     manageService.getOrgByType("SUPPLIER").then((res) => {
       setOrgByType(res.data);
+    });
+  };
+
+  const getUserByOrg = () => {
+    listUsersByOrg("63bec6e363e587e178ff1c27").then((res) => {
+      setCcList(res.data);
     });
   };
 
@@ -145,8 +155,9 @@ export default function NewOrder() {
     sendEmail(
       receiverEmail,
       "Transfer UNICEF",
-      "Vous allez recevoir des dons de UNICEF. Le waybill est " +
-        <strong>{result[0]["Waybill Number"]}</strong> 
+      "Ceci est un TEST priere ne pas le considerer. Vous allez recevoir des dons de UNICEF. Le waybill est " +
+        <strong>{result[0]["Waybill Number"]}</strong>,
+      ccOption
     );
     //set message to display
     setMessageTransferStatus(
@@ -172,22 +183,45 @@ export default function NewOrder() {
   const onChangeSearch = (e) => {
     setSelectedOption(e.target.value);
   };
+
+  const handleItem = (item) => {
+    var array = [];
+    item.map((i) => array.push(i.value));
+    setCcOption(array);
+    console.log(array);
+  };
+
+  const test1 = [
+    ccList.map((type, index) => {
+      return {
+        value: type.email,
+        label: type.firstname + " " + type.lastname,
+      };
+    }),
+  ];
+
   return (
     <>
       <Header />
       <Paper className={classes.pageContent}>
-      <Toolbar>
-          {(statut === 1) ? (result.length === 0) ?
-              (<h3 style={{color:"red"}}>Nous avons rien pu trouver, veuillez 
-                  refraichir votre base en cliquant sur 
-                  <Forward fontSize='small' /> 
-              </h3>) : null : null
-          }
+        <Toolbar>
+          {statut === 1 ? (
+            result.length === 0 ? (
+              <h3 style={{ color: "red" }}>
+                Nous avons rien pu trouver, veuillez refraichir votre base en
+                cliquant sur
+                <Forward fontSize="small" />
+              </h3>
+            ) : null
+          ) : null}
           <Controls.Button
-              text="RefreshBase"
-              variant="outlined"
-              className={classes.newButton}
-              onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
+            text="RefreshBase"
+            variant="outlined"
+            className={classes.newButton}
+            onClick={() => {
+              setOpenPopup(true);
+              setRecordForEdit(null);
+            }}
           />
         </Toolbar>
         <Form onSubmit={handleSearchChange}>
@@ -223,12 +257,11 @@ export default function NewOrder() {
           </Grid>
         </Form>
         <Popup
-            title="Refresh Base"
-            openPopup={openPopup}
-            setOpenPopup={setOpenPopup}
+          title="Refresh Base"
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
         >
-            <RefreshBase
-                recordForEdit={recordForEdit} />
+          <RefreshBase recordForEdit={recordForEdit} />
         </Popup>
       </Paper>
       {result.length > 0 ? (
@@ -251,6 +284,17 @@ export default function NewOrder() {
             Authorized person :{" "}
             <strong>{result[0]["Authorized Person"]}</strong>
           </p>
+          <p>
+            <Select
+              placeholder="Cc"
+              className={classes.searchInput}
+              isMulti
+              options={test1[0]}
+              onChange={(item) => {
+                handleItem(item);
+              }}
+            />
+          </p>
           Select Dispatching company :{" "}
           <select onChange={(e) => handleOrgChange(e)}>
             <option value="">Select supplier</option>
@@ -267,7 +311,9 @@ export default function NewOrder() {
               <select
                 onChange={(e) => {
                   setDriver(e.target.options[e.target.selectedIndex].text);
-                  setPhoneDriver(userByOrg[e.target.selectedIndex - 1]["email"])
+                  setPhoneDriver(
+                    userByOrg[e.target.selectedIndex - 1]["email"]
+                  );
                   console.log(
                     "email",
                     userByOrg[e.target.selectedIndex - 1]["email"],
@@ -285,13 +331,22 @@ export default function NewOrder() {
               </select>
               &nbsp;&nbsp;&nbsp;
               {driver !== "" && (
-                <input name="phoneDriver" type="text" disabled value={phoneDriver} />
+                <input
+                  name="phoneDriver"
+                  type="text"
+                  disabled
+                  value={phoneDriver}
+                />
               )}
               &nbsp;&nbsp;&nbsp;
-
-              <input name="mlleVehicule" onChange={(e) => {
-                setMlleVehicule(e.target.value)
-              }} value={mlleVehicule} placeholder="matricule vehicule" />
+              <input
+                name="mlleVehicule"
+                onChange={(e) => {
+                  setMlleVehicule(e.target.value);
+                }}
+                value={mlleVehicule}
+                placeholder="matricule vehicule"
+              />
               <p>
                 IP : <strong>{result[0]["Consignee Name"]}</strong>
                 &nbsp;&nbsp;&nbsp;&nbsp;
