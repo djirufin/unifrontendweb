@@ -102,7 +102,7 @@ export const SideMenuDataIPADMIN = [
   {
     title: "IP Dispatch",
     icon: <Send />,
-    link: "/logistic/id",
+    link: "/logistic/ipd",
   },
 ];
 

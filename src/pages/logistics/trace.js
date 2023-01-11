@@ -47,12 +47,12 @@ export default function Trace(props) {
         <Form onClick={handleSearch}>
           <Grid>
             <Controls.Input
-              label="Search"
+              label="Search Batch number "
               name="searchInput"
               onChange={(e) => setSearchInput(e.target.value)}
               value={searchInput}
             />
-            <Controls.Button text="Submit" type="submit" />
+            <Controls.Button text="Search" type="submit" />
           </Grid>
         </Form>
         &nbsp;&nbsp;&nbsp;

@@ -17,6 +17,7 @@ import Trace from "../pages/logistics/trace";
 import Issues from "../pages/logistics/issues";
 import Inventory from "../pages/logistics/inventory";
 import Dashboard from "../pages/dashboard/dashboard";
+import Ipdispatch from "../pages/logistics/ipdispatch";
 
 const theme = createTheme({
   palette: {
@@ -49,7 +50,6 @@ const theme = createTheme({
 const useStyles = makeStyles({
   appMain: {
     paddingLeft: "250px",
-    width: "100%",
   },
 });
 
@@ -72,6 +72,7 @@ function App() {
               <Route exact path="/logistic/qp" component={Issues} />
               <Route exact path="/logistic/ii" component={Inventory} />
               <Route exact path="/logistic/ack" component={Acknowledge} />
+              <Route exact path="/logistic/ipd" component={Ipdispatch} />
             </Switch>
           </div>
           <CssBaseline />

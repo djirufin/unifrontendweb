@@ -60,13 +60,6 @@ export default function Login(props) {
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useFormL(initialValues, true, validate);
 
-  // useEffect(() => {
-  //     if (recordForEdit !== null)
-  //         setValues({
-  //             ...recordForEdit
-  //         })
-  // }, [recordForEdit])
-
   const gridStyle = { margin: "0px" };
   const img = {
     position: "center",
@@ -84,7 +77,7 @@ export default function Login(props) {
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
+      <Form align="center" onSubmit={handleSubmit}>
         <Grid style={gridStyle}>
           <Paper style={paperStyle}>
             <Grid align="center">
