@@ -1,2 +1,0 @@
-.SibeMenuList{height:auto;padding:0;width:100%}.SibeMenuList .row{align-items:center;display:flex;flex-direction:row;height:60px;justify-content:center;list-style-type:none;margin:0;width:100%}.SibeMenuList .row:hover{background-color:#007a98;cursor:pointer}.SibeMenuList #active{background-color:#007a98}.row #icon{display:grid;flex:35% 1;place-items:center}.row #title{flex:90% 1}tbody tr:hover td,tbody tr:hover.selected td{background-color:#efefef;cursor:pointer}tbody tr.selected td{background-color:#e5e5e5}
-/*# sourceMappingURL=main.4be64b35.css.map*/
