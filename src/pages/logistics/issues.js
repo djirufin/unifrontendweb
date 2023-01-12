@@ -38,6 +38,7 @@ const headCells = [
   { id: "receiver", label: "Receiver" },
   { id: "material_description", label: "Material Description" },
   { id: "delivery_quantity ", label: "Delivery Quantity" },
+  { id: "QtyReport ", label: "Report Quantity" },
 ];
 
 export default function Issues(props) {

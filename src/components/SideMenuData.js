@@ -1,4 +1,5 @@
 import {
+  CheckCircle,
   DashboardOutlined,
   Group,
   LeakAdd,
@@ -43,8 +44,8 @@ export const SideMenuDataADMIN = [
         icon: null,
       },
       {
-        title: "Availability",
-        link: "/logistic/av",
+        title: "Product Found",
+        link: "/logistic/pf",
         icon: null,
       },
       {
@@ -100,9 +101,26 @@ export const SideMenuDataIPADMIN = [
     link: "/logistic/ack",
   },
   {
-    title: "IP Dispatch",
+    title: "Availability",
+    link: "/logistic/av",
+    icon: <CheckCircle />,
+  },
+  {
+    title: "Dispatch",
     icon: <Send />,
-    link: "/logistic/ipd",
+    childrens: [
+      {
+        title: "End Beneficiaries",
+        icon: null,
+        link: "/logistic/bene",
+      },
+      {
+        title: "IP Dispatch",
+        link: "/logistic/ipd",
+        icon: null,
+      },
+    ],
+    //,
   },
 ];
 

@@ -1,20 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {
-  InputAdornment,
   makeStyles,
   Paper,
   TableBody,
   TableCell,
   TableRow,
-  Toolbar,
 } from "@material-ui/core";
 import * as logisticService from "../../services/logisticService";
-import Controls from "../../components/controls/Controls";
+import * as authService from "../../services/authService";
 import Header from "../../components/Header";
 import useTable from "../../components/useTable";
 import { useEffect } from "react";
-import { Search } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -32,32 +30,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "material_name", label: "Material Name" },
-  { id: "description", label: "Description" },
-  { id: "quantite", label: "Quantity" },
-  { id: "warehouse", label: "Warehouse" },
-  { id: "pick_status", label: "Pick Status" },
-  { id: "waybill ", label: "Waybill" },
+  { id: "batch", label: "Batch Number" },
+  { id: "material", label: "Material" },
+  { id: "description_material", label: "Description Material" },
+  { id: "quantity", label: "Stock Quantity" },
 ];
 
 export default function Logistics(props) {
   const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [records, setRecords] = useState([]);
+  const [currentUser, setCurrentUser] = useState(authService.getCurrentUser());
   const [filterFn, setFilterFn] = useState({
     fn: (records) => {
       return records;
     },
   });
 
-  const getMaterial = () => {
-    logisticService.getMaterial().then((res) => {
-      setRecords(res.data);
-    });
+  const materialIP = () => {
+    if (currentUser) {
+      logisticService.materialIP(currentUser.organisation).then((res) => {
+        setRecords(res.data);
+      });
+    }
   };
 
   useEffect(() => {
-    getMaterial();
+    materialIP();
   }, [recordForEdit]);
 
   const handleSearch = (e) => {
@@ -98,12 +97,10 @@ export default function Logistics(props) {
           <TableBody>
             {recordsAfterPagingAndSorting().map((user) => (
               <TableRow key={user.id}>
-                <TableCell>{user.Material}</TableCell>
-                <TableCell>{user.Material_Description}</TableCell>
-                <TableCell>{user.RO_Quantity}</TableCell>
-                <TableCell>{user.Warehouse_Number}</TableCell>
-                <TableCell>{user.Pick_Status}</TableCell>
-                <TableCell>{user.Waybill_Number}</TableCell>
+                <TableCell>{user["Batch"]}</TableCell>
+                <TableCell>{user["Material"]}</TableCell>
+                <TableCell>{user["Material Description"]}</TableCell>
+                <TableCell align="center">{user["RO Quantity"]}</TableCell>
                 {/* <TableCell>
                                         <Controls.ActionButton
                                             color="primary"
@@ -115,7 +112,7 @@ export default function Logistics(props) {
             ))}
           </TableBody>
         </TblContainer>
-        {/* <TblPagination /> */}
+        <TblPagination />
       </Paper>
     </>
   );

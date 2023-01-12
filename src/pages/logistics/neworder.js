@@ -25,10 +25,10 @@ import Select from "react-select";
 const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(0.4),
-    padding: theme.spacing(1),
+    padding: theme.spacing(0.5),
   },
   searchInput: {
-    width: "50%",
+    width: "40%",
     left: "0rem",
   },
   newButton: {
@@ -89,6 +89,9 @@ export default function NewOrder() {
   const [openPopup, setOpenPopup] = useState(false);
   const [ccOption, setCcOption] = useState([]);
   const [ccList, setCcList] = useState([]);
+  const [ccListPr, setCcListPr] = useState([]);
+  const [opList, setOpList] = useState([]);
+  const [prList, setPrList] = useState([]);
 
   const handleSearchChange = (e) => {
     e.preventDefault();
@@ -100,7 +103,8 @@ export default function NewOrder() {
       });
 
     getOrgByType();
-    getUserByOrg();
+    getUserOp();
+    getUserPr();
   };
 
   const getOrgByType = () => {
@@ -109,9 +113,15 @@ export default function NewOrder() {
     });
   };
 
-  const getUserByOrg = () => {
+  const getUserOp = () => {
     listUsersByOrg("63bec6e363e587e178ff1c27").then((res) => {
       setCcList(res.data);
+    });
+  };
+
+  const getUserPr = () => {
+    listUsersByOrg("63bec6cb63e587e178ff1c26").then((res) => {
+      setCcListPr(res.data);
     });
   };
 
@@ -187,12 +197,30 @@ export default function NewOrder() {
   const handleItem = (item) => {
     var array = [];
     item.map((i) => array.push(i.value));
-    setCcOption(array);
+    setOpList(array);
     console.log(array);
   };
 
-  const test1 = [
+  const handleItemPr = (item) => {
+    var array = [];
+    item.map((i) => array.push(i.value));
+    setPrList(array);
+    console.log(array);
+  };
+
+  console.log([opList, prList]);
+
+  const operator = [
     ccList.map((type, index) => {
+      return {
+        value: type.email,
+        label: type.firstname + " " + type.lastname,
+      };
+    }),
+  ];
+
+  const programmer = [
+    ccListPr.map((type, index) => {
       return {
         value: type.email,
         label: type.firstname + " " + type.lastname,
@@ -215,6 +243,7 @@ export default function NewOrder() {
             ) : null
           ) : null}
           <Controls.Button
+            size="small"
             text="RefreshBase"
             variant="outlined"
             className={classes.newButton}
@@ -228,11 +257,13 @@ export default function NewOrder() {
           <Grid container>
             <Grid item xs={6}>
               <Controls.Select
+                size="small"
                 value={logisticType}
                 onChange={changeLogisticType}
                 options={listType}
               />
               <Controls.Input
+                size="small"
                 label="Search"
                 name="searchText"
                 onChange={handletInput}
@@ -242,6 +273,7 @@ export default function NewOrder() {
             </Grid>
             <Grid item xs={6}>
               <Controls.Select
+                size="small"
                 value={
                   logisticType === "zrost" ? selectedOption : selectedOption2
                 }
@@ -280,104 +312,119 @@ export default function NewOrder() {
               ))}
             </TableBody>
           </TblContainer>
-          <p>
+          <TblPagination />
+          <div>
             Authorized person :{" "}
             <strong>{result[0]["Authorized Person"]}</strong>
-          </p>
-          <p>
-            <Select
-              placeholder="Cc"
-              className={classes.searchInput}
-              isMulti
-              options={test1[0]}
-              onChange={(item) => {
-                handleItem(item);
-              }}
-            />
-          </p>
-          Select Dispatching company :{" "}
-          <select onChange={(e) => handleOrgChange(e)}>
-            <option value="">Select supplier</option>
-            {orgByType.map((type, index) => (
-              <option value={type.id} key={index}>
-                {" "}
-                {type.name}{" "}
-              </option>
-            ))}
-          </select>
-          &nbsp;&nbsp;&nbsp;
-          {selectOrganisation !== "" && (
-            <>
-              <select
-                onChange={(e) => {
-                  setDriver(e.target.options[e.target.selectedIndex].text);
-                  setPhoneDriver(
-                    userByOrg[e.target.selectedIndex - 1]["email"]
-                  );
-                  console.log(
-                    "email",
-                    userByOrg[e.target.selectedIndex - 1]["email"],
-                    e.target.selectedIndex,
-                    phoneDriver
-                  );
+            <br />
+            <br />
+            <Grid container>
+              <Select
+                placeholder="Select Users Operation"
+                className={classes.searchInput}
+                isMulti
+                options={operator[0]}
+                onChange={(item) => {
+                  handleItem(item);
                 }}
-              >
-                <option>Select driver</option>
-                {userByOrg.map((user, index) => (
-                  <option id={user.id} key={index}>
-                    {user.firstname + " " + user.lastname}
-                  </option>
-                ))}
-              </select>
-              &nbsp;&nbsp;&nbsp;
-              {driver !== "" && (
-                <input
-                  name="phoneDriver"
-                  type="text"
-                  disabled
-                  value={phoneDriver}
-                />
-              )}
-              &nbsp;&nbsp;&nbsp;
-              <input
-                name="mlleVehicule"
-                onChange={(e) => {
-                  setMlleVehicule(e.target.value);
-                }}
-                value={mlleVehicule}
-                placeholder="matricule vehicule"
               />
-              <p>
-                IP : <strong>{result[0]["Consignee Name"]}</strong>
-                &nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;
+              <Select
+                placeholder="Select Users Programmation"
+                className={classes.searchInput}
+                isMulti
+                options={programmer[0]}
+                onChange={(item) => {
+                  handleItemPr(item);
+                }}
+              />
+            </Grid>
+            <br />
+            Select Dispatching company :{" "}
+            <select onChange={(e) => handleOrgChange(e)}>
+              <option value="">Select supplier</option>
+              {orgByType.map((type, index) => (
+                <option value={type.id} key={index}>
+                  {" "}
+                  {type.name}{" "}
+                </option>
+              ))}
+            </select>
+            &nbsp;&nbsp;&nbsp;
+            {selectOrganisation !== "" && (
+              <>
                 <select
                   onChange={(e) => {
-                    setIpSpoc(e.target.options[e.target.selectedIndex].text);
-                    setReceiverEmail(
-                      userByIP[e.target.selectedIndex - 1]["email"]
+                    setDriver(e.target.options[e.target.selectedIndex].text);
+                    setPhoneDriver(
+                      userByOrg[e.target.selectedIndex - 1]["email"]
+                    );
+                    console.log(
+                      "email",
+                      userByOrg[e.target.selectedIndex - 1]["email"],
+                      e.target.selectedIndex,
+                      phoneDriver
                     );
                   }}
                 >
-                  <option>Select Point of contact</option>
-                  {userByIP.map((user, index) => (
+                  <option>Select driver</option>
+                  {userByOrg.map((user, index) => (
                     <option id={user.id} key={index}>
                       {user.firstname + " " + user.lastname}
                     </option>
                   ))}
                 </select>
-              </p>
-              <p>
-                <Controls.Button
-                  text="Transferer"
-                  variant="outlined"
-                  onClick={() => {
-                    processTransfer();
+                &nbsp;&nbsp;&nbsp;
+                {driver !== "" && (
+                  <input
+                    name="phoneDriver"
+                    type="text"
+                    disabled
+                    value={phoneDriver}
+                  />
+                )}
+                &nbsp;&nbsp;&nbsp;
+                <input
+                  name="mlleVehicule"
+                  onChange={(e) => {
+                    setMlleVehicule(e.target.value);
                   }}
-                />{" "}
-                {messageTransferStatus}
-              </p>
-            </>
-          )}
+                  value={mlleVehicule}
+                  placeholder="matricule vehicule"
+                />
+                <p>
+                  IP : <strong>{result[0]["Consignee Name"]}</strong>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <select
+                    required={true}
+                    onChange={(e) => {
+                      setIpSpoc(e.target.options[e.target.selectedIndex].text);
+                      setReceiverEmail(
+                        userByIP[e.target.selectedIndex - 1]["email"]
+                      );
+                    }}
+                  >
+                    <option>Select Point of contact</option>
+                    {userByIP.map((user, index) => (
+                      <option id={user.id} key={index}>
+                        {user.firstname + " " + user.lastname}
+                      </option>
+                    ))}
+                  </select>
+                </p>
+                <p>
+                  <Controls.Button
+                    text="Transferer"
+                    variant="outlined"
+                    onClick={() => {
+                      processTransfer();
+                    }}
+                  />{" "}
+                  {messageTransferStatus}
+                </p>
+              </>
+            )}
+          </div>
         </Paper>
       ) : null}
     </>

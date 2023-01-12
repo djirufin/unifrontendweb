@@ -58,21 +58,9 @@ const SideMenu = (props) => {
           </ul>
         ) : currentUser.roles.toString() === "ROLE_IPADMIN" ? (
           <ul className="SibeMenuList">
-            {SideMenuDataIPADMIN.map((val, key) => {
-              return (
-                <li
-                  key={key}
-                  className="row"
-                  id={window.location.pathname === val.link ? "active" : ""}
-                  onClick={() => {
-                    window.location.pathname = val.link;
-                  }}
-                >
-                  <div id="icon">{val.icon}</div>
-                  <div id="title">{val.title}</div>
-                </li>
-              );
-            })}
+            {SideMenuDataIPADMIN.map((val, key) => (
+              <Sidebar key={key} item={val} />
+            ))}
           </ul>
         ) : currentUser.roles.toString() === "ROLE_ADMIN" ? (
           <ul className="SibeMenuList">

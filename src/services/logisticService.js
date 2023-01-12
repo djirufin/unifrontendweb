@@ -7,6 +7,16 @@ const head = {
   "Content-Type": "application/json",
 };
 
+export function materialIP(consignee) {
+  return axios.get(
+    API_BASE_URL + "/public/logistics/materialIP?consignee=" + consignee,
+    {
+      headers: authHeader(),
+      head,
+    }
+  );
+}
+
 export function getMaterial() {
   return axios.get(API_BASE_URL + "/public/logistics/materials", {
     headers: authHeader(),
@@ -38,6 +48,16 @@ export function traceProduct(batch) {
     headers: authHeader(),
     head,
   });
+}
+
+export function tracerList(alert) {
+  return axios.get(
+    API_BASE_URL + "/public/logistics/tracerList?alert=" + alert,
+    {
+      headers: authHeader(),
+      head,
+    }
+  );
 }
 
 export function searchMaterial(searchBy, product) {
@@ -76,6 +96,21 @@ export function transferMaterial(
       mlleVehicule +
       "&phoneDriver=" +
       phoneDriver,
+    { headers: authHeader(), head }
+  );
+}
+
+export function tracerFound(batch, consigneeTracer, phoneTracer, emailTracer) {
+  return axios.get(
+    API_BASE_URL +
+      "/public/logistics/tracer?batch=" +
+      batch +
+      "&consigneeTracer=" +
+      consigneeTracer +
+      "&phoneTracer=" +
+      phoneTracer +
+      "&emailTracer=" +
+      emailTracer,
     { headers: authHeader(), head }
   );
 }

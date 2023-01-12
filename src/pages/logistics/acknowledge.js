@@ -156,6 +156,7 @@ export default function Acknowledge(props) {
                               size="small"
                               className={classes.qty}
                             />
+                            {qtyReport > item["RO Quantity"] ? "Bonjour" : null}
                           </TableCell>
                         </TableRow>
                       );

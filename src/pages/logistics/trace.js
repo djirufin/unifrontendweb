@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Grid, makeStyles, Paper } from "@material-ui/core";
 import React from "react";
@@ -5,6 +6,7 @@ import { useState } from "react";
 import Controls from "../../components/controls/Controls";
 import Header from "../../components/Header";
 import { Form } from "../../components/useForm";
+import { getCurrentUser } from "../../services/authService";
 import * as logisticService from "../../services/logisticService";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,21 +27,33 @@ const useStyles = makeStyles((theme) => ({
 export default function Trace(props) {
   const classes = useStyles();
   const [searchInput, setSearchInput] = useState("");
+  const [currentUser, setCurrentUser] = useState(getCurrentUser());
   const [result, setResult] = useState([]);
   const [statut, setStatut] = useState(0);
 
   const handleSearch = (e) => {
     if (searchInput) {
-      e.preventDefault();
-      logisticService.traceProduct(searchInput).then((response) => {
-        setResult(response.data);
-        setStatut(1);
+      if (currentUser) {
+        e.preventDefault();
+        logisticService.traceProduct(searchInput).then((response) => {
+          setResult(response.data);
+          setStatut(1);
 
-        console.log("DATA", response.data, statut);
-      });
+          console.log("DATA", response.data, statut);
+
+          if (response.data.length > 0) {
+            logisticService.tracerFound(
+              searchInput,
+              currentUser.firstname + " " + currentUser.lastname,
+              currentUser.telephone,
+              currentUser.email
+            );
+          }
+        });
+      }
     }
   };
-
+  console.log("USER", currentUser.email, currentUser.telephone);
   return (
     <>
       <Header />
@@ -47,7 +61,7 @@ export default function Trace(props) {
         <Form onClick={handleSearch}>
           <Grid>
             <Controls.Input
-              label="Search Batch number "
+              label="Search Batch number"
               name="searchInput"
               onChange={(e) => setSearchInput(e.target.value)}
               value={searchInput}

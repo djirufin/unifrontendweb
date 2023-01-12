@@ -18,6 +18,7 @@ import Issues from "../pages/logistics/issues";
 import Inventory from "../pages/logistics/inventory";
 import Dashboard from "../pages/dashboard/dashboard";
 import Ipdispatch from "../pages/logistics/ipdispatch";
+import TraceFound from "../pages/logistics/traceFound";
 
 const theme = createTheme({
   palette: {
@@ -50,6 +51,7 @@ const theme = createTheme({
 const useStyles = makeStyles({
   appMain: {
     paddingLeft: "250px",
+    //fontFamily: "Sans serif",
   },
 });
 
@@ -68,6 +70,7 @@ function App() {
               <Route exact path="/management/org" component={Organisation} />
               <Route exact path="/logistic/no" component={NewOrder} />
               <Route exact path="/logistic/tp" component={Trace} />
+              <Route exact path="/logistic/pf" component={TraceFound} />
               <Route exact path="/logistic/av" component={Logistics} />
               <Route exact path="/logistic/qp" component={Issues} />
               <Route exact path="/logistic/ii" component={Inventory} />
