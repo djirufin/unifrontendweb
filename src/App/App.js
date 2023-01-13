@@ -1,11 +1,6 @@
 import React from "react";
 import "./App.css";
-import {
-  makeStyles,
-  CssBaseline,
-  createTheme,
-  ThemeProvider,
-} from "@material-ui/core";
+import { CssBaseline, createTheme, ThemeProvider } from "@material-ui/core";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Users from "../pages/users/user";
 import Login from "../pages/authentication/Login";
@@ -48,21 +43,12 @@ const theme = createTheme({
   },
 });
 
-const useStyles = makeStyles({
-  appMain: {
-    paddingLeft: "250px",
-    //fontFamily: "Sans serif",
-  },
-});
-
 function App() {
-  const classes = useStyles();
-
   return (
     <>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
-          <div className={classes.appMain}>
+          <div className="appMain">
             <Switch>
               <Route exact path="/" component={Login} />
               <Route exact path="/dashboard" component={Dashboard} />

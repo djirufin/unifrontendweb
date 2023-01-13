@@ -18,6 +18,8 @@ import SideMenu from "./SideMenu";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#fff",
+    position: "absolute",
+    width: "80%",
   },
   searchInput: {
     opacity: "0.6",
@@ -46,34 +48,36 @@ export default function Header(props) {
   return (
     <>
       <SideMenu />
-      <AppBar position="static" className={classes.root}>
-        <Toolbar>
-          <Grid container alignItems="center">
-            <Grid item>
-              <InputBase
-                placeholder={currentUser ? currentUser.email : ""}
-                className={classes.searchInput}
-                startAdornment={<Person fontSize="small" />}
-              />
+      <div>
+        <AppBar className={classes.root}>
+          <Toolbar>
+            <Grid container alignItems="center">
+              <Grid item>
+                <InputBase
+                  placeholder={currentUser ? currentUser.email : ""}
+                  className={classes.searchInput}
+                  startAdornment={<Person fontSize="small" />}
+                />
+              </Grid>
+              <Grid item sm></Grid>
+              <Grid item>
+                {currentUser ? (
+                  <IconButton>
+                    <PowerSettingsNewIcon
+                      fontSize="small"
+                      onClick={() => logOut()}
+                    />
+                  </IconButton>
+                ) : (
+                  <div>
+                    <Redirect to="/" />
+                  </div>
+                )}
+              </Grid>
             </Grid>
-            <Grid item sm></Grid>
-            <Grid item>
-              {currentUser ? (
-                <IconButton>
-                  <PowerSettingsNewIcon
-                    fontSize="small"
-                    onClick={() => logOut()}
-                  />
-                </IconButton>
-              ) : (
-                <div>
-                  <Redirect to="/" />
-                </div>
-              )}
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
+          </Toolbar>
+        </AppBar>
+      </div>
     </>
   );
 }

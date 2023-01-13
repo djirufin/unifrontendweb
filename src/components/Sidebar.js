@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-export default function Sidebar({ item, key }) {
+export default function Sidebar({ item, index }) {
   const [open, setOpen] = useState(false);
 
   if (item.childrens) {
     return (
       <>
-        <li key={key} className="row" onClick={() => setOpen(!open)}>
+        <li key={index} className="row" onClick={() => setOpen(!open)}>
           <div id="icon">{item.icon}</div>
           <div id="title">{item.title}</div>
         </li>
@@ -32,7 +32,7 @@ export default function Sidebar({ item, key }) {
   } else {
     return (
       <li
-        key={key}
+        key={index}
         className="row"
         id={window.location.pathname === item.link ? "active" : ""}
         onClick={() => {
