@@ -11,7 +11,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   table: {
-    marginTop: theme.spacing(1),
+    position: "relative",
     "& thead th": {
       fontWeight: "50",
       color: theme.palette.primary.main,

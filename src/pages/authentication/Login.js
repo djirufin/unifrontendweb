@@ -64,78 +64,73 @@ export default function Login(props) {
   const img = {
     position: "center",
     padding: "0px",
-    height: "90px",
+    height: "12vh",
     margin: "0rem",
   };
-  const paperStyle = {
-    padding: "20px",
-    height: "85vh",
-    width: 350,
-    margin: "50px",
-  };
+  const paperStyle = {};
   const btnstyle = { margin: "8px 0" };
 
   return (
     <>
-      <Form align="center" onSubmit={handleSubmit}>
-        <Grid style={gridStyle}>
-          <Paper style={paperStyle}>
-            <Grid align="center">
-              <img style={img} src="logoUni.jpg" alt="" />
-              <h2>CONNEXION</h2>
-            </Grid>
-            {values.message && (
-              <div className="form-group">
-                <div className="alert alert-danger" role="alert">
-                  {values.message}
-                </div>
+      <Form className="cover" align="center" onSubmit={handleSubmit}>
+        <Grid>
+          <Grid align="center">
+            <img style={img} src="logoUni.jpg" alt="" />
+            <h2>LOGIN IN</h2>
+          </Grid>
+          <br />
+          {values.message && (
+            <div className="form-group">
+              <div className="alert alert-danger" role="alert">
+                {values.message}
               </div>
-            )}
-            <Controls.textField
-              label="Username"
-              placeholder="Nom utilisateur"
-              name="username"
-              fullWidth
-              value={values.username}
-              onChange={handleInputChange}
-              error={errors.username}
-            />
-            <br />
-            <br />
-            <Controls.textField
-              label="Password"
-              placeholder="Mot de passe"
-              type="password"
-              name="password"
-              fullWidth
-              value={values.password}
-              onChange={handleInputChange}
-              error={errors.password}
-            />
-            <br />
-            <br />
-            <Controls.Checkbox
-              name="checkedB"
-              label="Se souvenir"
-              checked={values.checkedB}
-              onChange={handleInputChange}
-              value={values.checkedB}
-              ref={(c) => {
-                values.checkedB = c;
-              }}
-            />
-            <br />
-            <br />
-            <div style={btnstyle}>
-              <Controls.Button
-                type="submit"
-                variant="contained"
-                text={values.loading ? <CircularProgress /> : "CONNEXION"}
-                disabled={values.loading}
-                fullWidth
-              />
             </div>
-          </Paper>
+          )}
+          <Controls.textField
+            label="Username"
+            placeholder="Nom utilisateur"
+            name="username"
+            className="input"
+            fullWidth
+            value={values.username}
+            onChange={handleInputChange}
+            error={errors.username}
+          />
+          <br />
+          <br />
+          <Controls.textField
+            label="Password"
+            placeholder="Mot de passe"
+            type="password"
+            name="password"
+            fullWidth
+            value={values.password}
+            onChange={handleInputChange}
+            error={errors.password}
+          />
+          <br />
+          <br />
+          <Controls.Checkbox
+            name="checkedB"
+            label="Remember"
+            checked={values.checkedB}
+            onChange={handleInputChange}
+            value={values.checkedB}
+            ref={(c) => {
+              values.checkedB = c;
+            }}
+          />
+          <br />
+          <br />
+          <div style={btnstyle}>
+            <Controls.Button
+              type="submit"
+              variant="contained"
+              text={values.loading ? <CircularProgress /> : "Login In"}
+              disabled={values.loading}
+              fullWidth
+            />
+          </div>
         </Grid>
       </Form>
     </>

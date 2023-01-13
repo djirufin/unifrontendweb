@@ -25,12 +25,19 @@ import * as authService from "../../services/authService";
 import * as logisticService from "../../services/logisticService";
 
 const useStyles = makeStyles((theme) => ({
+  page: {
+    padding: 1,
+    paddingLeft: "18em",
+    height: "82vh",
+    display: "inline-block",
+  },
   pageContent: {
-    margin: theme.spacing(0.4),
+    width: "69em",
+    margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
   qty: {
-    width: "30%",
+    width: 10,
   },
   newButton: {
     position: "absolute",
@@ -103,39 +110,52 @@ export default function TraceFound(props) {
   return (
     <>
       <Header />
-      <Paper className={classes.pageContent}>
-        <TblContainer>
-          <TblHead />
-          <TableBody>
-            {" "}
-            {recordsAfterPagingAndSorting().map((zrost) => {
-              var findItem = uniqueZrost.find(
-                (x) => x["Batch"] === zrost["Batch"]
-              );
-              if (!findItem) {
-                uniqueZrost.push(zrost);
-                return (
-                  <TableRow key={zrost.id} onClick={() => loadDetails(zrost)}>
-                    <TableCell>{zrost.dateTraceUpdate}</TableCell>
-                    <TableCell>{zrost["Batch"]}</TableCell>
-                    <TableCell>{zrost.consigneeTracer}</TableCell>
-                    <TableCell>{zrost.phoneTracer}</TableCell>
-                    <TableCell>{zrost.emailTracer}</TableCell>
-                  </TableRow>
+      <div className={classes.page}>
+        <Paper className={classes.pageContent}>
+          <TblContainer>
+            <TblHead />
+            <TableBody>
+              {" "}
+              {recordsAfterPagingAndSorting().map((zrost) => {
+                var findItem = uniqueZrost.find(
+                  (x) => x["Batch"] === zrost["Batch"]
                 );
-              }
-            })}
-          </TableBody>
+                if (!findItem) {
+                  uniqueZrost.push(zrost);
+                  return (
+                    <TableRow key={zrost.id} onClick={() => loadDetails(zrost)}>
+                      <TableCell>{zrost.dateTraceUpdate}</TableCell>
+                      <TableCell>{zrost["Batch"]}</TableCell>
+                      <TableCell>{zrost.consigneeTracer}</TableCell>
+                      <TableCell>{zrost.phoneTracer}</TableCell>
+                      <TableCell>{zrost.emailTracer}</TableCell>
+                    </TableRow>
+                  );
+                }
+              })}
+            </TableBody>
+          </TblContainer>
           <div id="idDetails">
             {contenuDetails.length > 0 ? (
-              <Form onSubmit={(e) => report(e)}>
+              <Form
+                style={{ paddingLeft: "7em", margin: "1em" }}
+                onSubmit={(e) => report(e)}
+              >
                 <Table size="small">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Material</TableCell>
-                      <TableCell>Description</TableCell>
-                      <TableCell>RO Quantity</TableCell>
-                      <TableCell>Report Quantity</TableCell>
+                      <TableCell>
+                        <strong>Material</strong>
+                      </TableCell>
+                      <TableCell align="center">
+                        <strong>Description</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>RO Quantity</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Report Quantity</strong>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -144,7 +164,9 @@ export default function TraceFound(props) {
                         <TableRow>
                           <TableCell>{item["Material"]}</TableCell>
                           <TableCell>{item["Material Description"]}</TableCell>
-                          <TableCell>{item["RO Quantity"]}</TableCell>
+                          <TableCell align="center">
+                            {item["RO Quantity"]}
+                          </TableCell>
                           <TableCell>
                             <Controls.textField
                               name={"qtyReport" + index}
@@ -169,9 +191,9 @@ export default function TraceFound(props) {
               </Form>
             ) : null}
           </div>
-        </TblContainer>
-        {/* <TblPagination /> */}
-      </Paper>
+          {/* <TblPagination /> */}
+        </Paper>
+      </div>
     </>
   );
 }

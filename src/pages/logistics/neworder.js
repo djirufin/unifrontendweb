@@ -23,9 +23,21 @@ import RefreshBase from "./refreshBase";
 import Select from "react-select";
 
 const useStyles = makeStyles((theme) => ({
+  page: {
+    padding: 1,
+    paddingLeft: "18em",
+    height: "82vh",
+    display: "inline-block",
+  },
   pageContent: {
-    margin: theme.spacing(0.4),
-    padding: theme.spacing(0.5),
+    width: "69em",
+    margin: theme.spacing(2),
+    padding: theme.spacing(1),
+  },
+  Content: {
+    width: "69em",
+    margin: theme.spacing(2),
+    padding: theme.spacing(1),
   },
   searchInput: {
     width: "40%",
@@ -231,202 +243,206 @@ export default function NewOrder() {
   return (
     <>
       <Header />
-      <Paper className={classes.pageContent}>
-        <Toolbar>
-          {statut === 1 ? (
-            result.length === 0 ? (
-              <h3 style={{ color: "red" }}>
-                Nous avons rien pu trouver, veuillez refraichir votre base en
-                cliquant sur
-                <Forward fontSize="small" />
-              </h3>
-            ) : null
-          ) : null}
-          <Controls.Button
-            size="small"
-            text="RefreshBase"
-            variant="outlined"
-            className={classes.newButton}
-            onClick={() => {
-              setOpenPopup(true);
-              setRecordForEdit(null);
-            }}
-          />
-        </Toolbar>
-        <Form onSubmit={handleSearchChange}>
-          <Grid container>
-            <Grid item xs={6}>
-              <Controls.Select
-                size="small"
-                value={logisticType}
-                onChange={changeLogisticType}
-                options={listType}
-              />
-              <Controls.Input
-                size="small"
-                label="Search"
-                name="searchText"
-                onChange={handletInput}
-                value={searchText}
-                className={classes.searchInput}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controls.Select
-                size="small"
-                value={
-                  logisticType === "zrost" ? selectedOption : selectedOption2
-                }
-                onChange={onChangeSearch}
-                options={
-                  logisticType === "zrost"
-                    ? logisticTypeSelect
-                    : logisticTypeSelect2
-                }
-              />
-              <Controls.Button text="Submit" type="submit" />
-            </Grid>
-          </Grid>
-        </Form>
-        <Popup
-          title="Refresh Base"
-          openPopup={openPopup}
-          setOpenPopup={setOpenPopup}
-        >
-          <RefreshBase recordForEdit={recordForEdit} />
-        </Popup>
-      </Paper>
-      {result.length > 0 ? (
+      <div className={classes.page}>
         <Paper className={classes.pageContent}>
-          <TblContainer>
-            <TblHead />
-            <TableBody>
-              {recordsAfterPagingAndSorting().map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>{user["Release Order Number"]}</TableCell>
-                  <TableCell>{user["Waybill Number"]}</TableCell>
-                  <TableCell>{user["Material"]}</TableCell>
-                  <TableCell>{user["Material Description"]}</TableCell>
-                  <TableCell>{user["RO Quantity"]}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </TblContainer>
-          <TblPagination />
-          <div>
-            Authorized person :{" "}
-            <strong>{result[0]["Authorized Person"]}</strong>
-            <br />
-            <br />
+          <Toolbar>
+            {statut === 1 ? (
+              result.length === 0 ? (
+                <h3 style={{ color: "red" }}>
+                  Nous avons rien pu trouver, veuillez refraichir votre base en
+                  cliquant sur
+                  <Forward fontSize="small" />
+                </h3>
+              ) : null
+            ) : null}
+            <Controls.Button
+              size="small"
+              text="RefreshBase"
+              variant="outlined"
+              className={classes.newButton}
+              onClick={() => {
+                setOpenPopup(true);
+                setRecordForEdit(null);
+              }}
+            />
+          </Toolbar>
+          <Form onSubmit={handleSearchChange}>
             <Grid container>
-              <Select
-                placeholder="Select Users Operation"
-                className={classes.searchInput}
-                isMulti
-                options={operator[0]}
-                onChange={(item) => {
-                  handleItem(item);
-                }}
-              />
-              &nbsp;&nbsp;&nbsp;
-              <Select
-                placeholder="Select Users Programmation"
-                className={classes.searchInput}
-                isMulti
-                options={programmer[0]}
-                onChange={(item) => {
-                  handleItemPr(item);
-                }}
-              />
-            </Grid>
-            <br />
-            Select Dispatching company :{" "}
-            <select onChange={(e) => handleOrgChange(e)}>
-              <option value="">Select supplier</option>
-              {orgByType.map((type, index) => (
-                <option value={type.id} key={index}>
-                  {" "}
-                  {type.name}{" "}
-                </option>
-              ))}
-            </select>
-            &nbsp;&nbsp;&nbsp;
-            {selectOrganisation !== "" && (
-              <>
-                <select
-                  onChange={(e) => {
-                    setDriver(e.target.options[e.target.selectedIndex].text);
-                    setPhoneDriver(
-                      userByOrg[e.target.selectedIndex - 1]["email"]
-                    );
-                    console.log(
-                      "email",
-                      userByOrg[e.target.selectedIndex - 1]["email"],
-                      e.target.selectedIndex,
-                      phoneDriver
-                    );
-                  }}
-                >
-                  <option>Select driver</option>
-                  {userByOrg.map((user, index) => (
-                    <option id={user.id} key={index}>
-                      {user.firstname + " " + user.lastname}
-                    </option>
-                  ))}
-                </select>
-                &nbsp;&nbsp;&nbsp;
-                {driver !== "" && (
-                  <input
-                    name="phoneDriver"
-                    type="text"
-                    disabled
-                    value={phoneDriver}
-                  />
-                )}
-                &nbsp;&nbsp;&nbsp;
-                <input
-                  name="mlleVehicule"
-                  onChange={(e) => {
-                    setMlleVehicule(e.target.value);
-                  }}
-                  value={mlleVehicule}
-                  placeholder="matricule vehicule"
+              <Grid item xs={6}>
+                <Controls.Select
+                  size="small"
+                  value={logisticType}
+                  onChange={changeLogisticType}
+                  options={listType}
                 />
-                <p>
-                  IP : <strong>{result[0]["Consignee Name"]}</strong>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
+                <Controls.Input
+                  size="small"
+                  label="Search"
+                  name="searchText"
+                  onChange={handletInput}
+                  value={searchText}
+                  className={classes.searchInput}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Controls.Select
+                  size="small"
+                  value={
+                    logisticType === "zrost" ? selectedOption : selectedOption2
+                  }
+                  onChange={onChangeSearch}
+                  options={
+                    logisticType === "zrost"
+                      ? logisticTypeSelect
+                      : logisticTypeSelect2
+                  }
+                />
+                <Controls.Button text="Submit" type="submit" />
+              </Grid>
+            </Grid>
+          </Form>
+          <Popup
+            title="Refresh Base"
+            openPopup={openPopup}
+            setOpenPopup={setOpenPopup}
+          >
+            <RefreshBase recordForEdit={recordForEdit} />
+          </Popup>
+        </Paper>
+        {result.length > 0 ? (
+          <Paper className={classes.Content}>
+            <TblContainer>
+              <TblHead />
+              <TableBody>
+                {recordsAfterPagingAndSorting().map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>{user["Release Order Number"]}</TableCell>
+                    <TableCell>{user["Waybill Number"]}</TableCell>
+                    <TableCell>{user["Material"]}</TableCell>
+                    <TableCell>{user["Material Description"]}</TableCell>
+                    <TableCell>{user["RO Quantity"]}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </TblContainer>
+            <TblPagination />
+            <div>
+              Authorized person :{" "}
+              <strong>{result[0]["Authorized Person"]}</strong>
+              <br />
+              <br />
+              <Grid container>
+                <Select
+                  placeholder="Select Users Operation"
+                  className={classes.searchInput}
+                  isMulti
+                  options={operator[0]}
+                  onChange={(item) => {
+                    handleItem(item);
+                  }}
+                />
+                &nbsp;&nbsp;&nbsp;
+                <Select
+                  placeholder="Select Users Programmation"
+                  className={classes.searchInput}
+                  isMulti
+                  options={programmer[0]}
+                  onChange={(item) => {
+                    handleItemPr(item);
+                  }}
+                />
+              </Grid>
+              <br />
+              Select Dispatching company :{" "}
+              <select onChange={(e) => handleOrgChange(e)}>
+                <option value="">Select supplier</option>
+                {orgByType.map((type, index) => (
+                  <option value={type.id} key={index}>
+                    {" "}
+                    {type.name}{" "}
+                  </option>
+                ))}
+              </select>
+              &nbsp;&nbsp;&nbsp;
+              {selectOrganisation !== "" && (
+                <>
                   <select
-                    required={true}
                     onChange={(e) => {
-                      setIpSpoc(e.target.options[e.target.selectedIndex].text);
-                      setReceiverEmail(
-                        userByIP[e.target.selectedIndex - 1]["email"]
+                      setDriver(e.target.options[e.target.selectedIndex].text);
+                      setPhoneDriver(
+                        userByOrg[e.target.selectedIndex - 1]["email"]
+                      );
+                      console.log(
+                        "email",
+                        userByOrg[e.target.selectedIndex - 1]["email"],
+                        e.target.selectedIndex,
+                        phoneDriver
                       );
                     }}
                   >
-                    <option>Select Point of contact</option>
-                    {userByIP.map((user, index) => (
+                    <option>Select driver</option>
+                    {userByOrg.map((user, index) => (
                       <option id={user.id} key={index}>
                         {user.firstname + " " + user.lastname}
                       </option>
                     ))}
                   </select>
-                </p>
-                <p>
-                  <Controls.Button
-                    text="Transferer"
-                    variant="outlined"
-                    onClick={() => {
-                      processTransfer();
+                  &nbsp;&nbsp;&nbsp;
+                  {driver !== "" && (
+                    <input
+                      name="phoneDriver"
+                      type="text"
+                      disabled
+                      value={phoneDriver}
+                    />
+                  )}
+                  &nbsp;&nbsp;&nbsp;
+                  <input
+                    name="mlleVehicule"
+                    onChange={(e) => {
+                      setMlleVehicule(e.target.value);
                     }}
-                  />{" "}
-                  {messageTransferStatus}
-                </p>
-              </>
-            )}
-          </div>
-        </Paper>
-      ) : null}
+                    value={mlleVehicule}
+                    placeholder="matricule vehicule"
+                  />
+                  <p>
+                    IP : <strong>{result[0]["Consignee Name"]}</strong>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <select
+                      required={true}
+                      onChange={(e) => {
+                        setIpSpoc(
+                          e.target.options[e.target.selectedIndex].text
+                        );
+                        setReceiverEmail(
+                          userByIP[e.target.selectedIndex - 1]["email"]
+                        );
+                      }}
+                    >
+                      <option>Select Point of contact</option>
+                      {userByIP.map((user, index) => (
+                        <option id={user.id} key={index}>
+                          {user.firstname + " " + user.lastname}
+                        </option>
+                      ))}
+                    </select>
+                  </p>
+                  <p>
+                    <Controls.Button
+                      text="Transferer"
+                      variant="outlined"
+                      onClick={() => {
+                        processTransfer();
+                      }}
+                    />{" "}
+                    {messageTransferStatus}
+                  </p>
+                </>
+              )}
+            </div>
+          </Paper>
+        ) : null}
+      </div>
     </>
   );
 }

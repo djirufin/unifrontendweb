@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { CssBaseline, createTheme, ThemeProvider } from "@material-ui/core";
+import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Users from "../pages/users/user";
 import Login from "../pages/authentication/Login";
@@ -15,7 +15,7 @@ import Dashboard from "../pages/dashboard/dashboard";
 import Ipdispatch from "../pages/logistics/ipdispatch";
 import TraceFound from "../pages/logistics/traceFound";
 
-const theme = createTheme({
+const theme = createMuiTheme({
   palette: {
     primary: {
       main: "#1cabe2",

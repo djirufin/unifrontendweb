@@ -11,8 +11,15 @@ import * as authService from "../../services/authService";
 import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
+  page: {
+    padding: 1,
+    paddingLeft: "18em",
+    height: "82vh",
+    display: "inline-block",
+  },
   pageContent: {
-    margin: theme.spacing(1),
+    width: "69em",
+    margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
   searchInput: {
@@ -60,20 +67,22 @@ export default function Ipdispatch(props) {
   return (
     <>
       <Header />
-      <Paper className={classes.pageContent}>
-        <Form>
-          <Grid container>
-            <Grid item xs={6}>
-              <Controls.Select
-                label="Select material"
-                name="materialSelected"
-                onChange={(e) => setMaterialSelected(e.target.value)}
-                options={materials[0]}
-              />
+      <div className={classes.page}>
+        <Paper className={classes.pageContent}>
+          <Form>
+            <Grid container>
+              <Grid item xs={6}>
+                <Controls.Select
+                  label="Select material"
+                  name="materialSelected"
+                  onChange={(e) => setMaterialSelected(e.target.value)}
+                  options={materials[0]}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </Form>
-      </Paper>
+          </Form>
+        </Paper>
+      </div>
     </>
   );
 }

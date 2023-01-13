@@ -25,8 +25,15 @@ import * as authService from "../../services/authService";
 import * as logisticService from "../../services/logisticService";
 
 const useStyles = makeStyles((theme) => ({
+  page: {
+    padding: 1,
+    paddingLeft: "18em",
+    height: "82vh",
+    display: "inline-block",
+  },
   pageContent: {
-    margin: theme.spacing(0.4),
+    width: "69em",
+    margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
   qty: {
@@ -107,39 +114,49 @@ export default function Acknowledge(props) {
   return (
     <>
       <Header />
-      <Paper className={classes.pageContent}>
-        <TblContainer>
-          <TblHead />
-          <TableBody>
-            {" "}
-            {recordsAfterPagingAndSorting().map((zrost) => {
-              var findItem = uniqueZrost.find(
-                (x) => x["Waybill Number"] === zrost["Waybill Number"]
-              );
-              if (!findItem) {
-                uniqueZrost.push(zrost);
-                return (
-                  <TableRow key={zrost.id} onClick={() => loadDetails(zrost)}>
-                    <TableCell>{zrost.dateTransfer}</TableCell>
-                    <TableCell>{zrost["Waybill Number"]}</TableCell>
-                    <TableCell>{zrost.supplierdriver}</TableCell>
-                    <TableCell>{zrost.phoneDriver}</TableCell>
-                    <TableCell>{zrost.mlleVehicule}</TableCell>
-                  </TableRow>
+      <div className={classes.page}>
+        <Paper className={classes.pageContent}>
+          <TblContainer>
+            <TblHead />
+            <TableBody>
+              {" "}
+              {recordsAfterPagingAndSorting().map((zrost) => {
+                var findItem = uniqueZrost.find(
+                  (x) => x["Waybill Number"] === zrost["Waybill Number"]
                 );
-              }
-            })}
-          </TableBody>
+                if (!findItem) {
+                  uniqueZrost.push(zrost);
+                  return (
+                    <TableRow key={zrost.id} onClick={() => loadDetails(zrost)}>
+                      <TableCell>{zrost.dateTransfer}</TableCell>
+                      <TableCell>{zrost["Waybill Number"]}</TableCell>
+                      <TableCell>{zrost.supplierdriver}</TableCell>
+                      <TableCell>{zrost.phoneDriver}</TableCell>
+                      <TableCell>{zrost.mlleVehicule}</TableCell>
+                    </TableRow>
+                  );
+                }
+              })}
+            </TableBody>
+          </TblContainer>
           <div id="idDetails">
             {contenuDetails.length > 0 && (
               <Form onSubmit={(e) => report(e)}>
                 <Table size="small">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Material</TableCell>
-                      <TableCell>Description</TableCell>
-                      <TableCell>RO Quantity</TableCell>
-                      <TableCell>Report Quantity</TableCell>
+                      <TableCell>
+                        <strong>Material</strong>
+                      </TableCell>
+                      <TableCell align="center">
+                        <strong>Description</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>RO Quantity</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Report Quantity</strong>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -174,9 +191,9 @@ export default function Acknowledge(props) {
               </Form>
             )}
           </div>
-        </TblContainer>
-        {/* <TblPagination /> */}
-      </Paper>
+          {/* <TblPagination /> */}
+        </Paper>
+      </div>
     </>
   );
 }

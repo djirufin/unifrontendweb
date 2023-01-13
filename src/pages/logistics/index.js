@@ -15,9 +15,16 @@ import useTable from "../../components/useTable";
 import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
+  page: {
+    padding: 1,
+    paddingLeft: "18em",
+    height: "82vh",
+    display: "inline-block",
+  },
   pageContent: {
-    margin: theme.spacing(1),
-    padding: theme.spacing(0),
+    width: "69em",
+    margin: theme.spacing(2),
+    padding: theme.spacing(1),
   },
   searchInput: {
     width: "50%",
@@ -77,8 +84,9 @@ export default function Logistics(props) {
   return (
     <>
       <Header />
-      <Paper className={classes.pageContent}>
-        {/* <Toolbar>
+      <div className={classes.page}>
+        <Paper className={classes.pageContent}>
+          {/* <Toolbar>
           <Controls.Input
             label="Pesquisar"
             className={classes.searchInput}
@@ -92,28 +100,29 @@ export default function Logistics(props) {
             onChange={handleSearch}
           />
         </Toolbar> */}
-        <TblContainer>
-          <TblHead />
-          <TableBody>
-            {recordsAfterPagingAndSorting().map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user["Batch"]}</TableCell>
-                <TableCell>{user["Material"]}</TableCell>
-                <TableCell>{user["Material Description"]}</TableCell>
-                <TableCell align="center">{user["RO Quantity"]}</TableCell>
-                {/* <TableCell>
+          <TblContainer>
+            <TblHead />
+            <TableBody>
+              {recordsAfterPagingAndSorting().map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>{user["Batch"]}</TableCell>
+                  <TableCell>{user["Material"]}</TableCell>
+                  <TableCell>{user["Material Description"]}</TableCell>
+                  <TableCell align="center">{user["RO Quantity"]}</TableCell>
+                  {/* <TableCell>
                                         <Controls.ActionButton
                                             color="primary"
                                             onClick={() => { openInPopup(user) }}>
                                             <EditOutlined fontSize="small" />
                                         </Controls.ActionButton>
                                     </TableCell> */}
-              </TableRow>
-            ))}
-          </TableBody>
-        </TblContainer>
-        <TblPagination />
-      </Paper>
+                </TableRow>
+              ))}
+            </TableBody>
+          </TblContainer>
+          <TblPagination />
+        </Paper>
+      </div>
     </>
   );
 }
