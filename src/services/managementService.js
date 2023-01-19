@@ -6,6 +6,13 @@ const head = {
   "Content-Type": "application/json",
 };
 
+export const Type = () => [
+  { id: "INTERN", title: "INTERN" },
+  { id: "SUPPLIER", title: "SUPPLIER" },
+  { id: "IPARTNER", title: "IPARTNER" },
+  { id: "UNDEFINED", title: "UNDEFINED" },
+];
+
 export function getOrganisation() {
   return axios.get(API_BASE_URL + "/all", { headers: authHeader(), head });
 }

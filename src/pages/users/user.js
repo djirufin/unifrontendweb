@@ -54,6 +54,7 @@ function Users(props) {
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [records, setRecords] = useState([]);
   const [currentUser, setCurrentUser] = useState(userService.getCurrentUser());
+  const [openPopup, setOpenPopup] = useState(false);
 
   const allUsers = () => {
     userService.listUsers().then((res) => {
@@ -70,7 +71,6 @@ function Users(props) {
       return records;
     },
   });
-  const [openPopup, setOpenPopup] = useState(false);
 
   const handleSearch = (e) => {
     let target = e.target;

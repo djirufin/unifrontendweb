@@ -2,6 +2,7 @@
     margin: 0;
     box-sizing: border-box;
 }
+
 .SibeMenuList {
     padding: 0;
     width: 100%;
@@ -95,3 +96,108 @@ tbody tr.selected td {
 .tablet {
     padding-left: 250;
 }
+
+:root {
+    --step-color-active: #068add;
+    --step-color-disabled: #dbd8d8;
+    --progression-width: 33%;
+}
+
+ .containerP {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+ }
+
+ .progress-steps-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    position: relative;
+    max-width: 100%;
+    width: 700px;
+    margin: 15px 0;
+}
+
+.progress-steps-container .step-number {
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--step-color-disabled);
+    border-radius: 50%;
+    font: 16px consolas;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    z-index: 1;
+    transition: border 0.4s ease-in;
+    cursor: pointer;
+}
+
+.progress-steps-container::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 3px;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+    background-color: var(--step-color-disabled);
+    z-index: 1;
+    /* opacity: 0; */
+}
+
+.step-number.active {
+    border: 3px solid var(--step-color-active);
+    color: var(--step-color-active);
+}
+
+.step-progression {
+    position: absolute;
+    width: 33%;
+    height: 3px;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+    background-color: var(--step-color-active);
+    transition: border 0.4s ease-in;
+    z-index: 1;
+}
+
+ /* .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    position: relative;
+    max-width: 100%;
+    width: 100px;
+    margin: 15px 0;
+ } */
+  #prevBtn {
+    cursor: pointer;
+    background-color: var(--step-color-active);
+    border: none;
+    border-radius: 3px;
+  }
+
+  #nextBtn {
+    cursor: pointer;
+    background-color: var(--step-color-active);
+    border: none;
+    border-radius: 3px;
+
+  }
+  .textarea {
+    border: 1px solid #dbd8d8;
+    border-radius: 5px;
+}
+ .textarea:hover {
+    border: 1px solid rgb(118, 118, 118);
+ }
+
+ .textarea:focus {
+    border: 1px solid rgb(118, 118, 118);
+ }

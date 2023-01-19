@@ -1,20 +1,20 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {
-  InputAdornment,
   makeStyles,
   Paper,
   TableBody,
   TableCell,
   TableRow,
-  Toolbar,
 } from "@material-ui/core";
 import * as logisticService from "../../services/logisticService";
 import Controls from "../../components/controls/Controls";
 import Header from "../../components/Header";
 import useTable from "../../components/useTable";
 import { useEffect } from "react";
-import { Search } from "@material-ui/icons";
+import { CloseOutlined, EditOutlined } from "@material-ui/icons";
+import Popup from "../../components/Popup";
+import IssueForm from "./issueForm";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -46,12 +46,14 @@ const headCells = [
   { id: "material_description", label: "Material Description" },
   { id: "delivery_quantity ", label: "Delivery Quantity" },
   { id: "QtyReport ", label: "Report Quantity" },
+  { id: "Action ", label: "Action" },
 ];
 
 export default function Issues(props) {
   const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [records, setRecords] = useState([]);
+  const [openPopup, setOpenPopup] = useState(false);
   const [filterFn, setFilterFn] = useState({
     fn: (records) => {
       return records;
@@ -59,7 +61,7 @@ export default function Issues(props) {
   });
 
   const getMaterial = () => {
-    logisticService.getMaterial().then((res) => {
+    logisticService.issuesList(true).then((res) => {
       setRecords(res.data);
     });
   };
@@ -79,6 +81,24 @@ export default function Issues(props) {
           );
       },
     });
+  };
+
+  const addOrEdit = (issues, resetForm) => {
+    // logisticService.updateAdmin(user.id, user);
+    //   console.log(user.id);
+    // // setNotify({
+    // //     isOpen: true,
+    // //     message: 'Submit Successfully',
+    // //     type: 'success'
+    // // })
+    // resetForm();
+    // setRecordForEdit(null);
+    // setOpenPopup(false);
+  };
+
+  const openInPopup = (issues) => {
+    setRecordForEdit(issues);
+    setOpenPopup(true);
   };
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
@@ -105,27 +125,44 @@ export default function Issues(props) {
           <TblContainer>
             <TblHead />
             <TableBody>
-              {recordsAfterPagingAndSorting().map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>{user.Material}</TableCell>
-                  <TableCell>{user.Material_Description}</TableCell>
-                  <TableCell>{user.RO_Quantity}</TableCell>
-                  <TableCell>{user.Warehouse_Number}</TableCell>
-                  <TableCell>{user.Pick_Status}</TableCell>
-                  <TableCell>{user.Waybill_Number}</TableCell>
-                  {/* <TableCell>
-                                        <Controls.ActionButton
-                                            color="primary"
-                                            onClick={() => { openInPopup(user) }}>
-                                            <EditOutlined fontSize="small" />
-                                        </Controls.ActionButton>
-                                    </TableCell> */}
+              {recordsAfterPagingAndSorting().map((issues) => (
+                <TableRow key={issues.id}>
+                  <TableCell>{issues["Consignee Name"]}</TableCell>
+                  <TableCell>{issues["Batch"]}</TableCell>
+                  <TableCell>{issues.senderName}</TableCell>
+                  <TableCell>{issues.receiverName}</TableCell>
+                  <TableCell>{issues["Material Description"]}</TableCell>
+                  <TableCell>{issues["RO Quantity"]}</TableCell>
+                  <TableCell>{issues.qtyReport}</TableCell>
+                  <TableCell>
+                    <Controls.ActionButton
+                      color="primary"
+                      onClick={() => {
+                        openInPopup(issues);
+                      }}
+                    >
+                      <EditOutlined fontSize="small" />
+                    </Controls.ActionButton>
+                    {/* <Controls.ActionButton
+                      color="secondary"
+                      //onClick={() => { openInPopup(user) }}
+                    >
+                      <CloseOutlined fontSize="small" />
+                    </Controls.ActionButton> */}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </TblContainer>
           {/* <TblPagination /> */}
         </Paper>
+        <Popup
+          title="User Form"
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+        >
+          <IssueForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
+        </Popup>
       </div>
     </>
   );

@@ -8,13 +8,15 @@ import {
   TableRow,
   Toolbar,
 } from "@material-ui/core";
-import { Add, EditOutlined, Search } from "@material-ui/icons";
+import { Add, CloseOutlined, EditOutlined, Search } from "@material-ui/icons";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import * as managementService from "../../services/managementService";
 import Controls from "../../components/controls/Controls";
 import Header from "../../components/Header";
 import useTable from "../../components/useTable";
+import Popup from "../../components/Popup";
+import AddOrg from "./addOrg";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -48,6 +50,7 @@ export default function Organisation(props) {
   const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [records, setRecords] = useState([]);
+  const [openPopup, setOpenPopup] = useState(false);
   const [filterFn, setFilterFn] = useState({
     fn: (records) => {
       return records;
@@ -79,6 +82,13 @@ export default function Organisation(props) {
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
+
+  const addOrEdit = (organisation, resetForm) => {};
+
+  const openInPopup = (organisation) => {
+    setRecordForEdit(organisation);
+    setOpenPopup(true);
+  };
   return (
     <>
       <Header />
@@ -102,7 +112,10 @@ export default function Organisation(props) {
               startIcon={<Add />}
               variant="outlined"
               className={classes.newButton}
-              // onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
+              onClick={() => {
+                setOpenPopup(true);
+                setRecordForEdit(null);
+              }}
             />
           </Toolbar>
           <TblContainer>
@@ -110,16 +123,24 @@ export default function Organisation(props) {
             <TableBody>
               {recordsAfterPagingAndSorting()
                 .filter((i) => i.name !== "Undefined")
-                .map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.type}</TableCell>
+                .map((organisation) => (
+                  <TableRow key={organisation.id}>
+                    <TableCell>{organisation.name}</TableCell>
+                    <TableCell>{organisation.type}</TableCell>
                     <TableCell>
                       <Controls.ActionButton
                         color="primary"
-                        // onClick={() => { openInPopup(user) }}
+                        onClick={() => {
+                          openInPopup(organisation);
+                        }}
                       >
                         <EditOutlined fontSize="small" />
+                      </Controls.ActionButton>
+                      <Controls.ActionButton
+                        color="secondary"
+                        //onClick={() => { openInPopup(user) }}
+                      >
+                        <CloseOutlined fontSize="small" />
                       </Controls.ActionButton>
                     </TableCell>
                   </TableRow>
@@ -128,6 +149,13 @@ export default function Organisation(props) {
           </TblContainer>
           <TblPagination />
         </Paper>
+        <Popup
+          title="User Form"
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+        >
+          <AddOrg recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
+        </Popup>
       </div>
     </>
   );

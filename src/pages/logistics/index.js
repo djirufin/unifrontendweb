@@ -40,6 +40,7 @@ const headCells = [
   { id: "batch", label: "Batch Number" },
   { id: "material", label: "Material" },
   { id: "description_material", label: "Description Material" },
+  { id: "quantityUnicef", label: "Quantity Received" },
   { id: "quantity", label: "Stock Quantity" },
 ];
 
@@ -108,14 +109,8 @@ export default function Logistics(props) {
                   <TableCell>{user["Batch"]}</TableCell>
                   <TableCell>{user["Material"]}</TableCell>
                   <TableCell>{user["Material Description"]}</TableCell>
-                  <TableCell align="center">{user["RO Quantity"]}</TableCell>
-                  {/* <TableCell>
-                                        <Controls.ActionButton
-                                            color="primary"
-                                            onClick={() => { openInPopup(user) }}>
-                                            <EditOutlined fontSize="small" />
-                                        </Controls.ActionButton>
-                                    </TableCell> */}
+                  <TableCell>{user["RO Quantity"]}</TableCell>
+                  <TableCell>{user.qtyReport}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

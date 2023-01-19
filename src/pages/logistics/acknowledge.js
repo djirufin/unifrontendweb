@@ -90,10 +90,20 @@ export default function Acknowledge(props) {
     var arrayItem = [];
     contenuDetails.forEach((item, index) => {
       item.qtyReport = e.target[index].value;
+      if (item.qtyReport !== item["RO Quantity"]) {
+        item.alertIssues = true;
+      } else {
+        item.alertIssues = false;
+      }
+      item.receivedStatus = "C";
       item["Pick Status"] = "C";
       item["Transportation Planning Status"] = "C";
       item.dateTransferUpdate = new Date().toLocaleString();
+      item.receiverName = currentUser.firstname + " " + currentUser.lastname;
+      item.receiverPhone = currentUser.telephone;
+      item.receiverEmail = currentUser.email;
       arrayItem.push(item);
+      console.log(item.qtyReport, item["RO Quantity"]);
     });
     logisticService.loadZrost(arrayItem).then((response) => {
       console.log(response.data);

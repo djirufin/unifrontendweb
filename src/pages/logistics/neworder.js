@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import * as logisticService from "../../services/logisticService";
 import * as manageService from "../../services/managementService";
+import * as authService from "../../services/authService";
 import Controls from "../../components/controls/Controls";
 import useTable from "../../components/useTable";
 import Header from "../../components/Header";
@@ -74,7 +75,7 @@ const logisticTypeSelect2 = [
 
 export default function NewOrder() {
   const classes = useStyles();
-
+  const [currentUser, setCurrentUser] = useState(authService.getCurrentUser());
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [filterFn, setFilterFn] = useState({
     fn: (records) => {
@@ -99,7 +100,6 @@ export default function NewOrder() {
   const [selectedOption2, setSelectedOption2] = useState("purchase_order");
   const [logisticType, setLogisticType] = useState("zrost");
   const [openPopup, setOpenPopup] = useState(false);
-  const [ccOption, setCcOption] = useState([]);
   const [ccList, setCcList] = useState([]);
   const [ccListPr, setCcListPr] = useState([]);
   const [opList, setOpList] = useState([]);
@@ -122,18 +122,6 @@ export default function NewOrder() {
   const getOrgByType = () => {
     manageService.getOrgByType("SUPPLIER").then((res) => {
       setOrgByType(res.data);
-    });
-  };
-
-  const getUserOp = () => {
-    listUsersByOrg("63bec6e363e587e178ff1c27").then((res) => {
-      setCcList(res.data);
-    });
-  };
-
-  const getUserPr = () => {
-    listUsersByOrg("63bec6cb63e587e178ff1c26").then((res) => {
-      setCcListPr(res.data);
     });
   };
 
@@ -161,7 +149,15 @@ export default function NewOrder() {
       .catch((err) => console.log(err));
   };
 
+  //Process Transfer material (send Email)
+  var arrayCcMail = [];
   const processTransfer = () => {
+    // user Cc
+    arrayCcMail = [...opList, ...prList];
+    console.log(arrayCcMail);
+    var senderName = currentUser.firstname + " " + currentUser.lastname;
+    var senderPhone = currentUser.telephone;
+    var senderEmail = currentUser.email;
     setMessageTransferStatus("Transfert en cours... ");
     //Update pickstatus
     logisticService.transferMaterial(
@@ -171,15 +167,18 @@ export default function NewOrder() {
       driver,
       ipSpoc,
       mlleVehicule,
-      phoneDriver
+      phoneDriver,
+      senderName,
+      senderPhone,
+      senderEmail
     );
     //send email
     sendEmail(
       receiverEmail,
       "Transfer UNICEF",
-      "Ceci est un TEST priere ne pas le considerer. Vous allez recevoir des dons de UNICEF. Le waybill est " +
-        <strong>{result[0]["Waybill Number"]}</strong>,
-      ccOption
+      "Ceci est un TEST priere ne pas le considerer.\nVous allez recevoir des dons de UNICEF.\nLe waybill est " +
+        result[0]["Waybill Number"]
+      //arrayCcMail
     );
     //set message to display
     setMessageTransferStatus(
@@ -187,40 +186,32 @@ export default function NewOrder() {
     );
   };
 
-  /*useEffect(() => {
-    getOrgByType();
-  }, []);*/
-
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(result, headCells, filterFn);
 
-  const changeLogisticType = (e) => {
-    setLogisticType(e.target.value);
-  };
-
-  const handletInput = (e) => {
-    setSearchText(e.target.value);
-  };
-
-  const onChangeSearch = (e) => {
-    setSelectedOption(e.target.value);
-  };
-
+  //Select all actors UNICEF
   const handleItem = (item) => {
     var array = [];
     item.map((i) => array.push(i.value));
     setOpList(array);
-    console.log(array);
   };
-
   const handleItemPr = (item) => {
     var array = [];
     item.map((i) => array.push(i.value));
     setPrList(array);
-    console.log(array);
   };
 
-  console.log([opList, prList]);
+  //List all actors UNICEF
+  const getUserOp = () => {
+    listUsersByOrg("63bec6e363e587e178ff1c27").then((res) => {
+      setCcList(res.data);
+    });
+  };
+  const getUserPr = () => {
+    listUsersByOrg("63bec6cb63e587e178ff1c26").then((res) => {
+      setCcListPr(res.data);
+    });
+  };
 
   const operator = [
     ccList.map((type, index) => {
@@ -230,8 +221,7 @@ export default function NewOrder() {
       };
     }),
   ];
-
-  const programmer = [
+  const programme = [
     ccListPr.map((type, index) => {
       return {
         value: type.email,
@@ -272,14 +262,14 @@ export default function NewOrder() {
                 <Controls.Select
                   size="small"
                   value={logisticType}
-                  onChange={changeLogisticType}
+                  onChange={(e) => setLogisticType(e.target.value)}
                   options={listType}
                 />
                 <Controls.Input
                   size="small"
                   label="Search"
                   name="searchText"
-                  onChange={handletInput}
+                  onChange={(e) => setSearchText(e.target.value)}
                   value={searchText}
                   className={classes.searchInput}
                 />
@@ -290,7 +280,7 @@ export default function NewOrder() {
                   value={
                     logisticType === "zrost" ? selectedOption : selectedOption2
                   }
-                  onChange={onChangeSearch}
+                  onChange={(e) => setSelectedOption(e.target.value)}
                   options={
                     logisticType === "zrost"
                       ? logisticTypeSelect
@@ -343,10 +333,10 @@ export default function NewOrder() {
                 />
                 &nbsp;&nbsp;&nbsp;
                 <Select
-                  placeholder="Select Users Programmation"
+                  placeholder="Select Users Programme"
                   className={classes.searchInput}
                   isMulti
-                  options={programmer[0]}
+                  options={programme[0]}
                   onChange={(item) => {
                     handleItemPr(item);
                   }}

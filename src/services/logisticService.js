@@ -60,6 +60,13 @@ export function tracerList(alert) {
   );
 }
 
+export function issuesList(alert) {
+  return axios.get(API_BASE_URL + "/public/logistics/issues?alert=" + alert, {
+    headers: authHeader(),
+    head,
+  });
+}
+
 export function searchMaterial(searchBy, product) {
   return axios.get(
     API_BASE_URL +
@@ -78,7 +85,10 @@ export function transferMaterial(
   driver,
   ip_spoc,
   mlleVehicule,
-  phoneDriver
+  phoneDriver,
+  senderName,
+  senderPhone,
+  senderEmail
 ) {
   return axios.get(
     API_BASE_URL +
@@ -95,7 +105,13 @@ export function transferMaterial(
       "&mlleVehicule=" +
       mlleVehicule +
       "&phoneDriver=" +
-      phoneDriver,
+      phoneDriver +
+      "&senderName=" +
+      senderName +
+      "&senderPhone=" +
+      senderPhone +
+      "&senderEmail=" +
+      senderEmail,
     { headers: authHeader(), head }
   );
 }
@@ -113,4 +129,18 @@ export function tracerFound(batch, consigneeTracer, phoneTracer, emailTracer) {
       emailTracer,
     { headers: authHeader(), head }
   );
+}
+
+export function dispatchMaterial(dispatch) {
+  return axios.post(API_BASE_URL + "/public/logistics/dispatch", dispatch, {
+    headers: authHeader(),
+    head,
+  });
+}
+
+export function listDispatch() {
+  return axios.get(API_BASE_URL + "/public/logistics/listDispatch", {
+    headers: authHeader(),
+    head,
+  });
 }

@@ -110,13 +110,13 @@ export const SideMenuDataIPADMIN = [
     icon: <Send />,
     childrens: [
       {
-        title: "End Beneficiaries",
+        title: "Create Dispatch",
+        link: "/logistic/cd",
         icon: null,
-        link: "/logistic/bene",
       },
       {
-        title: "IP Dispatch",
-        link: "/logistic/ipd",
+        title: "Withdrawal Material",
+        link: "/logistic/wm",
         icon: null,
       },
     ],
