@@ -7,14 +7,17 @@ import {
   TableRow,
   Toolbar,
 } from "@material-ui/core";
-import { EditOutlined, Search } from "@material-ui/icons";
+import { Search } from "@material-ui/icons";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import Controls from "../../components/controls/Controls";
 import Header from "../../components/Header";
 import useTable from "../../components/useTable";
-import { dispatchMaterial, listDispatch } from "../../services/logisticService";
+import {
+  listDispatch,
+  updateBeneficiary,
+} from "../../services/logisticService";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -39,11 +42,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "date", label: "Date Create" },
-  { id: "reference", label: "Reference" },
   { id: "name", label: "Name" },
   { id: "telephone", label: "Telephone" },
-  { id: "batch", label: "Material" },
+  { id: "batch", label: "Batch Number" },
+  { id: "material_description", label: "Material Description" },
   { id: "quantity", label: "Quantity" },
   { id: "status", label: "Status" },
   { id: "actions", label: "Action", disableSorting: true },
@@ -57,23 +59,17 @@ export default function Withdrawal(props) {
       return records;
     },
   });
+  const [saveData, setSaveData] = useState([]);
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
 
   const handleSearch = (e) => {
     let target = e.target;
-    //test
-    records.map((i) => {
-      console.log(i);
-    });
-
     setFilterFn({
       fn: (records) => {
         if (target.value === "") return records;
         else {
-          const { name } = records;
-          console.log(name);
-          return records.filter((x) => x.beneficiaries === target.value);
+          return records.filter((x) => x.token === target.value);
         }
       },
     });
@@ -82,22 +78,33 @@ export default function Withdrawal(props) {
   //Call funciton allDispatch
   const allDispatch = () => {
     listDispatch().then((response) => {
-      setRecords(response.data);
+      setSaveData(response.data);
+      //filter response.data
+      let arr = response.data;
+      arr = arr[0];
+      const { beneficiaries } = arr;
+      setRecords(beneficiaries.filter((r) => r.status === "PENDING"));
     });
   };
   useEffect(() => {
     allDispatch();
   }, []);
 
-  //Valid Authorize
-  const authorize = (e, endBeneficiary) => {
+  //Valid Withdrawal
+  const authorize = (index, endBeneficiary) => {
     endBeneficiary.status = "COMPLETED";
-    console.log(endBeneficiary);
-    dispatchMaterial(endBeneficiary).then((response) =>
-      console.log(response.data)
-    );
-    //window.location.reload();
+    saveData[0]["beneficiaries"] = records;
+    updateBeneficiary(saveData[0].id, endBeneficiary)
+      .then((response) => {
+        console.log(response.data);
+        const newRecords = records.filter(
+          (x) => x.token !== endBeneficiary.token
+        );
+        setRecords(newRecords);
+      })
+      .catch((err) => console.log(err));
   };
+
   return (
     <>
       <Header />
@@ -116,37 +123,33 @@ export default function Withdrawal(props) {
               }}
               onChange={handleSearch}
             />
-            {/* <Controls.Button text="Search" className={classes.newButton} /> */}
           </Toolbar>
           <TblContainer>
             <TblHead />
             <TableBody>
-              {recordsAfterPagingAndSorting().map((user) =>
-                user.beneficiaries.map((endBeneficiary, index) => {
-                  return (
-                    <TableRow key={index}>
-                      <TableCell>{user.dateCreateDispatch}</TableCell>
-                      <TableCell>{endBeneficiary.token}</TableCell>
-                      <TableCell>{endBeneficiary.name}</TableCell>
-                      <TableCell>{endBeneficiary.telephone}</TableCell>
-                      <TableCell>{endBeneficiary.batch}</TableCell>
-                      <TableCell>{endBeneficiary.quantity}</TableCell>
-                      <TableCell>{endBeneficiary.status}</TableCell>
-                      <TableCell>
-                        <Controls.Button
-                          id={"valid" + index}
-                          size="small"
-                          text="VALID"
-                          type="submit"
-                          onClick={(e) => {
-                            authorize(e, endBeneficiary);
-                          }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-              )}
+              {recordsAfterPagingAndSorting().map((endBeneficiary, index) => {
+                return (
+                  <TableRow key={index}>
+                    <TableCell>{endBeneficiary.name}</TableCell>
+                    <TableCell>{endBeneficiary.telephone}</TableCell>
+                    <TableCell>{endBeneficiary.batch}</TableCell>
+                    <TableCell>{endBeneficiary.material_description}</TableCell>
+                    <TableCell>{endBeneficiary.quantity}</TableCell>
+                    <TableCell>{endBeneficiary.status}</TableCell>
+                    <TableCell>
+                      <Controls.Button
+                        id={"valid" + endBeneficiary.token}
+                        size="small"
+                        text="VALID"
+                        type="submit"
+                        onClick={(e) => {
+                          authorize(index, endBeneficiary);
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </TblContainer>
           <TblPagination />

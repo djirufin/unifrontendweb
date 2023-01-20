@@ -60,11 +60,32 @@ export function tracerList(alert) {
   );
 }
 
+export function updateBeneficiary(dispatchId, endBeneficiary) {
+  return axios.put(
+    API_BASE_URL + "/public/logistics/updateBeneficiary?id=" + dispatchId,
+    endBeneficiary,
+    {
+      headers: authHeader(),
+      head,
+    }
+  );
+}
+
 export function issuesList(alert) {
   return axios.get(API_BASE_URL + "/public/logistics/issues?alert=" + alert, {
     headers: authHeader(),
     head,
   });
+}
+
+export function inventoryList(status) {
+  return axios.get(
+    API_BASE_URL + "/public/logistics/inventory?status=" + status,
+    {
+      headers: authHeader(),
+      head,
+    }
+  );
 }
 
 export function searchMaterial(searchBy, product) {
