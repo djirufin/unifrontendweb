@@ -22,8 +22,9 @@ const initialeValues = {
   username: "",
   password: "",
   email: "",
+  telephone: "",
   role: "",
-  organisation: "",
+  organisation_id: "",
 };
 
 export default function AddUserForm(props) {
@@ -50,19 +51,20 @@ export default function AddUserForm(props) {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     if (validate()) {
       values.password = generate();
+      values.telephone = "test";
       addOrEdit(values, resetForm);
       sendEmail(
         values.email,
         "User creation",
-        "Votre compte a ete cree dans la plateform trackiteum.org, veuillez y acceder en utilisant le username " +
+        "CECI EST UN TEST-MRBON, PRIERE NE PAS LE CONSIDERER. \n Votre compte a ete cree dans la plateform trackiteum.org, veuillez y acceder en utilisant le username " +
           values.username +
           " et le password " +
           values.password
       );
     }
-    e.preventDefault();
   };
 
   const getOrgByType = () => {
@@ -130,8 +132,8 @@ export default function AddUserForm(props) {
             <InputLabel>{"Organisation"}</InputLabel>
             <MuiSelect
               label="Organisation"
-              name="organisation"
-              value={values.organisation}
+              name="organisation_id"
+              value={values.organisation_id}
               onChange={handleInputChange}
             >
               {options
@@ -144,8 +146,7 @@ export default function AddUserForm(props) {
             </MuiSelect>
           </FormControl>
           <div>
-            <Controls.Button text="Close" color="default" onClick={resetForm} />
-            <Controls.Button type="submit" text="Confirmar" />
+            <Controls.Button type="submit" text="Validate" />
           </div>
         </Grid>
       </Grid>

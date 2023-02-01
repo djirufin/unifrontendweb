@@ -58,6 +58,11 @@ export const SideMenuDataADMIN = [
         link: "/logistic/ii",
         icon: null,
       },
+      {
+        title: "Supply",
+        link: "/logistic/sup",
+        icon: null,
+      },
     ],
   },
   {
@@ -115,7 +120,7 @@ export const SideMenuDataIPADMIN = [
         icon: null,
       },
       {
-        title: "Withdrawal Material",
+        title: "Material Withdrawal",
         link: "/logistic/wm",
         icon: null,
       },

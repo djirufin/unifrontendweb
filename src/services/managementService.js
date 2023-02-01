@@ -23,3 +23,24 @@ export function getOrgByType(type) {
     head,
   });
 }
+
+export function addOrg(organisation) {
+  return axios.post(API_BASE_URL, organisation, {
+    headers: authHeader(),
+    head,
+  });
+}
+
+export function updateOrg(orgId, organisation) {
+  return axios.put(API_BASE_URL + "/" + orgId, organisation, {
+    headers: authHeader(),
+    head,
+  });
+}
+
+export function deleteOrg(orgId) {
+  return axios.delete(API_BASE_URL + "/" + orgId, {
+    headers: authHeader(),
+    head,
+  });
+}

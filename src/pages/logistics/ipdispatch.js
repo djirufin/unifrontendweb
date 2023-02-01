@@ -61,8 +61,7 @@ export default function Ipdispatch(props) {
   const [valeur, setValeur] = useState("");
   const [materialToDispatch, setMaterialToDispatch] = useState([]);
   const [send, setSend] = useState("");
-  const [productSelected, setProductSelected] = useState("");
-  const [qtyProduct, setQtyProduct] = useState([]);
+  const [finalQuantity, setFinalQuantity] = useState("");
 
   const stepNumbers = document.querySelectorAll(".step-number");
 
@@ -125,7 +124,6 @@ export default function Ipdispatch(props) {
         return group;
       }, {});
       setSend(productGroupBy);
-      console.log(listBeneficiarie);
     }
   };
 
@@ -422,7 +420,6 @@ export default function Ipdispatch(props) {
                         let i = 0;
                         send[item.value].map((item) => {
                           i = i + parseInt(item["Quantity"]);
-                          return i;
                         });
                         return (
                           <TableRow>

@@ -71,8 +71,8 @@ export default function Login(props) {
   const btnstyle = { margin: "8px 0" };
 
   return (
-    <>
-      <Form className="cover" align="center" onSubmit={handleSubmit}>
+    <div className="Uc2NEf">
+      <Form className="cover" onSubmit={handleSubmit}>
         <Grid>
           <Grid align="center">
             <img style={img} src="logoUni.jpg" alt="" />
@@ -133,6 +133,6 @@ export default function Login(props) {
           </div>
         </Grid>
       </Form>
-    </>
+    </div>
   );
 }

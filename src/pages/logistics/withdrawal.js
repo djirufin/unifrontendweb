@@ -81,8 +81,10 @@ export default function Withdrawal(props) {
       setSaveData(response.data);
       //filter response.data
       let arr = response.data;
-      arr = arr[0];
-      const { beneficiaries } = arr;
+      let beneficiaries = [];
+      var array = [];
+      arr.map((i) => array.push(...i.beneficiaries));
+      beneficiaries = array;
       setRecords(beneficiaries.filter((r) => r.status === "PENDING"));
     });
   };
@@ -93,8 +95,9 @@ export default function Withdrawal(props) {
   //Valid Withdrawal
   const authorize = (index, endBeneficiary) => {
     endBeneficiary.status = "COMPLETED";
-    saveData[0]["beneficiaries"] = records;
-    updateBeneficiary(saveData[0].id, endBeneficiary)
+    saveData[index]["beneficiaries"] = records;
+    console.log("test ", saveData[index]);
+    updateBeneficiary(saveData[index].id, endBeneficiary)
       .then((response) => {
         console.log(response.data);
         const newRecords = records.filter(

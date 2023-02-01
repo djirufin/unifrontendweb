@@ -1,6 +1,7 @@
 * {
     margin: 0;
     box-sizing: border-box;
+    font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
 }
 
 .SibeMenuList {
@@ -78,14 +79,78 @@ tbody tr.selected td {
 .cover {
     background-color: white;
     width: 25em;
-    height: 35em;
+    height: 37em;
     position: relative;
-    border-radius: 1em;
-    box-shadow: 0 0.188em 1.550em rgb(156, 156, 156);
+    border-radius: 8px;
+    margin-top: 12px;
+    box-shadow: 1px solid #dadce0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+}
+
+.Uc2NEf {
+    align-items: center;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+.KHCwJ.ErmvL {
+    max-height: 22.5vw;
+    max-width: 90vw;
+    height: 160px;
+    width: 640px;
+}
+.KHCwJ {
+    background-image: url("../../public/img.png");
+    background-size: cover;
+    background-position: center;
+}
+.vnFTpb {
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    margin-top: 12px;
+}
+form {
+    display: block;
+    margin-top: 0em;
+}
+
+.forms {
+    background-color: white;
+    margin: auto;
+    max-width: 90vw;
+    width: 640px;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    margin-top: 12px;
+}
+
+.text {
+    background-color: white;
+    margin: auto;
+    max-width: 90vw;
+    width: 640px;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    margin-top: 12px;
+    flex: 1;
+}
+.JH79cc {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height: 10px;
+    left: -1px;
+    position: absolute;
+    top: -1px;
+    width: calc(100% + 2px);
+}
+.RVEQke {
+    background-color: rgb(0, 174, 239);
+    color: rgba(0, 0, 0, 1);
 }
 
 .input {

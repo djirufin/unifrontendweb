@@ -15,6 +15,8 @@ import Dashboard from "../pages/dashboard/dashboard";
 import Ipdispatch from "../pages/logistics/ipdispatch";
 import TraceFound from "../pages/logistics/traceFound";
 import Withdrawal from "../pages/logistics/withdrawal";
+import Supplier from "../pages/users/supplier";
+import Supply from "../pages/logistics/supply";
 
 const theme = createMuiTheme({
   palette: {
@@ -49,9 +51,10 @@ function App() {
     <>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
-          <div className="appMain">
-            <Switch>
-              <Route exact path="/" component={Login} />
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route exact path="/suppliers" component={Supplier} />
+            <div className="appMain">
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/management/use" component={Users} />
               <Route exact path="/management/org" component={Organisation} />
@@ -64,8 +67,9 @@ function App() {
               <Route exact path="/logistic/ack" component={Acknowledge} />
               <Route exact path="/logistic/cd" component={Ipdispatch} />
               <Route exact path="/logistic/wm" component={Withdrawal} />
-            </Switch>
-          </div>
+              <Route exact path="/logistic/sup" component={Supply} />
+            </div>
+          </Switch>
           <CssBaseline />
         </ThemeProvider>
       </BrowserRouter>

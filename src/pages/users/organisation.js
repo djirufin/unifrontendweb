@@ -17,6 +17,8 @@ import Header from "../../components/Header";
 import useTable from "../../components/useTable";
 import Popup from "../../components/Popup";
 import AddOrg from "./addOrg";
+import ConfirmDialog from "../../components/ConfirmDialog";
+import Notification from "../../components/Notification";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -32,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
   },
   searchInput: {
     width: "70%",
-    left: "0rem",
   },
   newButton: {
     position: "absolute",
@@ -51,6 +52,17 @@ export default function Organisation(props) {
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [records, setRecords] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
+
   const [filterFn, setFilterFn] = useState({
     fn: (records) => {
       return records;
@@ -83,12 +95,57 @@ export default function Organisation(props) {
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
 
-  const addOrEdit = (organisation, resetForm) => {};
+  const addOrEdit = (organisation, resetForm) => {
+    if (organisation.id) {
+      managementService.updateOrg(organisation.id, organisation).then((res) => {
+        setNotify({
+          isOpen: true,
+          message: "Submit Successfully",
+          type: "success",
+        });
+        resetForm();
+        setRecordForEdit(null);
+        setOpenPopup(false);
+        getOrganisation();
+      });
+    }
+    if (!organisation.id) {
+      managementService.addOrg(organisation).then((res) => {
+        setNotify({
+          isOpen: true,
+          message: "Create Successfully",
+          type: "success",
+        });
+        resetForm();
+        setRecordForEdit(null);
+        setOpenPopup(false);
+        getOrganisation();
+      });
+    }
+  };
 
   const openInPopup = (organisation) => {
     setRecordForEdit(organisation);
     setOpenPopup(true);
   };
+
+  const onDelete = (id) => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+    managementService.deleteOrg(id).then((res) => {
+      console.log(res.data);
+      const newRecords = records.filter((x) => x.id !== id);
+      setRecords(newRecords);
+      setNotify({
+        isOpen: true,
+        message: res.data,
+        type: "error",
+      });
+    });
+  };
+
   return (
     <>
       <Header />
@@ -96,7 +153,7 @@ export default function Organisation(props) {
         <Paper className={classes.pageContent}>
           <Toolbar>
             <Controls.Input
-              label="Pesquisar"
+              label="Search"
               className={classes.searchInput}
               InputProps={{
                 startAdornment: (
@@ -138,7 +195,16 @@ export default function Organisation(props) {
                       </Controls.ActionButton>
                       <Controls.ActionButton
                         color="secondary"
-                        //onClick={() => { openInPopup(user) }}
+                        onClick={() => {
+                          setConfirmDialog({
+                            isOpen: true,
+                            title: "Are you sure to delete this record?",
+                            subTitle: "You can't undo this operation",
+                            onConfirm: () => {
+                              onDelete(organisation.id);
+                            },
+                          });
+                        }}
                       >
                         <CloseOutlined fontSize="small" />
                       </Controls.ActionButton>
@@ -156,6 +222,11 @@ export default function Organisation(props) {
         >
           <AddOrg recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
         </Popup>
+        <Notification notify={notify} setNotify={setNotify} />
+        <ConfirmDialog
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
+        />
       </div>
     </>
   );
