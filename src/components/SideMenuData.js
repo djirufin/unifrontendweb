@@ -129,26 +129,16 @@ export const SideMenuDataIPADMIN = [
   },
 ];
 
-// PROFILE USER
-export const SideMenuDataUSER = [
+// PROFILE SUPPLIER
+export const SideMenuDataSUPPLIER = [
   {
-    title: "Users",
+    title: "Dashboard",
     icon: <DashboardOutlined />,
-    link: "/users",
+    link: "/dashboard",
   },
   {
-    title: "New Order",
+    title: "Supply",
     icon: <ListAltOutlined />,
-    link: "/logistic/no",
-  },
-  {
-    title: "Stock Material",
-    icon: <ListAltOutlined />,
-    link: "/logistic/mm",
-  },
-  {
-    title: "Organisation",
-    icon: <ListAltOutlined />,
-    link: "/management/org",
+    link: "/logistic/sup",
   },
 ];

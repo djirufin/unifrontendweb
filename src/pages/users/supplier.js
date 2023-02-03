@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-pascal-case */
-import { makeStyles, Paper } from "@material-ui/core";
+import { CircularProgress, makeStyles, Paper } from "@material-ui/core";
 import React, { useState } from "react";
 import Controls from "../../components/controls/Controls";
 import Select from "react-select";
 import { Form, useForm } from "../../components/useForm";
-import { activity, supplier } from "../../services/emailService";
+import { activity, sendEmail, supplier } from "../../services/emailService";
 import SupplierData from "./supplierData";
+import Notification from "../../components/Notification";
+import SuccessDialog from "../../components/successDialog";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -44,12 +46,23 @@ const initialeValues = {
   telephone1: "",
   telephone2: "",
   focalPoint: "",
+  loading: false,
 };
 
 export default function Supplier(props) {
   const classes = useStyles();
   const [sector, setSector] = useState([]);
   const [file, setFile] = useState([]);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
@@ -83,21 +96,36 @@ export default function Supplier(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      values.loading = true;
       //upload file
       //   let data = new FormData();
       //   data.append("file", file);
       //   values.fichier = data;
 
       values.activitySector = sector;
-      console.log(values.fichier);
       supplier(values)
         .then((res) => {
           console.log(res.data);
+          setConfirmDialog({
+            isOpen: true,
+            title: res.data,
+            subTitle: "Um e-mail foi enviado para você",
+          });
+          sendEmail(
+            values.email,
+            "PEDIDO DE MANIFESTAÇÕES DE INTERESSE - UNICEF",
+            "O seu registo foi submetido com sucesso !"
+          );
+          resetForm();
         })
         .catch((err) => {
           console.log(err);
+          setNotify({
+            isOpen: true,
+            message: err.message,
+            type: "error",
+          });
         });
-      resetForm();
     }
   };
 
@@ -306,7 +334,7 @@ export default function Supplier(props) {
               <br />
               <Controls.textField
                 className={classes.searchInput}
-                placeholder="Your response"
+                placeholder="Ex: +245000000000"
                 name="telephone1"
                 onChange={handleInputChange}
                 value={values.telephone1}
@@ -322,7 +350,7 @@ export default function Supplier(props) {
               <br />
               <Controls.textField
                 className={classes.searchInput}
-                placeholder="Your response"
+                placeholder="Ex: +245000000000"
                 name="telephone2"
                 onChange={handleInputChange}
                 value={values.telephone2}
@@ -348,16 +376,26 @@ export default function Supplier(props) {
             </div>
           </div>
           <div>
-            <Controls.Button text="SEND" type="submit" />
+            <Controls.Button
+              text={values.loading ? <CircularProgress /> : "SEND"}
+              disabled={values.loading}
+              type="submit"
+            />
             <Controls.Button
               className={classes.newButton}
               text="RESET"
               color="default"
+              disabled={values.loading}
               onClick={resetForm}
             />
           </div>
         </form>
       </div>
+      <Notification notify={notify} setNotify={setNotify} />
+      <SuccessDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </div>
   );
 }

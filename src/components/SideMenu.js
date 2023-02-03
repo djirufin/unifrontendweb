@@ -5,7 +5,7 @@ import "../App/App.css";
 import {
   SideMenuDataADMIN,
   SideMenuDataIPADMIN,
-  SideMenuDataUSER,
+  SideMenuDataSUPPLIER,
 } from "./SideMenuData";
 import * as authService from "../services/authService";
 import Sidebar from "./Sidebar";
@@ -37,23 +37,11 @@ const SideMenu = (props) => {
       <div className={classes.sideMenu}>
         <img className={classes.img} src="lg.png" alt="" />
         {currentUser ? (
-          currentUser.roles.toString() === "ROLE_USER" ? (
+          currentUser.roles.toString() === "ROLE_SUPPLIER" ? (
             <ul className="SibeMenuList">
-              {SideMenuDataUSER.map((val, key) => {
-                return (
-                  <li
-                    key={key}
-                    className="row"
-                    id={window.location.pathname === val.link ? "active" : ""}
-                    onClick={() => {
-                      window.location.pathname = val.link;
-                    }}
-                  >
-                    <div id="icon">{val.icon}</div>
-                    <div id="title">{val.title}</div>
-                  </li>
-                );
-              })}
+              {SideMenuDataSUPPLIER.map((val, key) => (
+                <Sidebar key={key} item={val} />
+              ))}
             </ul>
           ) : currentUser.roles.toString() === "ROLE_IPADMIN" ? (
             <ul className="SibeMenuList">

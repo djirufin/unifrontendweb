@@ -7,14 +7,16 @@ import {
   TableRow,
   Toolbar,
 } from "@material-ui/core";
-import { Search } from "@material-ui/icons";
+import { CloseOutlined, Search } from "@material-ui/icons";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import ConfirmDialog from "../../components/ConfirmDialog";
 import Controls from "../../components/controls/Controls";
 import Header from "../../components/Header";
+import Notification from "../../components/Notification";
 import useTable from "../../components/useTable";
-import { listSupply } from "../../services/userService";
+import { deletesupply, listSupply } from "../../services/userService";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -41,11 +43,11 @@ const useStyles = makeStyles((theme) => ({
 const headCells = [
   { id: "companyName", label: "Company Name" },
   { id: "email", label: "E-mail" },
-  { id: "acronym", label: "Acronym" },
+  { id: "telephone", label: "Telephone" },
   { id: "address", label: "Address" },
   { id: "city", label: "City" },
   { id: "activitySector", label: "Activity Sector" },
-  // { id: "actions", label: "Action", disableSorting: true },
+  { id: "actions", label: "Action", disableSorting: true },
 ];
 
 export default function Supply(props) {
@@ -55,6 +57,16 @@ export default function Supply(props) {
     fn: (records) => {
       return records;
     },
+  });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
   });
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
@@ -66,10 +78,30 @@ export default function Supply(props) {
         if (target.value === "") return records;
         else {
           return records.filter(
-            (x) => x.companyName === target.value || x.email === target.value
+            (x) =>
+              x.companyName.toLowerCase() === target.value ||
+              x.email.toLowerCase() === target.value
           );
         }
       },
+    });
+  };
+
+  //Delete supply
+  const onDelete = (id) => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+    deletesupply(id).then((res) => {
+      console.log(res.data);
+      const newRecords = records.filter((x) => x.id !== id);
+      setRecords(newRecords);
+      setNotify({
+        isOpen: true,
+        message: res.data,
+        type: "error",
+      });
     });
   };
 
@@ -110,10 +142,27 @@ export default function Supply(props) {
                   <TableRow key={index}>
                     <TableCell>{sup.companyName}</TableCell>
                     <TableCell>{sup.email}</TableCell>
-                    <TableCell>{sup.acronym}</TableCell>
+                    <TableCell>{sup.telephone1}</TableCell>
                     <TableCell>{sup.address}</TableCell>
                     <TableCell>{sup.city}</TableCell>
                     <TableCell>{String(sup.activitySector)}</TableCell>
+                    <TableCell>
+                      <Controls.ActionButton
+                        color="secondary"
+                        onClick={() => {
+                          setConfirmDialog({
+                            isOpen: true,
+                            title: "Are you sure to delete this record?",
+                            subTitle: "You can't undo this operation",
+                            onConfirm: () => {
+                              onDelete(sup.id);
+                            },
+                          });
+                        }}
+                      >
+                        <CloseOutlined fontSize="small" />
+                      </Controls.ActionButton>
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -121,6 +170,11 @@ export default function Supply(props) {
           </TblContainer>
           <TblPagination />
         </Paper>
+        <Notification notify={notify} setNotify={setNotify} />
+        <ConfirmDialog
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
+        />
       </div>
     </>
   );

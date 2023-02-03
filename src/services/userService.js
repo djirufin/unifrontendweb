@@ -8,6 +8,7 @@ const head = {
 
 export const Role = () => [
   { id: "user", title: "User" },
+  { id: "supplier", title: "User-Supplier" },
   { id: "mod", title: "Mod" },
   { id: "admin", title: "Admin" },
 ];
@@ -52,6 +53,13 @@ export function updateUser(userId, user) {
 
 export function deleteuser(userId) {
   return axios.delete(API_BASE_URL + "/public/user/delete/" + userId, {
+    headers: authHeader(),
+    head,
+  });
+}
+
+export function deletesupply(supplyId) {
+  return axios.delete(API_BASE_URL + "/public/supply/delete/" + supplyId, {
     headers: authHeader(),
     head,
   });

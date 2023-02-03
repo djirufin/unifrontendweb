@@ -8,6 +8,7 @@ import {
   Select as MuiSelect,
   MenuItem,
   InputLabel,
+  CircularProgress,
 } from "@material-ui/core";
 import Controls from "../../components/controls/Controls";
 import * as userService from "../../services/userService";
@@ -23,8 +24,9 @@ const initialeValues = {
   password: "",
   email: "",
   telephone: "",
-  role: "",
+  autorisation: "",
   organisation_id: "",
+  loading: false,
 };
 
 export default function AddUserForm(props) {
@@ -42,6 +44,8 @@ export default function AddUserForm(props) {
         fieldValues.username.length > 3 ? "" : "Minimum 4 caracters required.";
     if ("email" in fieldValues)
       temp.email = fieldValues.email ? "" : "Email is not valid.";
+    if ("telephone" in fieldValues)
+      temp.telephone = fieldValues.telephone ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -53,15 +57,15 @@ export default function AddUserForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      values.loading = true;
       values.password = generate();
-      values.telephone = "test";
       addOrEdit(values, resetForm);
       sendEmail(
         values.email,
         "User creation",
-        "CECI EST UN TEST-MRBON, PRIERE NE PAS LE CONSIDERER. \n Votre compte a ete cree dans la plateform trackiteum.org, veuillez y acceder en utilisant le username " +
+        "Votre compte a ete cree dans la plateform trackiteum.org, veuillez y acceder en utilisant\nUsername : " +
           values.username +
-          " et le password " +
+          "\nPassword : " +
           values.password
       );
     }
@@ -87,6 +91,17 @@ export default function AddUserForm(props) {
       });
   }, [recordForEdit]);
 
+  const organisation = [
+    options
+      .filter((r) => r.name !== "Undefined")
+      .map((org) => {
+        return {
+          id: org.id,
+          title: org.name,
+        };
+      }),
+  ];
+
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
@@ -105,21 +120,28 @@ export default function AddUserForm(props) {
             onChange={handleInputChange}
             error={errors.lastname}
           />
-          <Controls.Select
-            label="Role"
-            name="role"
-            value={values.role}
-            onChange={handleInputChange}
-            options={userService.Role()}
-          />
-        </Grid>
-        <Grid item xs={6}>
           <Controls.Input
             label="Username"
             name="username"
             value={values.username}
             onChange={handleInputChange}
             error={errors.username}
+          />
+          <Controls.Select
+            label="Role"
+            name="autorisation"
+            value={values.autorisation}
+            onChange={handleInputChange}
+            options={userService.Role()}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <Controls.Input
+            label="Telephone"
+            name="telephone"
+            value={values.telephone}
+            onChange={handleInputChange}
+            error={errors.telephone}
           />
           <Controls.Input
             name="email"
@@ -128,25 +150,19 @@ export default function AddUserForm(props) {
             onChange={handleInputChange}
             error={errors.email}
           />
-          <FormControl variant="outlined">
-            <InputLabel>{"Organisation"}</InputLabel>
-            <MuiSelect
-              label="Organisation"
-              name="organisation_id"
-              value={values.organisation_id}
-              onChange={handleInputChange}
-            >
-              {options
-                .filter((i) => i.name !== "Undefined")
-                .map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-            </MuiSelect>
-          </FormControl>
+          <Controls.Select
+            label="Organisation"
+            name="organisation_id"
+            value={values.organisation_id}
+            onChange={handleInputChange}
+            options={organisation[0]}
+          />
           <div>
-            <Controls.Button type="submit" text="Validate" />
+            <Controls.Button
+              type="submit"
+              text={values.loading ? <CircularProgress /> : "VALIDATE"}
+              disabled={values.loading}
+            />
           </div>
         </Grid>
       </Grid>

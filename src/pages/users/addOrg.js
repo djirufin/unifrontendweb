@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Grid } from "@material-ui/core";
+import { CircularProgress, Grid } from "@material-ui/core";
 import React from "react";
 import { useEffect } from "react";
 import Controls from "../../components/controls/Controls";
@@ -9,6 +9,7 @@ import { Type } from "../../services/managementService";
 const initialeValues = {
   name: "",
   type: "",
+  loading: false,
 };
 
 export default function AddOrg(props) {
@@ -40,6 +41,7 @@ export default function AddOrg(props) {
 
   const handleSubmit = (e) => {
     if (validate()) {
+      values.loading = true;
       addOrEdit(values, resetForm);
     }
     e.preventDefault();
@@ -66,7 +68,11 @@ export default function AddOrg(props) {
             options={Type()}
           />
           <div>
-            <Controls.Button type="submit" text="Confirmar" />
+            <Controls.Button
+              type="submit"
+              text={values.loading ? <CircularProgress /> : "VALIDATE"}
+              disabled={values.loading}
+            />
           </div>
         </Grid>
       </Grid>

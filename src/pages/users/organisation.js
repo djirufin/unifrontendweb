@@ -100,7 +100,7 @@ export default function Organisation(props) {
       managementService.updateOrg(organisation.id, organisation).then((res) => {
         setNotify({
           isOpen: true,
-          message: "Submit Successfully",
+          message: "Update Successfully",
           type: "success",
         });
         resetForm();
