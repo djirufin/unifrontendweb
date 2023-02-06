@@ -17,14 +17,7 @@ import Popup from "../../components/Popup";
 import IssueForm from "./issueForm";
 
 const useStyles = makeStyles((theme) => ({
-  page: {
-    padding: 1,
-    paddingLeft: "18em",
-    height: "82vh",
-    display: "inline-block",
-  },
   pageContent: {
-    width: "69em",
     margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
@@ -106,9 +99,8 @@ export default function Issues(props) {
   return (
     <>
       <Header />
-      <div className={classes.page}>
-        <Paper className={classes.pageContent}>
-          {/* <Toolbar>
+      <Paper className={classes.pageContent}>
+        {/* <Toolbar>
           <Controls.Input
             label="Pesquisar"
             className={classes.searchInput}
@@ -122,48 +114,47 @@ export default function Issues(props) {
             onChange={handleSearch}
           />
         </Toolbar> */}
-          <TblContainer>
-            <TblHead />
-            <TableBody>
-              {recordsAfterPagingAndSorting().map((issues) => (
-                <TableRow key={issues.id}>
-                  <TableCell>{issues["Consignee Name"]}</TableCell>
-                  <TableCell>{issues["Batch"]}</TableCell>
-                  <TableCell>{issues.senderName}</TableCell>
-                  <TableCell>{issues.receiverName}</TableCell>
-                  <TableCell>{issues["Material Description"]}</TableCell>
-                  <TableCell>{issues["RO Quantity"]}</TableCell>
-                  <TableCell>{issues.qtyReport}</TableCell>
-                  <TableCell>
-                    <Controls.ActionButton
-                      color="primary"
-                      onClick={() => {
-                        openInPopup(issues);
-                      }}
-                    >
-                      <EditOutlined fontSize="small" />
-                    </Controls.ActionButton>
-                    {/* <Controls.ActionButton
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((issues) => (
+              <TableRow key={issues.id}>
+                <TableCell>{issues["Consignee Name"]}</TableCell>
+                <TableCell>{issues["Batch"]}</TableCell>
+                <TableCell>{issues.senderName}</TableCell>
+                <TableCell>{issues.receiverName}</TableCell>
+                <TableCell>{issues["Material Description"]}</TableCell>
+                <TableCell>{issues["RO Quantity"]}</TableCell>
+                <TableCell>{issues.qtyReport}</TableCell>
+                <TableCell>
+                  <Controls.ActionButton
+                    color="primary"
+                    onClick={() => {
+                      openInPopup(issues);
+                    }}
+                  >
+                    <EditOutlined fontSize="small" />
+                  </Controls.ActionButton>
+                  {/* <Controls.ActionButton
                       color="secondary"
                       //onClick={() => { openInPopup(user) }}
                     >
                       <CloseOutlined fontSize="small" />
                     </Controls.ActionButton> */}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </TblContainer>
-          {/* <TblPagination /> */}
-        </Paper>
-        <Popup
-          title="User Form"
-          openPopup={openPopup}
-          setOpenPopup={setOpenPopup}
-        >
-          <IssueForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
-        </Popup>
-      </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TblContainer>
+        {/* <TblPagination /> */}
+      </Paper>
+      <Popup
+        title="User Form"
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <IssueForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
+      </Popup>
     </>
   );
 }

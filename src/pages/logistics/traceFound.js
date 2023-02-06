@@ -25,14 +25,7 @@ import * as authService from "../../services/authService";
 import * as logisticService from "../../services/logisticService";
 
 const useStyles = makeStyles((theme) => ({
-  page: {
-    padding: 1,
-    paddingLeft: "18em",
-    height: "82vh",
-    display: "inline-block",
-  },
   pageContent: {
-    width: "69em",
     margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
@@ -110,90 +103,88 @@ export default function TraceFound(props) {
   return (
     <>
       <Header />
-      <div className={classes.page}>
-        <Paper className={classes.pageContent}>
-          <TblContainer>
-            <TblHead />
-            <TableBody>
-              {" "}
-              {recordsAfterPagingAndSorting().map((zrost) => {
-                var findItem = uniqueZrost.find(
-                  (x) => x["Batch"] === zrost["Batch"]
+      <Paper className={classes.pageContent}>
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {" "}
+            {recordsAfterPagingAndSorting().map((zrost) => {
+              var findItem = uniqueZrost.find(
+                (x) => x["Batch"] === zrost["Batch"]
+              );
+              if (!findItem) {
+                uniqueZrost.push(zrost);
+                return (
+                  <TableRow key={zrost.id} onClick={() => loadDetails(zrost)}>
+                    <TableCell>{zrost.dateTraceUpdate}</TableCell>
+                    <TableCell>{zrost["Batch"]}</TableCell>
+                    <TableCell>{zrost.consigneeTracer}</TableCell>
+                    <TableCell>{zrost.phoneTracer}</TableCell>
+                    <TableCell>{zrost.emailTracer}</TableCell>
+                  </TableRow>
                 );
-                if (!findItem) {
-                  uniqueZrost.push(zrost);
-                  return (
-                    <TableRow key={zrost.id} onClick={() => loadDetails(zrost)}>
-                      <TableCell>{zrost.dateTraceUpdate}</TableCell>
-                      <TableCell>{zrost["Batch"]}</TableCell>
-                      <TableCell>{zrost.consigneeTracer}</TableCell>
-                      <TableCell>{zrost.phoneTracer}</TableCell>
-                      <TableCell>{zrost.emailTracer}</TableCell>
-                    </TableRow>
-                  );
-                }
-              })}
-            </TableBody>
-          </TblContainer>
-          <div id="idDetails">
-            {contenuDetails.length > 0 ? (
-              <Form
-                style={{ paddingLeft: "7em", margin: "1em" }}
-                onSubmit={(e) => report(e)}
-              >
-                <Table size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        <strong>Material</strong>
-                      </TableCell>
-                      <TableCell align="center">
-                        <strong>Description</strong>
-                      </TableCell>
-                      <TableCell>
-                        <strong>RO Quantity</strong>
-                      </TableCell>
-                      <TableCell>
-                        <strong>Report Quantity</strong>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {contenuDetails.map((item, index) => {
-                      return (
-                        <TableRow>
-                          <TableCell>{item["Material"]}</TableCell>
-                          <TableCell>{item["Material Description"]}</TableCell>
-                          <TableCell align="center">
-                            {item["RO Quantity"]}
-                          </TableCell>
-                          <TableCell>
-                            <Controls.textField
-                              name={"qtyReport" + index}
-                              id={"qtyReport" + index}
-                              size="small"
-                              className={classes.qty}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
+              }
+            })}
+          </TableBody>
+        </TblContainer>
+        <div id="idDetails">
+          {contenuDetails.length > 0 ? (
+            <Form
+              style={{ paddingLeft: "7em", margin: "1em" }}
+              onSubmit={(e) => report(e)}
+            >
+              <Table size="small">
+                <TableHead>
                   <TableRow>
-                    <TableCell />
-                    <TableCell />
-                    <TableCell />
                     <TableCell>
-                      <Controls.Button type="submit" text="Submit" />
+                      <strong>Material</strong>
+                    </TableCell>
+                    <TableCell align="center">
+                      <strong>Description</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>RO Quantity</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Report Quantity</strong>
                     </TableCell>
                   </TableRow>
-                </Table>
-              </Form>
-            ) : null}
-          </div>
-          {/* <TblPagination /> */}
-        </Paper>
-      </div>
+                </TableHead>
+                <TableBody>
+                  {contenuDetails.map((item, index) => {
+                    return (
+                      <TableRow>
+                        <TableCell>{item["Material"]}</TableCell>
+                        <TableCell>{item["Material Description"]}</TableCell>
+                        <TableCell align="center">
+                          {item["RO Quantity"]}
+                        </TableCell>
+                        <TableCell>
+                          <Controls.textField
+                            name={"qtyReport" + index}
+                            id={"qtyReport" + index}
+                            size="small"
+                            className={classes.qty}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+                <TableRow>
+                  <TableCell />
+                  <TableCell />
+                  <TableCell />
+                  <TableCell>
+                    <Controls.Button type="submit" text="Submit" />
+                  </TableCell>
+                </TableRow>
+              </Table>
+            </Form>
+          ) : null}
+        </div>
+        {/* <TblPagination /> */}
+      </Paper>
     </>
   );
 }

@@ -19,14 +19,7 @@ import useTable from "../../components/useTable";
 import { deletesupply, listSupply } from "../../services/userService";
 
 const useStyles = makeStyles((theme) => ({
-  page: {
-    padding: 1,
-    paddingLeft: "18em",
-    height: "82vh",
-    display: "inline-block",
-  },
   pageContent: {
-    width: "69em",
     margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
@@ -118,64 +111,62 @@ export default function Supply(props) {
   return (
     <>
       <Header />
-      <div className={classes.page}>
-        <Paper className={classes.pageContent}>
-          <Toolbar>
-            <Controls.Input
-              label="Search"
-              className={classes.searchInput}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={handleSearch}
-            />
-          </Toolbar>
-          <TblContainer>
-            <TblHead />
-            <TableBody>
-              {recordsAfterPagingAndSorting().map((sup, index) => {
-                return (
-                  <TableRow key={index}>
-                    <TableCell>{sup.companyName}</TableCell>
-                    <TableCell>{sup.email}</TableCell>
-                    <TableCell>{sup.telephone1}</TableCell>
-                    <TableCell>{sup.address}</TableCell>
-                    <TableCell>{sup.city}</TableCell>
-                    <TableCell>{String(sup.activitySector)}</TableCell>
-                    <TableCell>
-                      <Controls.ActionButton
-                        color="secondary"
-                        onClick={() => {
-                          setConfirmDialog({
-                            isOpen: true,
-                            title: "Are you sure to delete this record?",
-                            subTitle: "You can't undo this operation",
-                            onConfirm: () => {
-                              onDelete(sup.id);
-                            },
-                          });
-                        }}
-                      >
-                        <CloseOutlined fontSize="small" />
-                      </Controls.ActionButton>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </TblContainer>
-          <TblPagination />
-        </Paper>
-        <Notification notify={notify} setNotify={setNotify} />
-        <ConfirmDialog
-          confirmDialog={confirmDialog}
-          setConfirmDialog={setConfirmDialog}
-        />
-      </div>
+      <Paper className={classes.pageContent}>
+        <Toolbar>
+          <Controls.Input
+            label="Search"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            onChange={handleSearch}
+          />
+        </Toolbar>
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((sup, index) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell>{sup.companyName}</TableCell>
+                  <TableCell>{sup.email}</TableCell>
+                  <TableCell>{sup.telephone1}</TableCell>
+                  <TableCell>{sup.address}</TableCell>
+                  <TableCell>{sup.city}</TableCell>
+                  <TableCell>{String(sup.activitySector)}</TableCell>
+                  <TableCell>
+                    <Controls.ActionButton
+                      color="secondary"
+                      onClick={() => {
+                        setConfirmDialog({
+                          isOpen: true,
+                          title: "Are you sure to delete this record?",
+                          subTitle: "You can't undo this operation",
+                          onConfirm: () => {
+                            onDelete(sup.id);
+                          },
+                        });
+                      }}
+                    >
+                      <CloseOutlined fontSize="small" />
+                    </Controls.ActionButton>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </TblContainer>
+        <TblPagination />
+      </Paper>
+      <Notification notify={notify} setNotify={setNotify} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 }

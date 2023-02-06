@@ -114,8 +114,8 @@ export default function IssueForm(props) {
             error={errors.qtyReport}
           />
           <div>
-            <Controls.Button text="Close" color="default" onClick={resetForm} />
-            <Controls.Button type="submit" text="Confirmar" />
+            {/* <Controls.Button text="Close" color="default" onClick={resetForm} /> */}
+            <Controls.Button type="submit" text="Validate" />
           </div>
         </Grid>
       </Grid>

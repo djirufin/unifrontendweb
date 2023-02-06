@@ -18,8 +18,6 @@ import SideMenu from "./SideMenu";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#fff",
-    position: "absolute",
-    width: "80%",
   },
   searchInput: {
     opacity: "0.6",
@@ -49,7 +47,7 @@ export default function Header(props) {
     <>
       <SideMenu />
       <div>
-        <AppBar className={classes.root}>
+        <AppBar position="static" className={classes.root}>
           <Toolbar>
             <Grid container alignItems="center">
               <Grid item>

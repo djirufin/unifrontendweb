@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Controls from "../../components/controls/Controls";
 import Header from "../../components/Header";
+import Notification from "../../components/Notification";
 import useTable from "../../components/useTable";
 import {
   listDispatch,
@@ -20,14 +21,7 @@ import {
 } from "../../services/logisticService";
 
 const useStyles = makeStyles((theme) => ({
-  page: {
-    padding: 1,
-    paddingLeft: "18em",
-    height: "82vh",
-    display: "inline-block",
-  },
   pageContent: {
-    width: "69em",
     margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
@@ -58,6 +52,11 @@ export default function Withdrawal(props) {
     fn: (records) => {
       return records;
     },
+  });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
   });
   const [saveData, setSaveData] = useState([]);
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
@@ -96,14 +95,19 @@ export default function Withdrawal(props) {
   const authorize = (index, endBeneficiary) => {
     endBeneficiary.status = "COMPLETED";
     saveData[index]["beneficiaries"] = records;
-    console.log("test ", saveData[index]);
+    console.log("test ", index);
     updateBeneficiary(saveData[index].id, endBeneficiary)
       .then((response) => {
         console.log(response.data);
+        setNotify({
+          isOpen: true,
+          message: response.data,
+          type: "success",
+        });
         const newRecords = records.filter(
           (x) => x.token !== endBeneficiary.token
         );
-        setRecords(newRecords);
+        setRecords(newRecords.filter((r) => r.status === "PENDING"));
       })
       .catch((err) => console.log(err));
   };
@@ -111,53 +115,52 @@ export default function Withdrawal(props) {
   return (
     <>
       <Header />
-      <div className={classes.page}>
-        <Paper className={classes.pageContent}>
-          <Toolbar>
-            <Controls.Input
-              label="Search By Token"
-              className={classes.searchInput}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={handleSearch}
-            />
-          </Toolbar>
-          <TblContainer>
-            <TblHead />
-            <TableBody>
-              {recordsAfterPagingAndSorting().map((endBeneficiary, index) => {
-                return (
-                  <TableRow key={index}>
-                    <TableCell>{endBeneficiary.name}</TableCell>
-                    <TableCell>{endBeneficiary.telephone}</TableCell>
-                    <TableCell>{endBeneficiary.batch}</TableCell>
-                    <TableCell>{endBeneficiary.material_description}</TableCell>
-                    <TableCell>{endBeneficiary.quantity}</TableCell>
-                    <TableCell>{endBeneficiary.status}</TableCell>
-                    <TableCell>
-                      <Controls.Button
-                        id={"valid" + endBeneficiary.token}
-                        size="small"
-                        text="VALID"
-                        type="submit"
-                        onClick={(e) => {
-                          authorize(index, endBeneficiary);
-                        }}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </TblContainer>
-          <TblPagination />
-        </Paper>
-      </div>
+      <Paper className={classes.pageContent}>
+        <Toolbar>
+          <Controls.Input
+            label="Search By Token"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            onChange={handleSearch}
+          />
+        </Toolbar>
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((endBeneficiary, index) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell>{endBeneficiary.name}</TableCell>
+                  <TableCell>{endBeneficiary.telephone}</TableCell>
+                  <TableCell>{endBeneficiary.batch}</TableCell>
+                  <TableCell>{endBeneficiary.material_description}</TableCell>
+                  <TableCell>{endBeneficiary.quantity}</TableCell>
+                  <TableCell>{endBeneficiary.status}</TableCell>
+                  <TableCell>
+                    <Controls.Button
+                      id={"valid" + endBeneficiary.token}
+                      size="small"
+                      text="authorized"
+                      type="submit"
+                      onClick={(e) => {
+                        authorize(index, endBeneficiary);
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </TblContainer>
+        <TblPagination />
+      </Paper>
+      <Notification notify={notify} setNotify={setNotify} />
     </>
   );
 }

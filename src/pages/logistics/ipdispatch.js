@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
+  CircularProgress,
   Grid,
   makeStyles,
   Paper,
@@ -24,16 +25,11 @@ import Select from "react-select";
 import { Table } from "react-bootstrap";
 import { Category } from "@material-ui/icons";
 import { generate } from "@wcj/generate-password";
+import Notification from "../../components/Notification";
+import SuccessDialog from "../../components/successDialog";
 
 const useStyles = makeStyles((theme) => ({
-  page: {
-    padding: 1,
-    paddingLeft: "18em",
-    height: "82vh",
-    display: "inline-block",
-  },
   pageContent: {
-    width: "69em",
     margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
@@ -62,6 +58,17 @@ export default function Ipdispatch(props) {
   const [materialToDispatch, setMaterialToDispatch] = useState([]);
   const [send, setSend] = useState("");
   const [finalQuantity, setFinalQuantity] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   const stepNumbers = document.querySelectorAll(".step-number");
 
@@ -180,13 +187,14 @@ export default function Ipdispatch(props) {
           });
         });
         setListBeneficiarie(resultats);
-        setDisplay("Vous avez chargé " + results.data.length + " elements");
+        setDisplay("You have loaded " + results.data.length + " items");
       },
     });
   };
 
   //SAVE DISPATCH
   const dispatcher = (e) => {
+    setLoading(true);
     e.preventDefault();
     const dispatch = {
       name: nameDispatch,
@@ -200,7 +208,14 @@ export default function Ipdispatch(props) {
     logisticService
       .dispatchMaterial(dispatch)
       .then((response) => {
+        window.location.reload();
         console.log(response.data);
+        setConfirmDialog({
+          isOpen: true,
+          title: response.data,
+          subTitle: "An email has been sent",
+        });
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -231,256 +246,260 @@ export default function Ipdispatch(props) {
   return (
     <>
       <Header />
-      <div className={classes.page}>
-        <Paper className={classes.pageContent}>
-          <div className="containerP">
-            <div className="progress-steps-container">
-              <div className="step-progression" id="stepProgression"></div>
-              <div className="step-number">1</div>
-              <div className="step-number">2</div>
-              <div className="step-number">3</div>
-              <div className="step-number">4</div>
-              <div className="step-number">5</div>
-            </div>
+      <Paper className={classes.pageContent}>
+        <div className="containerP">
+          <div className="progress-steps-container">
+            <div className="step-progression" id="stepProgression"></div>
+            <div className="step-number">1</div>
+            <div className="step-number">2</div>
+            <div className="step-number">3</div>
+            <div className="step-number">4</div>
+            <div className="step-number">5</div>
           </div>
-        </Paper>
-        <Paper className={classes.pageContent}>
-          {currentStep && currentStep === 1 ? (
-            <Form>
-              <Grid container>
-                <Grid item xs={6}>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      width: "50em",
-                    }}
-                  >
-                    <p>Dispatch Name : </p>
-                    <Controls.Input
-                      value={nameDispatch}
-                      onChange={(e) => setNameDisptach(e.target.value)}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      width: "31em",
-                    }}
-                  >
-                    <p>Details : </p>
-                    <TextareaAutosize
-                      variant="outlined"
-                      className="textarea"
-                      placeholder="Details"
-                      value={detailsDispatch}
-                      style={{ width: 300, height: 60 }}
-                      onChange={(e) => setDetailsDispatch(e.target.value)}
-                    />
-                  </div>
-                </Grid>
-              </Grid>
-            </Form>
-          ) : currentStep === 2 ? (
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "53em",
-                }}
-              >
-                <p>Register beneficiaries : </p>
-                <Controls.Input
-                  type="file"
-                  accept=".csv"
-                  onChange={changeHandler}
-                  style={{ width: 300, height: 60 }}
-                />
-                <p>{valeur}</p>
-              </div>
-              <h4>{display}</h4>
-            </>
-          ) : currentStep === 3 ? (
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "50em",
-                }}
-              >
-                <p>Select materials to dispatch : </p>
-                <Select
-                  options={allMaterial[0]}
-                  isMulti
-                  className={classes.searchInput}
-                  onChange={(item) => {
-                    setMaterialToDispatch(item);
+        </div>
+      </Paper>
+      <Paper className={classes.pageContent}>
+        {currentStep && currentStep === 1 ? (
+          <Form>
+            <Grid container>
+              <Grid item xs={6}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "50em",
                   }}
-                />
-              </div>
-            </>
-          ) : currentStep === 4 ? (
-            <>
-              <div>
-                {listBeneficiarie.length === 0 ? (
-                  <h3 style={{ color: "red" }}>
-                    Please complete the previous fields
-                  </h3>
-                ) : (
-                  listBeneficiarie.map((list, index) => {
-                    return (
-                      <div>
+                >
+                  <p>Dispatch Name : </p>
+                  <Controls.Input
+                    value={nameDispatch}
+                    onChange={(e) => setNameDisptach(e.target.value)}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "31em",
+                  }}
+                >
+                  <p>Details : </p>
+                  <TextareaAutosize
+                    variant="outlined"
+                    className="textarea"
+                    placeholder="Details"
+                    value={detailsDispatch}
+                    style={{ width: 300, height: 60 }}
+                    onChange={(e) => setDetailsDispatch(e.target.value)}
+                  />
+                </div>
+              </Grid>
+            </Grid>
+          </Form>
+        ) : currentStep === 2 ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "53em",
+              }}
+            >
+              <p>Register beneficiaries : </p>
+              <Controls.Input
+                type="file"
+                accept=".csv"
+                onChange={changeHandler}
+                style={{ width: 300, height: 60 }}
+              />
+              <p>{valeur}</p>
+            </div>
+            <h4>{display}</h4>
+          </>
+        ) : currentStep === 3 ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "50em",
+              }}
+            >
+              <p>Select materials to dispatch : </p>
+              <Select
+                options={allMaterial[0]}
+                isMulti
+                className={classes.searchInput}
+                onChange={(item) => {
+                  setMaterialToDispatch(item);
+                }}
+              />
+            </div>
+          </>
+        ) : currentStep === 4 ? (
+          <>
+            <div>
+              {listBeneficiarie.length === 0 ? (
+                <h3 style={{ color: "red" }}>
+                  Please complete the previous fields
+                </h3>
+              ) : (
+                listBeneficiarie.map((list, index) => {
+                  return (
+                    <div>
+                      <p
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          width: "30em",
+                          padding: 2,
+                        }}
+                      >
+                        {list["Name"]} :{" "}
                         <p
                           style={{
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
-                            width: "30em",
+                            width: "20em",
                             padding: 2,
                           }}
                         >
-                          {list["Name"]} :{" "}
-                          <p
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                              width: "20em",
-                              padding: 2,
-                            }}
+                          <select
+                            name={"product" + index}
+                            id={"product" + index}
+                            onChange={(e) => product(e, list)}
                           >
-                            <select
-                              name={"product" + index}
-                              id={"product" + index}
-                              onChange={(e) => product(e, list)}
-                            >
-                              <option value="">Select product</option>
-                              {materialToDispatch.map((type, index) => (
-                                <option value={type.value} key={index}>
-                                  {type.label}
-                                </option>
-                              ))}
-                            </select>
-                            <input
-                              type="number"
-                              name={"qtySend" + index}
-                              id={"qtySend" + index}
-                              onChange={(e) => quantity(e, list)}
-                              style={{ width: "5em" }}
-                              placeholder="0"
-                            />
-                          </p>
+                            <option value="">Select product</option>
+                            {materialToDispatch.map((type, index) => (
+                              <option value={type.value} key={index}>
+                                {type.label}
+                              </option>
+                            ))}
+                          </select>
+                          <input
+                            type="number"
+                            name={"qtySend" + index}
+                            id={"qtySend" + index}
+                            onChange={(e) => quantity(e, list)}
+                            style={{ width: "5em" }}
+                            placeholder="0"
+                          />
                         </p>
-                      </div>
-                    );
-                  })
-                )}
-              </div>
+                      </p>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </>
+        ) : currentStep === 5 ? (
+          listBeneficiarie.length === 0 ? (
+            <h3 style={{ color: "red" }}>
+              Please complete the previous fields
+            </h3>
+          ) : (
+            <>
+              <Form
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <strong>Batch Number</strong>
+                      </TableCell>
+                      <TableCell align="center">
+                        <strong>Material Description</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Quantity Send</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Beneficiaries</strong>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {materialToDispatch.map((item) => {
+                      let i = 0;
+                      send[item.value].map((s) => {
+                        i = i + parseInt(s["Quantity"]);
+                      });
+                      return (
+                        <TableRow>
+                          <TableCell>{item.value}</TableCell>
+                          <TableCell>{item.label}</TableCell>
+                          <TableCell align="center">{i}</TableCell>
+                          <TableCell align="center">
+                            {send[item.value].length}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </Form>
             </>
-          ) : currentStep === 5 ? (
+          )
+        ) : null}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "right",
+            position: "relative",
+            width: "90%",
+          }}
+        >
+          <input
+            type="button"
+            id="prevBtn"
+            value="Prev"
+            onClick={() => Previous()}
+          />
+          &nbsp;&nbsp;&nbsp;
+          <input
+            type="button"
+            id="nextBtn"
+            value="Next"
+            hidden={
+              currentStep === 5
+                ? listBeneficiarie.length === 0
+                  ? false
+                  : true
+                : false
+            }
+            onClick={() => Next()}
+          />
+          {currentStep === 5 ? (
             listBeneficiarie.length === 0 ? (
-              <h3 style={{ color: "red" }}>
-                Please complete the previous fields
-              </h3>
+              ""
             ) : (
-              <>
-                <Form
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Table size="small">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>
-                          <strong>Batch Number</strong>
-                        </TableCell>
-                        <TableCell align="center">
-                          <strong>Material Description</strong>
-                        </TableCell>
-                        <TableCell>
-                          <strong>Quantity Send</strong>
-                        </TableCell>
-                        <TableCell>
-                          <strong>Beneficiaries</strong>
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {materialToDispatch.map((item) => {
-                        let i = 0;
-                        send[item.value].map((item) => {
-                          i = i + parseInt(item["Quantity"]);
-                        });
-                        return (
-                          <TableRow>
-                            <TableCell>{item.value}</TableCell>
-                            <TableCell>{item.label}</TableCell>
-                            <TableCell align="center">{i}</TableCell>
-                            <TableCell align="center">
-                              {send[item.value].length}
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </Form>
-              </>
+              <Controls.Button
+                size="small"
+                type="submit"
+                text={loading ? <CircularProgress /> : "Disptach"}
+                disabled={loading}
+                onClick={(e) => dispatcher(e)}
+              />
             )
           ) : null}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "right",
-              position: "relative",
-              width: "90%",
-            }}
-          >
-            <input
-              type="button"
-              id="prevBtn"
-              value="Prev"
-              onClick={() => Previous()}
-            />
-            &nbsp;&nbsp;&nbsp;
-            <input
-              type="button"
-              id="nextBtn"
-              value="Next"
-              hidden={
-                currentStep === 5
-                  ? listBeneficiarie.length === 0
-                    ? false
-                    : true
-                  : false
-              }
-              onClick={() => Next()}
-            />
-            {currentStep === 5 ? (
-              listBeneficiarie.length === 0 ? (
-                ""
-              ) : (
-                <Controls.Button
-                  size="small"
-                  type="submit"
-                  text="Submit"
-                  onClick={(e) => dispatcher(e)}
-                />
-              )
-            ) : null}
-          </div>
-        </Paper>
-      </div>
+        </div>
+      </Paper>
+      <Notification notify={notify} setNotify={setNotify} />
+      <SuccessDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 }

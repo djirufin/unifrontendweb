@@ -10,14 +10,7 @@ import { getCurrentUser } from "../../services/authService";
 import * as logisticService from "../../services/logisticService";
 
 const useStyles = makeStyles((theme) => ({
-  page: {
-    padding: 1,
-    paddingLeft: "18em",
-    height: "82vh",
-    display: "inline-block",
-  },
   pageContent: {
-    width: "69em",
     margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
@@ -66,86 +59,83 @@ export default function Trace(props) {
       }
     }
   };
-  console.log("USER", currentUser.email, currentUser.telephone);
   return (
     <>
       <Header />
-      <div className={classes.page}>
-        <Paper className={classes.pageContent}>
-          <Form onClick={handleSearch}>
-            <Grid>
-              <Controls.Input
-                label="Search Batch number"
-                name="searchInput"
-                onChange={(e) => setSearchInput(e.target.value)}
-                value={searchInput}
-              />
-              <Controls.Button text="Search" type="submit" />
-            </Grid>
-          </Form>
-          &nbsp;&nbsp;&nbsp;
-          {statut === 1 ? (
-            result.length === 0 ? (
-              <h3 style={{ color: "red" }}>
-                Ce produit n'existe pas dans la base UNICEF
-              </h3>
-            ) : null
-          ) : null}
-        </Paper>
-        {result.length > 0 ? (
-          <Paper className={classes.Content}>
-            {result.map((searchResult) => {
-              return (
-                <Grid className={classes.head} container key={searchResult.id}>
-                  <Grid item xs={4}>
-                    <div>
-                      <p>
-                        Batch number : <strong>{searchResult["Batch"]}</strong>
-                      </p>
-                      <p>
-                        Reference : <strong>{"TRF11348854436"}</strong>
-                      </p>
-                      <p>
-                        Waybill number :{" "}
-                        <strong>{searchResult["Waybill Number"]}</strong>
-                      </p>
-                    </div>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <div>
-                      <p>
-                        Sender Name : <strong>{"Nehemie Admin"}</strong>
-                      </p>
-                      <p>
-                        Sender Phone : <strong>{"+225 0789 459 270"}</strong>
-                      </p>
-                      <p>
-                        Sender Email :{" "}
-                        <strong>{"boyernehemie@gmail.com"}</strong>
-                      </p>
-                    </div>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <div>
-                      <p>
-                        Receiver Name :{" "}
-                        <strong>{searchResult.consigneeSpoc}</strong>
-                      </p>
-                      <p>
-                        Receiver Phone : <strong>{"+225 0101 782 987"}</strong>
-                      </p>
-                      <p>
-                        Receiver Email :{" "}
-                        <strong>{"othnielboyer@gmail.com"}</strong>
-                      </p>
-                    </div>
-                  </Grid>
-                </Grid>
-              );
-            })}
-          </Paper>
+      <Paper className={classes.pageContent}>
+        <Form onClick={handleSearch}>
+          <Grid>
+            <Controls.Input
+              label="Search Batch number"
+              name="searchInput"
+              onChange={(e) => setSearchInput(e.target.value)}
+              value={searchInput}
+            />
+            <Controls.Button text="Search" type="submit" />
+          </Grid>
+        </Form>
+        &nbsp;&nbsp;&nbsp;
+        {statut === 1 ? (
+          result.length === 0 ? (
+            <h3 style={{ color: "red" }}>
+              Ce produit n'existe pas dans la base UNICEF
+            </h3>
+          ) : null
         ) : null}
-      </div>
+      </Paper>
+      {result.length > 0 ? (
+        <Paper className={classes.Content}>
+          {result.map((searchResult) => {
+            return (
+              <Grid className={classes.head} container key={searchResult.id}>
+                <Grid item xs={4}>
+                  <div>
+                    <p>
+                      Batch number : <strong>{searchResult["Batch"]}</strong>
+                    </p>
+                    <p>
+                      Reference : <strong>{"TRF11348854436"}</strong>
+                    </p>
+                    <p>
+                      Waybill number :{" "}
+                      <strong>{searchResult["Waybill Number"]}</strong>
+                    </p>
+                  </div>
+                </Grid>
+                <Grid item xs={4}>
+                  <div>
+                    <p>
+                      Sender Name : <strong>{searchResult.senderName}</strong>
+                    </p>
+                    <p>
+                      Sender Phone : <strong>{searchResult.senderPhone}</strong>
+                    </p>
+                    <p>
+                      Sender Email : <strong>{searchResult.senderEmail}</strong>
+                    </p>
+                  </div>
+                </Grid>
+                <Grid item xs={4}>
+                  <div>
+                    <p>
+                      Receiver Name :{" "}
+                      <strong>{searchResult.consigneeSpoc}</strong>
+                    </p>
+                    <p>
+                      Receiver Phone :{" "}
+                      <strong>{searchResult.receiverPhone}</strong>
+                    </p>
+                    <p>
+                      Receiver Email :{" "}
+                      <strong>{searchResult.receiverEmail}</strong>
+                    </p>
+                  </div>
+                </Grid>
+              </Grid>
+            );
+          })}
+        </Paper>
+      ) : null}
     </>
   );
 }

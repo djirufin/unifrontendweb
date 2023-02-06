@@ -23,20 +23,12 @@ import Notification from "../../components/Notification";
 import ConfirmDialog from "../../components/ConfirmDialog";
 
 const useStyles = makeStyles((theme) => ({
-  page: {
-    padding: 1,
-    paddingLeft: "18em",
-    height: "82vh",
-    display: "inline-block",
-  },
   pageContent: {
-    width: "69em",
     margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
   searchInput: {
     width: "50%",
-    right: "1rem",
   },
   newButton: {
     position: "absolute",
@@ -158,84 +150,82 @@ function Users(props) {
   return (
     <>
       <Header />
-      <div className={classes.page}>
-        <Paper className={classes.pageContent}>
-          <Toolbar>
-            <Controls.Input
-              label="Search"
-              className={classes.searchInput}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={handleSearch}
-            />
-            <Controls.Button
-              text="Add"
-              variant="outlined"
-              startIcon={<Add />}
-              className={classes.newButton}
-              onClick={() => {
-                setOpenPopup(true);
-                setRecordForEdit(null);
-              }}
-            />
-          </Toolbar>
-          <TblContainer>
-            <TblHead />
-            <TableBody>
-              {recordsAfterPagingAndSorting().map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>{user.firstname}</TableCell>
-                  <TableCell>{user.lastname}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>
-                    <Controls.ActionButton
-                      color="primary"
-                      onClick={() => {
-                        openInPopup(user);
-                      }}
-                    >
-                      <EditOutlined fontSize="small" />
-                    </Controls.ActionButton>
-                    <Controls.ActionButton
-                      color="secondary"
-                      onClick={() => {
-                        setConfirmDialog({
-                          isOpen: true,
-                          title: "Are you sure to delete this record?",
-                          subTitle: "You can't undo this operation",
-                          onConfirm: () => {
-                            onDelete(user.id);
-                          },
-                        });
-                      }}
-                    >
-                      <CloseOutlined fontSize="small" />
-                    </Controls.ActionButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </TblContainer>
-          <TblPagination />
-          <Popup
-            title="User Form"
-            openPopup={openPopup}
-            setOpenPopup={setOpenPopup}
-          >
-            <AddUserForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
-          </Popup>
-          <Notification notify={notify} setNotify={setNotify} />
-          <ConfirmDialog
-            confirmDialog={confirmDialog}
-            setConfirmDialog={setConfirmDialog}
+      <Paper className={classes.pageContent}>
+        <Toolbar>
+          <Controls.Input
+            label="Search"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            onChange={handleSearch}
           />
-        </Paper>
-      </div>
+          <Controls.Button
+            text="Add"
+            variant="outlined"
+            startIcon={<Add />}
+            className={classes.newButton}
+            onClick={() => {
+              setOpenPopup(true);
+              setRecordForEdit(null);
+            }}
+          />
+        </Toolbar>
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>{user.firstname}</TableCell>
+                <TableCell>{user.lastname}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>
+                  <Controls.ActionButton
+                    color="primary"
+                    onClick={() => {
+                      openInPopup(user);
+                    }}
+                  >
+                    <EditOutlined fontSize="small" />
+                  </Controls.ActionButton>
+                  <Controls.ActionButton
+                    color="secondary"
+                    onClick={() => {
+                      setConfirmDialog({
+                        isOpen: true,
+                        title: "Are you sure to delete this record?",
+                        subTitle: "You can't undo this operation",
+                        onConfirm: () => {
+                          onDelete(user.id);
+                        },
+                      });
+                    }}
+                  >
+                    <CloseOutlined fontSize="small" />
+                  </Controls.ActionButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TblContainer>
+        <TblPagination />
+        <Popup
+          title="User Form"
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+        >
+          <AddUserForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
+        </Popup>
+        <Notification notify={notify} setNotify={setNotify} />
+        <ConfirmDialog
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
+        />
+      </Paper>
     </>
   );
 }

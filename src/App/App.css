@@ -68,14 +68,6 @@ tbody tr.selected td {
   background-color: #E5E5E5;
 }
 
-.appMain {
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .cover {
     background-color: white;
     width: 25em;

@@ -4,6 +4,7 @@
 /* eslint-disable no-unused-vars */
 import {
   Box,
+  CircularProgress,
   Collapse,
   makeStyles,
   Paper,
@@ -19,20 +20,15 @@ import { useState } from "react";
 import { Table } from "react-bootstrap";
 import Controls from "../../components/controls/Controls";
 import Header from "../../components/Header";
+import Notification from "../../components/Notification";
+import SuccessDialog from "../../components/successDialog";
 import { Form } from "../../components/useForm";
 import useTable from "../../components/useTable";
 import * as authService from "../../services/authService";
 import * as logisticService from "../../services/logisticService";
 
 const useStyles = makeStyles((theme) => ({
-  page: {
-    padding: 1,
-    paddingLeft: "18em",
-    height: "82vh",
-    display: "inline-block",
-  },
   pageContent: {
-    width: "69em",
     margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
@@ -66,6 +62,17 @@ export default function Acknowledge(props) {
   const [qtyReport, setQtyReport] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [contenuDetails, setContenuDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   const acknowledge = () => {
     (currentUser
@@ -84,6 +91,7 @@ export default function Acknowledge(props) {
   }, []);
 
   const report = (e) => {
+    setLoading(true);
     e.preventDefault();
     //console.log(e.target[0].name);
     //const nbre = contenuDetails.length;
@@ -107,6 +115,12 @@ export default function Acknowledge(props) {
     });
     logisticService.loadZrost(arrayItem).then((response) => {
       console.log(response.data);
+      setConfirmDialog({
+        isOpen: true,
+        title: "Report successfully...",
+        subTitle: "An email has been sent",
+      });
+      setLoading(false);
     });
   };
 
@@ -124,86 +138,93 @@ export default function Acknowledge(props) {
   return (
     <>
       <Header />
-      <div className={classes.page}>
-        <Paper className={classes.pageContent}>
-          <TblContainer>
-            <TblHead />
-            <TableBody>
-              {" "}
-              {recordsAfterPagingAndSorting().map((zrost) => {
-                var findItem = uniqueZrost.find(
-                  (x) => x["Waybill Number"] === zrost["Waybill Number"]
+      <Paper className={classes.pageContent}>
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {" "}
+            {recordsAfterPagingAndSorting().map((zrost) => {
+              var findItem = uniqueZrost.find(
+                (x) => x["Waybill Number"] === zrost["Waybill Number"]
+              );
+              if (!findItem) {
+                uniqueZrost.push(zrost);
+                return (
+                  <TableRow key={zrost.id} onClick={() => loadDetails(zrost)}>
+                    <TableCell>{zrost.dateTransfer}</TableCell>
+                    <TableCell>{zrost["Waybill Number"]}</TableCell>
+                    <TableCell>{zrost.supplierdriver}</TableCell>
+                    <TableCell>{zrost.phoneDriver}</TableCell>
+                    <TableCell>{zrost.mlleVehicule}</TableCell>
+                  </TableRow>
                 );
-                if (!findItem) {
-                  uniqueZrost.push(zrost);
-                  return (
-                    <TableRow key={zrost.id} onClick={() => loadDetails(zrost)}>
-                      <TableCell>{zrost.dateTransfer}</TableCell>
-                      <TableCell>{zrost["Waybill Number"]}</TableCell>
-                      <TableCell>{zrost.supplierdriver}</TableCell>
-                      <TableCell>{zrost.phoneDriver}</TableCell>
-                      <TableCell>{zrost.mlleVehicule}</TableCell>
-                    </TableRow>
-                  );
-                }
-              })}
-            </TableBody>
-          </TblContainer>
-          <div id="idDetails">
-            {contenuDetails.length > 0 && (
-              <Form onSubmit={(e) => report(e)}>
-                <Table size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        <strong>Material</strong>
-                      </TableCell>
-                      <TableCell align="center">
-                        <strong>Description</strong>
-                      </TableCell>
-                      <TableCell>
-                        <strong>RO Quantity</strong>
-                      </TableCell>
-                      <TableCell>
-                        <strong>Report Quantity</strong>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {contenuDetails.map((item, index) => {
-                      return (
-                        <TableRow>
-                          <TableCell>{item["Material"]}</TableCell>
-                          <TableCell>{item["Material Description"]}</TableCell>
-                          <TableCell>{item["RO Quantity"]}</TableCell>
-                          <TableCell>
-                            <Controls.textField
-                              name={"qtyReport" + index}
-                              id={"qtyReport" + index}
-                              size="small"
-                              className={classes.qty}
-                            />
-                            {qtyReport > item["RO Quantity"] ? "Bonjour" : null}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
+              }
+            })}
+          </TableBody>
+        </TblContainer>
+        <div id="idDetails">
+          {contenuDetails.length > 0 && (
+            <Form onSubmit={(e) => report(e)}>
+              <Table size="small">
+                <TableHead>
                   <TableRow>
-                    <TableCell />
-                    <TableCell />
-                    <TableCell />
                     <TableCell>
-                      <Controls.Button type="submit" text="Submit" />
+                      <strong>Material</strong>
+                    </TableCell>
+                    <TableCell align="center">
+                      <strong>Description</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>RO Quantity</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Report Quantity</strong>
                     </TableCell>
                   </TableRow>
-                </Table>
-              </Form>
-            )}
-          </div>
-          {/* <TblPagination /> */}
-        </Paper>
-      </div>
+                </TableHead>
+                <TableBody>
+                  {contenuDetails.map((item, index) => {
+                    return (
+                      <TableRow>
+                        <TableCell>{item["Material"]}</TableCell>
+                        <TableCell>{item["Material Description"]}</TableCell>
+                        <TableCell>{item["RO Quantity"]}</TableCell>
+                        <TableCell>
+                          <Controls.textField
+                            name={"qtyReport" + index}
+                            id={"qtyReport" + index}
+                            size="small"
+                            className={classes.qty}
+                          />
+                          {qtyReport > item["RO Quantity"] ? "Bonjour" : null}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+                <TableRow>
+                  <TableCell />
+                  <TableCell />
+                  <TableCell />
+                  <TableCell>
+                    <Controls.Button
+                      type="submit"
+                      text={loading ? <CircularProgress /> : "REPORT"}
+                      disabled={loading}
+                    />
+                  </TableCell>
+                </TableRow>
+              </Table>
+            </Form>
+          )}
+        </div>
+        {/* <TblPagination /> */}
+      </Paper>
+      <Notification notify={notify} setNotify={setNotify} />
+      <SuccessDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 }

@@ -15,14 +15,7 @@ import useTable from "../../components/useTable";
 import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
-  page: {
-    padding: 1,
-    paddingLeft: "18em",
-    height: "82vh",
-    display: "inline-block",
-  },
   pageContent: {
-    width: "69em",
     margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
@@ -85,9 +78,8 @@ export default function Logistics(props) {
   return (
     <>
       <Header />
-      <div className={classes.page}>
-        <Paper className={classes.pageContent}>
-          {/* <Toolbar>
+      <Paper className={classes.pageContent}>
+        {/* <Toolbar>
           <Controls.Input
             label="Pesquisar"
             className={classes.searchInput}
@@ -101,23 +93,22 @@ export default function Logistics(props) {
             onChange={handleSearch}
           />
         </Toolbar> */}
-          <TblContainer>
-            <TblHead />
-            <TableBody>
-              {recordsAfterPagingAndSorting().map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>{user["Batch"]}</TableCell>
-                  <TableCell>{user["Material"]}</TableCell>
-                  <TableCell>{user["Material Description"]}</TableCell>
-                  <TableCell>{user["RO Quantity"]}</TableCell>
-                  <TableCell>{user.qtyReport}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </TblContainer>
-          <TblPagination />
-        </Paper>
-      </div>
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>{user["Batch"]}</TableCell>
+                <TableCell>{user["Material"]}</TableCell>
+                <TableCell>{user["Material Description"]}</TableCell>
+                <TableCell>{user["RO Quantity"]}</TableCell>
+                <TableCell>{user.qtyReport}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TblContainer>
+        <TblPagination />
+      </Paper>
     </>
   );
 }

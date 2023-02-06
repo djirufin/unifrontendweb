@@ -1,6 +1,11 @@
 import React from "react";
 import "./App.css";
-import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import {
+  createMuiTheme,
+  CssBaseline,
+  makeStyles,
+  ThemeProvider,
+} from "@material-ui/core";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Users from "../pages/users/user";
 import Login from "../pages/authentication/Login";
@@ -46,7 +51,14 @@ const theme = createMuiTheme({
   },
 });
 
+const useStyles = makeStyles({
+  appMain: {
+    paddingLeft: "256px",
+  },
+});
+
 function App() {
+  const classes = useStyles();
   return (
     <>
       <BrowserRouter>
@@ -54,7 +66,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Login} />
             <Route exact path="/suppliers" component={Supplier} />
-            <div className="appMain">
+            <div className={classes.appMain}>
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/management/use" component={Users} />
               <Route exact path="/management/org" component={Organisation} />
