@@ -6,7 +6,6 @@ import {
   ListAltOutlined,
   LiveHelp,
   LocalShipping,
-  Receipt,
   Send,
   Sort,
 } from "@material-ui/icons";
@@ -101,31 +100,14 @@ export const SideMenuDataIPADMIN = [
     link: "/dashboard",
   },
   {
-    title: "Acknowledge",
-    icon: <Receipt />,
-    link: "/logistic/ack",
-  },
-  {
     title: "Availability",
     link: "/logistic/av",
     icon: <CheckCircle />,
   },
   {
-    title: "Dispatch",
+    title: "Dispatch List",
+    link: "/logistic/dl",
     icon: <Send />,
-    childrens: [
-      {
-        title: "Create Dispatch",
-        link: "/logistic/cd",
-        icon: null,
-      },
-      {
-        title: "Material Withdrawal",
-        link: "/logistic/wm",
-        icon: null,
-      },
-    ],
-    //,
   },
 ];
 

@@ -46,36 +46,34 @@ export default function Header(props) {
   return (
     <>
       <SideMenu />
-      <div>
-        <AppBar position="static" className={classes.root}>
-          <Toolbar>
-            <Grid container alignItems="center">
-              <Grid item>
-                <InputBase
-                  placeholder={currentUser ? currentUser.email : ""}
-                  className={classes.searchInput}
-                  startAdornment={<Person fontSize="small" />}
-                />
-              </Grid>
-              <Grid item sm></Grid>
-              <Grid item>
-                {currentUser ? (
-                  <IconButton>
-                    <PowerSettingsNewIcon
-                      fontSize="small"
-                      onClick={() => logOut()}
-                    />
-                  </IconButton>
-                ) : (
-                  <div>
-                    <Redirect to="/" />
-                  </div>
-                )}
-              </Grid>
+      <AppBar position="static" className={classes.root}>
+        <Toolbar>
+          <Grid container alignItems="center">
+            <Grid item>
+              <InputBase
+                placeholder={currentUser ? currentUser.email : ""}
+                className={classes.searchInput}
+                startAdornment={<Person fontSize="small" />}
+              />
             </Grid>
-          </Toolbar>
-        </AppBar>
-      </div>
+            <Grid item sm></Grid>
+            <Grid item>
+              {currentUser ? (
+                <IconButton>
+                  <PowerSettingsNewIcon
+                    fontSize="small"
+                    onClick={() => logOut()}
+                  />
+                </IconButton>
+              ) : (
+                <div>
+                  <Redirect to="/" />
+                </div>
+              )}
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
     </>
   );
 }

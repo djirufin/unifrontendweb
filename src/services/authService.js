@@ -1,6 +1,6 @@
 import axios from "axios";
+import { BASE_URL } from "./config";
 
-const API_URL = "http://localhost:8080/api/auth/";
 const head = {
   headers: {
     "Content-Type": "application/json",
@@ -9,7 +9,7 @@ const head = {
 
 export function login(username, password) {
   return axios
-    .post(API_URL + "signin", { username, password }, { head })
+    .post(BASE_URL + "/auth/signin", { username, password }, { head })
     .then((response) => {
       if (response.data.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data));

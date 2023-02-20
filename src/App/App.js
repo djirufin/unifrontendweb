@@ -12,16 +12,15 @@ import Login from "../pages/authentication/Login";
 import NewOrder from "../pages/logistics/neworder";
 import Logistics from "../pages/logistics";
 import Organisation from "../pages/users/organisation";
-import Acknowledge from "../pages/logistics/acknowledge";
 import Trace from "../pages/logistics/trace";
 import Issues from "../pages/logistics/issues";
 import Inventory from "../pages/logistics/inventory";
 import Dashboard from "../pages/dashboard/dashboard";
-import Ipdispatch from "../pages/logistics/ipdispatch";
 import TraceFound from "../pages/logistics/traceFound";
-import Withdrawal from "../pages/logistics/withdrawal";
 import Supplier from "../pages/users/supplier";
 import Supply from "../pages/logistics/supply";
+import DispatchList from "../pages/logistics/dispatchList";
+import Pmv from "../pages/monitoring/pmv";
 
 const theme = createMuiTheme({
   palette: {
@@ -76,10 +75,9 @@ function App() {
               <Route exact path="/logistic/av" component={Logistics} />
               <Route exact path="/logistic/qp" component={Issues} />
               <Route exact path="/logistic/ii" component={Inventory} />
-              <Route exact path="/logistic/ack" component={Acknowledge} />
-              <Route exact path="/logistic/cd" component={Ipdispatch} />
-              <Route exact path="/logistic/wm" component={Withdrawal} />
+              <Route exact path="/logistic/dl" component={DispatchList} />
               <Route exact path="/logistic/sup" component={Supply} />
+              <Route exact path="/monitoring/pmv" component={Pmv} />
             </div>
           </Switch>
           <CssBaseline />

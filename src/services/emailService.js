@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { authHeader } from "./authHeader";
+import { BASE_URL } from "./config";
 
-const API_BASE_URL = "http://localhost:8080/api";
 const head = {
   "Content-Type": "application/json",
 };
@@ -94,12 +94,12 @@ export const activity = () => [
 
 export function sendEmail(to, subject, text, cc) {
   return axios.post(
-    API_BASE_URL + "/auth/email",
+    BASE_URL + "/auth/email",
     { to, subject, text, cc },
     { head }
   );
 }
 
 export function supplier(supply) {
-  return axios.post(API_BASE_URL + "/auth/supplier", supply, { head });
+  return axios.post(BASE_URL + "/auth/supplier", supply, { head });
 }

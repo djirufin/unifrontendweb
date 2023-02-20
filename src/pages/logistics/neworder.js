@@ -25,12 +25,9 @@ import RefreshBase from "./refreshBase";
 import Select from "react-select";
 import Notification from "../../components/Notification";
 import SuccessDialog from "../../components/successDialog";
+import RefreshBaseDdel from "./refreshBaseDdel";
 
 const useStyles = makeStyles((theme) => ({
-  pageContent: {
-    margin: theme.spacing(2),
-    padding: theme.spacing(1),
-  },
   Content: {
     margin: theme.spacing(2),
     padding: theme.spacing(1),
@@ -46,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "release_order", label: "Release Order" },
-  { id: "waybill", label: "Waybill Number" },
+  { id: "release_order", label: "Release Order / Sales" },
+  { id: "waybill", label: "Waybill / Purchasing" },
   { id: "material", label: "Material" },
   { id: "material_description", label: "Material Description" },
   { id: "quantity", label: "RO Quantity" },
@@ -60,12 +57,12 @@ const listType = [
 
 const logisticTypeSelect = [
   { id: "waybill", title: "WayBill" },
-  { id: "release_order", title: "Release Order" },
+  { id: "release order", title: "Release Order" },
 ];
 
 const logisticTypeSelect2 = [
-  { id: "purchase_order", title: "Purchase Order" },
-  { id: "sales_order", title: "Sales Order" },
+  { id: "purchasing document", title: "Purchasing Document" },
+  { id: "sales document", title: "Sales Document" },
 ];
 
 export default function NewOrder() {
@@ -77,6 +74,7 @@ export default function NewOrder() {
       return records;
     },
   });
+  const [orgByIP, setOrgByIP] = useState([]);
   const [orgByType, setOrgByType] = useState([]);
   const [userByOrg, setUserByOrg] = useState([]);
   const [userByIP, setUserByIP] = useState([]);
@@ -92,11 +90,13 @@ export default function NewOrder() {
   const [result, setResult] = useState([]);
   const [statut, setStatut] = useState(0);
   const [selectedOption, setSelectedOption] = useState("waybill");
-  const [selectedOption2, setSelectedOption2] = useState("purchase_order");
+  const [selectedOption2, setSelectedOption2] = useState("purchasing document");
   const [logisticType, setLogisticType] = useState("zrost");
   const [openPopup, setOpenPopup] = useState(false);
   const [ccList, setCcList] = useState([]);
   const [ccListPr, setCcListPr] = useState([]);
+  const [consignee, setConsignee] = useState("");
+  const [consigneeName, setConsigneeName] = useState("");
   const [opList, setOpList] = useState([]);
   const [prList, setPrList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -115,17 +115,34 @@ export default function NewOrder() {
   const handleSearchChange = (e) => {
     setLoad(true);
     e.preventDefault();
-    logisticService
-      .searchMaterial(selectedOption, searchText)
-      .then((response) => {
-        setResult(response.data);
-        setStatut(1);
-        setLoad(false);
-      });
+    if (logisticType === "zrost") {
+      logisticService
+        .searchZrost(selectedOption, searchText)
+        .then((response) => {
+          setResult(response.data);
+          setStatut(1);
+          setLoad(false);
+        })
+        .catch((e) => {
+          console.log(`error ZROST ${e}`);
+        });
+    } else {
+      logisticService
+        .searchDdel(selectedOption2, searchText)
+        .then((res) => {
+          setResult(res.data);
+          setStatut(1);
+          setLoad(false);
+        })
+        .catch((e) => {
+          console.log(`error DDEL ${e}`);
+        });
+    }
 
     getOrgByType();
     getUserOp();
     getUserPr();
+    getOrgByIP();
   };
 
   const getOrgByType = () => {
@@ -134,12 +151,27 @@ export default function NewOrder() {
     });
   };
 
+  const getOrgByIP = () => {
+    manageService.getOrgByType("IPARTNER").then((res) => {
+      setOrgByIP(res.data);
+    });
+  };
+
   const handleOrgChange = (e) => {
     setSelectOrganisation(e.target.value);
     setOrganisationName(e.target.options[e.target.selectedIndex].text);
     getEmployeeByType(e.target.value);
     //if result > 0, load consignee spoc
-    getPointOfContact(result[0]["Consignee"]);
+    if (logisticType === "zrost") {
+      getPointOfContact(result[0]["Consignee"]);
+    }
+  };
+
+  const handleOrgDchange = (e) => {
+    console.log(e.target.value);
+    setConsignee(e.target.value);
+    setConsigneeName(e.target.options[e.target.selectedIndex].text);
+    getPointOfContact(e.target.value);
   };
 
   const getEmployeeByType = (id) => {
@@ -168,43 +200,85 @@ export default function NewOrder() {
     var senderName = currentUser.firstname + " " + currentUser.lastname;
     var senderPhone = currentUser.telephone;
     var senderEmail = currentUser.email;
-    setMessageTransferStatus("Transfert en cours... ");
+    setMessageTransferStatus("Transfer in progress... ");
     //Update pickstatus
-    logisticService
-      .transferMaterial(
-        logisticType,
-        result[0]["Waybill Number"],
-        organisationName,
-        driver,
-        ipSpoc,
-        mlleVehicule,
-        phoneDriver,
-        senderName,
-        senderPhone,
-        senderEmail
-      )
-      .then((res) => {
-        console.log(res.data);
-        //send email
-        sendEmail(
-          receiverEmail,
-          "Transfer UNICEF",
-          "Ceci est un TEST priere ne pas le considerer.\nVous allez recevoir des dons de UNICEF.\nLe waybill est " +
-            result[0]["Waybill Number"],
-          arrayCcMail
-        );
-        //set message to display
-        setMessageTransferStatus(
-          "Transfert effectuee... un email a bien ete envoye"
-        );
+    if (logisticType === "ddel") {
+      logisticService
+        .transferMaterial(
+          logisticType,
+          result[0]["Purchasing Document"],
+          organisationName,
+          driver,
+          ipSpoc,
+          mlleVehicule,
+          phoneDriver,
+          senderName,
+          senderPhone,
+          senderEmail,
+          consignee,
+          consigneeName
+        )
+        .then((res) => {
+          console.log(res.data);
+          //send email
+          sendEmail(
+            receiverEmail,
+            "Transfer UNICEF",
+            "Ceci est un TEST priere ne pas le considerer.\nVous allez recevoir des dons de UNICEF.\nLa reference pour la confirmation est " +
+              result[0]["Purchasing Document"],
+            arrayCcMail
+          );
+          //set message to display
+          setMessageTransferStatus(
+            "Successful transfer... An email has been sent"
+          );
 
-        setConfirmDialog({
-          isOpen: true,
-          title: "Successful transfer...",
-          subTitle: "An email has been sent",
+          setConfirmDialog({
+            isOpen: true,
+            title: "Successful transfer...",
+            subTitle: "An email has been sent",
+          });
+          setLoading(false);
         });
-        setLoading(false);
-      });
+    } else {
+      logisticService
+        .transferMaterial(
+          logisticType,
+          result[0]["Waybill Number"],
+          organisationName,
+          driver,
+          ipSpoc,
+          mlleVehicule,
+          phoneDriver,
+          senderName,
+          senderPhone,
+          senderEmail,
+          "",
+          ""
+        )
+        .then((res) => {
+          console.log(res.data);
+          //send email
+          sendEmail(
+            receiverEmail,
+            "Transfer UNICEF",
+            "Ceci est un TEST priere ne pas le considerer.\nVous allez recevoir des dons de UNICEF.\nLa reference pour la confirmation est " +
+              result[0]["Waybill Number"],
+            arrayCcMail
+          );
+          //set message to display
+          setMessageTransferStatus(
+            "Successful transfer... An email has been sent"
+          );
+
+          setConfirmDialog({
+            isOpen: true,
+            title: "Successful transfer...",
+            subTitle: "An email has been sent",
+          });
+          setLoading(false);
+        });
+    }
   };
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
@@ -254,13 +328,13 @@ export default function NewOrder() {
   return (
     <>
       <Header />
-      <Paper className={classes.pageContent}>
+      <Paper className={classes.Content}>
         <Toolbar>
           {statut === 1 ? (
             result.length === 0 ? (
               <h3 style={{ color: "red" }}>
-                Nous avons rien pu trouver, veuillez refraichir votre base en
-                cliquant sur
+                We couldn't find anything, please refresh your database by
+                clicking
                 <Forward fontSize="small" />
               </h3>
             ) : null
@@ -280,13 +354,11 @@ export default function NewOrder() {
           <Grid container>
             <Grid item xs={6}>
               <Controls.Select
-                size="small"
                 value={logisticType}
                 onChange={(e) => setLogisticType(e.target.value)}
                 options={listType}
               />
               <Controls.Input
-                size="small"
                 label="Search"
                 name="searchText"
                 onChange={(e) => setSearchText(e.target.value)}
@@ -320,7 +392,11 @@ export default function NewOrder() {
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
         >
-          <RefreshBase recordForEdit={recordForEdit} />
+          {logisticType === "ddel" ? (
+            <RefreshBaseDdel recordForEdit={recordForEdit} />
+          ) : (
+            <RefreshBase recordForEdit={recordForEdit} />
+          )}
         </Popup>
       </Paper>
       {result.length > 0 ? (
@@ -330,19 +406,37 @@ export default function NewOrder() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((user) => (
                 <TableRow key={user.id}>
-                  <TableCell>{user["Release Order Number"]}</TableCell>
-                  <TableCell>{user["Waybill Number"]}</TableCell>
+                  <TableCell>
+                    {logisticType === "ddel"
+                      ? user["Sales Document"]
+                      : user["Release Order Number"]}
+                  </TableCell>
+                  <TableCell>
+                    {logisticType === "ddel"
+                      ? user["Purchasing Document"]
+                      : user["Waybill Number"]}
+                  </TableCell>
                   <TableCell>{user["Material"]}</TableCell>
                   <TableCell>{user["Material Description"]}</TableCell>
-                  <TableCell>{user["RO Quantity"]}</TableCell>
+                  <TableCell>
+                    {logisticType === "ddel"
+                      ? user["Quantity"]
+                      : user["RO Quantity"]}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </TblContainer>
           <TblPagination />
           <div>
-            Authorized person :{" "}
-            <strong>{result[0]["Authorized Person"]}</strong>
+            {logisticType === "ddel" ? (
+              ""
+            ) : (
+              <>
+                Authorized person :{" "}
+                <strong>{result[0]["Authorized Person"]}</strong>
+              </>
+            )}
             <br />
             <br />
             <Grid container>
@@ -420,13 +514,33 @@ export default function NewOrder() {
                   placeholder="matricule vehicule"
                 />
                 <p>
-                  IP : <strong>{result[0]["Consignee Name"]}</strong>
+                  IP :{" "}
+                  {logisticType === "ddel" ? (
+                    <>
+                      <select
+                        required={true}
+                        onChange={(e) => handleOrgDchange(e)}
+                      >
+                        <option>Select Organisation</option>
+                        {orgByIP.map((org, index) => (
+                          <option value={org.id} key={index}>
+                            {org.name}
+                          </option>
+                        ))}
+                      </select>
+                    </>
+                  ) : (
+                    <strong>{result[0]["Consignee Name"]}</strong>
+                  )}
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <select
                     required={true}
                     onChange={(e) => {
                       setIpSpoc(e.target.options[e.target.selectedIndex].text);
                       setReceiverEmail(
+                        userByIP[e.target.selectedIndex - 1]["email"]
+                      );
+                      console.log(
                         userByIP[e.target.selectedIndex - 1]["email"]
                       );
                     }}
