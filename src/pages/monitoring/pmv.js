@@ -1,21 +1,36 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-import { CircularProgress, Grid, makeStyles, Paper } from "@material-ui/core";
+import {
+  InputAdornment,
+  makeStyles,
+  Paper,
+  TableBody,
+  TableCell,
+  TableRow,
+  Toolbar,
+} from "@material-ui/core";
+import { CloseOutlined, EditOutlined, Search } from "@material-ui/icons";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import ConfirmDialog from "../../components/ConfirmDialog";
 import Controls from "../../components/controls/Controls";
 import Header from "../../components/Header";
-import { Form, useForm } from "../../components/useForm";
+import Notification from "../../components/Notification";
+import Popup from "../../components/Popup";
+import useTable from "../../components/useTable";
+import {
+  deletePmv,
+  pmvList,
+  updatePmv,
+} from "../../services/monitoringService";
+import PmvForm from "./pmvForm";
 
 const useStyles = makeStyles((theme) => ({
-  Content: {
+  pageContent: {
     margin: theme.spacing(2),
     padding: theme.spacing(1),
   },
   searchInput: {
-    width: "40%",
-    left: "0rem",
+    width: "50%",
   },
   newButton: {
     position: "absolute",
@@ -23,168 +38,171 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initialeValues = {
-  officeLocation: "",
-  staffName: "",
-  designationOrTitle: "",
-  taNumber: "",
-  pmvDateOfTravel: new Date(),
-  email: "",
-  telephone: "",
-  initialName: "",
-  dateByTraveller: new Date(),
-  commentBySupervisor: "",
-};
+const headCells = [
+  { id: "officeLocation", label: "Office Location" },
+  { id: "geoLocation", label: "Office Geo-Location" },
+  { id: "designation", label: "Designation Or title" },
+  { id: "taNumber", label: "TA Number" },
+  { id: "actions", label: "Action", disableSorting: true },
+];
 
 export default function Pmv(props) {
   const classes = useStyles();
-  const [load, setLoad] = useState(false);
+  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [records, setRecords] = useState([]);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
+  const [filterFn, setFilterFn] = useState({
+    fn: (records) => {
+      return records;
+    },
+  });
 
-  const validate = (fieldValues = values) => {
-    let temp = { ...errors };
-    if ("officeLocation" in fieldValues)
-      temp.officeLocation = fieldValues.officeLocation
-        ? ""
-        : "This field is required.";
-    if ("staffName" in fieldValues)
-      temp.staffName = fieldValues.staffName ? "" : "This field is required.";
-    if ("designationOrTitle" in fieldValues)
-      temp.designationOrTitle = fieldValues.designationOrTitle
-        ? ""
-        : "Minimum 4 caracters required.";
-    if ("taNumber" in fieldValues)
-      temp.taNumber = fieldValues.taNumber ? "" : "This field is required.";
-    if ("email" in fieldValues)
-      temp.email = fieldValues.email ? "" : "Email is not valid.";
-    if ("telephone" in fieldValues)
-      temp.telephone = fieldValues.telephone ? "" : "This field is required.";
-    if ("initialName" in fieldValues)
-      temp.initialName = fieldValues.initialName
-        ? ""
-        : "This field is required.";
-    if ("commentBySupervisor" in fieldValues)
-      temp.commentBySupervisor = fieldValues.commentBySupervisor
-        ? ""
-        : "Email is not valid.";
-    setErrors({
-      ...temp,
+  const allPMV = () => {
+    pmvList().then((res) => {
+      setRecords(res.data);
     });
-
-    if (fieldValues === values)
-      return Object.values(temp).every((x) => x === "");
   };
 
-  const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
-    useForm(initialeValues, true, validate);
-
   useEffect(() => {
-    setValues({
-      ...values,
-    });
+    allPMV();
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      console.log("Successfully");
+  const handleSearch = (e) => {
+    let target = e.target;
+    setFilterFn({
+      fn: (records) => {
+        if (target.value === "") return records;
+        else
+          return records.filter(
+            (x) => x.taNumber.toLowerCase() === target.value
+          );
+      },
+    });
+  };
+
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
+    useTable(records, headCells, filterFn);
+
+  const openInPopup = (pmv) => {
+    setRecordForEdit(pmv);
+    setOpenPopup(true);
+  };
+
+  const addOrEdit = (pmv, resetForm) => {
+    // eslint-disable-next-line no-lone-blocks
+    {
+      if (pmv.id) {
+        updatePmv(pmv.id, pmv).then((res) => {
+          console.log(res.data);
+          setNotify({
+            isOpen: true,
+            message: "Update Successfully",
+            type: "success",
+          });
+          resetForm();
+          setRecordForEdit(null);
+          setOpenPopup(false);
+          allPMV();
+        });
+      }
     }
+  };
+  const onDelete = (id) => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+    deletePmv(id).then((res) => {
+      console.log(res.data);
+      const newRecords = records.filter((t) => t.id !== id);
+      setRecords(newRecords);
+      setNotify({
+        isOpen: true,
+        message: res.data,
+        type: "error",
+      });
+    });
   };
 
   return (
     <>
       <Header />
-      <Paper className={classes.Content}>
-        <Form onSubmit={handleSubmit}>
-          <Grid container>
-            <Grid item xs={6}>
-              <Controls.Input
-                label="Office Location"
-                name="officeLocation"
-                value={values.officeLocation}
-                onChange={handleInputChange}
-                error={errors.officeLocation}
-                className={classes.searchInput}
-              />
-              <Controls.Input
-                label="Designation or Title"
-                name="designationOrTitle"
-                value={values.designationOrTitle}
-                onChange={handleInputChange}
-                error={errors.designationOrTitle}
-                className={classes.searchInput}
-              />
-              <Controls.DatePicker
-                label="PMV Date of Travel"
-                name="pmvDateOfTravel"
-                value={values.pmvDateOfTravel}
-                onChange={handleInputChange}
-                className={classes.searchInput}
-              />
-              <Controls.Input
-                label="Telephone Number"
-                name="telephone"
-                value={values.telephone}
-                onChange={handleInputChange}
-                error={errors.telephone}
-                className={classes.searchInput}
-              />
-              <Controls.DatePicker
-                label="Date by Traveller"
-                name="dateByTraveller"
-                value={values.dateByTraveller}
-                onChange={handleInputChange}
-                className={classes.searchInput}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controls.Input
-                label="Staff Name"
-                name="staffName"
-                value={values.staffName}
-                onChange={handleInputChange}
-                error={errors.staffName}
-                className={classes.searchInput}
-              />
-              <Controls.Input
-                label="TA Number"
-                name="taNumber"
-                value={values.taNumber}
-                onChange={handleInputChange}
-                error={errors.taNumber}
-                className={classes.searchInput}
-              />
-              <Controls.Input
-                label="Email Adresse"
-                name="email"
-                value={values.email}
-                onChange={handleInputChange}
-                error={errors.email}
-                className={classes.searchInput}
-              />
-              <Controls.Input
-                label="Name Initials"
-                name="initialName"
-                value={values.initialName}
-                onChange={handleInputChange}
-                error={errors.initialName}
-                className={classes.searchInput}
-              />
-              <Controls.Input
-                label="Comment by Supervisor"
-                name="initialName"
-                value={values.commentBySupervisor}
-                onChange={handleInputChange}
-                error={errors.commentBySupervisor}
-                className={classes.searchInput}
-              />
-              <Controls.Button
-                text={load ? <CircularProgress /> : "Search"}
-                disabled={load}
-                type="submit"
-              />
-            </Grid>
-          </Grid>
-        </Form>
+      <Paper className={classes.pageContent}>
+        <Toolbar>
+          <Controls.Input
+            label="Search"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            onChange={handleSearch}
+          />
+        </Toolbar>
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((pmv) => (
+              <TableRow key={pmv.id}>
+                <TableCell>{pmv.officeLocation}</TableCell>
+                <TableCell>{pmv.officeGeoLocation}</TableCell>
+                <TableCell>{pmv.designationOrTitle}</TableCell>
+                <TableCell>{pmv.taNumber}</TableCell>
+                <TableCell>
+                  <Controls.ActionButton
+                    color="primary"
+                    onClick={() => {
+                      openInPopup(pmv);
+                    }}
+                  >
+                    <EditOutlined fontSize="small" />
+                  </Controls.ActionButton>
+                  <Controls.ActionButton
+                    color="secondary"
+                    onClick={() => {
+                      setConfirmDialog({
+                        isOpen: true,
+                        title: "Are you sure to delete this record?",
+                        subTitle: "You can't undo this operation",
+                        onConfirm: () => {
+                          onDelete(pmv.id);
+                        },
+                      });
+                    }}
+                  >
+                    <CloseOutlined fontSize="small" />
+                  </Controls.ActionButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TblContainer>
+        <TblPagination />
+        <Popup
+          title="PMV Form"
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+        >
+          <PmvForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
+        </Popup>
+        <Notification notify={notify} setNotify={setNotify} />
+        <ConfirmDialog
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
+        />
       </Paper>
     </>
   );
