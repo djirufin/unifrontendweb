@@ -16,14 +16,14 @@ const style = {
     flexDirection: "column",
     position: "fixed",
     left: "0px",
-    width: "21%",
+    width: 250,
     height: "100%",
     backgroundColor: "#006a84",
     color: "white",
   },
   img: {
     padding: "1em",
-    width: "200px",
+    width: 200,
     margin: "1em",
   },
 };
@@ -35,7 +35,7 @@ const SideMenu = (props) => {
   return (
     <>
       <div className={classes.sideMenu}>
-        <img className={classes.img} src="logo.png" alt="logo" />
+        <img className={classes.img} src="lg.png" alt="logo" />
         {currentUser ? (
           currentUser.roles.toString() === "ROLE_SUPPLIER" ? (
             <ul className="SibeMenuList">
