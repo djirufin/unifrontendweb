@@ -116,8 +116,10 @@ export function transferMaterial(
   source,
   waybill,
   supplier,
+  cc,
   driver,
   ip_spoc,
+  ip_spocEmail,
   mlleVehicule,
   phoneDriver,
   senderName,
@@ -134,10 +136,14 @@ export function transferMaterial(
       waybill +
       "&supplier=" +
       supplier +
+      "&cc=" +
+      cc +
       "&driver=" +
       driver +
       "&ipspoc=" +
       ip_spoc +
+      "&ipspocEmail=" +
+      ip_spocEmail +
       "&mlleVehicule=" +
       mlleVehicule +
       "&phoneDriver=" +

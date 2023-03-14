@@ -51,18 +51,18 @@ const headCells = [
 ];
 
 const listType = [
-  { id: "zrost", title: "ZROST" },
+  { id: "zrost", title: "ZROSTS" },
   { id: "ddel", title: "DDEL" },
 ];
 
 const logisticTypeSelect = [
   { id: "waybill", title: "WayBill" },
-  { id: "release order", title: "Release Order" },
+  { id: "release order", title: "Release Order - RO" },
 ];
 
 const logisticTypeSelect2 = [
-  { id: "purchasing document", title: "Purchasing Document" },
-  { id: "sales document", title: "Sales Document" },
+  { id: "purchasing document", title: "Purchase Order - PO" },
+  { id: "sales document", title: "Sales Order - SO" },
 ];
 
 export default function NewOrder() {
@@ -152,7 +152,7 @@ export default function NewOrder() {
   };
 
   const getOrgByIP = () => {
-    manageService.getOrgByType("IPARTNER").then((res) => {
+    manageService.getOrgByType("IPs").then((res) => {
       setOrgByIP(res.data);
     });
   };
@@ -223,8 +223,8 @@ export default function NewOrder() {
           //send email
           sendEmail(
             receiverEmail,
-            "Transfer UNICEF",
-            "Ceci est un TEST priere ne pas le considerer.\nVous allez recevoir des dons de UNICEF.\nLa reference pour la confirmation est " +
+            "Transfert UNICEF-GW",
+            "Un transfert d'entrant a été initié par UNICEF - Guinée Bissau en faveur de votre organisation.\nVeuillez utiliser la référence ci-dessous à la réception physique pour confirmation.\nRéférence : " +
               result[0]["Purchasing Document"],
             arrayCcMail
           );
@@ -246,8 +246,10 @@ export default function NewOrder() {
           logisticType,
           result[0]["Waybill Number"],
           organisationName,
+          arrayCcMail,
           driver,
           ipSpoc,
+          "",
           mlleVehicule,
           phoneDriver,
           senderName,
@@ -261,8 +263,8 @@ export default function NewOrder() {
           //send email
           sendEmail(
             receiverEmail,
-            "Transfer UNICEF",
-            "Ceci est un TEST priere ne pas le considerer.\nVous allez recevoir des dons de UNICEF.\nLa reference pour la confirmation est " +
+            "Transfert UNICEF-GW",
+            "Un transfert d'entrant a été initié par UNICEF - Guinée Bissau en faveur de votre organisation.\nVeuillez utiliser la référence ci-dessous à la réception physique pour confirmation.\nRéférence : " +
               result[0]["Waybill Number"],
             arrayCcMail
           );

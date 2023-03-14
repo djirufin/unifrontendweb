@@ -145,7 +145,7 @@ export default function Organisation(props) {
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.Input
-            label="Search"
+            label="Search By Organisation Name"
             className={classes.searchInput}
             InputProps={{
               startAdornment: (
@@ -208,7 +208,7 @@ export default function Organisation(props) {
         <TblPagination />
       </Paper>
       <Popup
-        title="User Form"
+        title="Organisation Form"
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >

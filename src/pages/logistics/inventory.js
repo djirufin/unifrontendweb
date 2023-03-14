@@ -58,8 +58,8 @@ export default function Inventory(props) {
         else {
           return records.filter(
             (x) =>
-              x["Consignee Name"].toLowerCase() === target.value ||
-              x["Consignee"].toLowerCase() === target.value
+              x["Consignee Name"].toLowerCase().includes(target.value) ||
+              x["Consignee"].toLowerCase().includes(target.value)
           );
         }
       },

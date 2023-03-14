@@ -69,7 +69,7 @@ export default function PmvForm(props) {
     if ("commentBySupervisor" in fieldValues)
       temp.commentBySupervisor = fieldValues.commentBySupervisor
         ? ""
-        : "Email is not valid.";
+        : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -91,6 +91,7 @@ export default function PmvForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      setLoad(true);
       addOrEdit(values, resetForm);
       // sendEmail(
       //   values.email,
@@ -187,7 +188,7 @@ export default function PmvForm(props) {
             />
             <Controls.Input
               label="Comment by Supervisor"
-              name="initialName"
+              name="commentBySupervisor"
               value={values.commentBySupervisor}
               onChange={handleInputChange}
               error={errors.commentBySupervisor}
@@ -200,7 +201,7 @@ export default function PmvForm(props) {
               error={errors.recommendationUser}
             />
             <Controls.Button
-              text={load ? <CircularProgress /> : "Search"}
+              text={load ? <CircularProgress /> : "Validate"}
               disabled={load}
               type="submit"
             />

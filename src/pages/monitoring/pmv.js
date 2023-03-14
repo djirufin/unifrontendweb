@@ -83,8 +83,8 @@ export default function Pmv(props) {
       fn: (records) => {
         if (target.value === "") return records;
         else
-          return records.filter(
-            (x) => x.taNumber.toLowerCase() === target.value
+          return records.filter((x) =>
+            x.taNumber.toLowerCase().includes(target.value)
           );
       },
     });
@@ -140,7 +140,7 @@ export default function Pmv(props) {
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.Input
-            label="Search"
+            label="Search by TA Number"
             className={classes.searchInput}
             InputProps={{
               startAdornment: (

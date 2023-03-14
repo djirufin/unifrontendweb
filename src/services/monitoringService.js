@@ -13,6 +13,34 @@ export function pmvList() {
   });
 }
 
+export function eumList() {
+  return axios.get(BASE_URL + "/public/monitoring/eumList", {
+    headers: authHeader(),
+    head,
+  });
+}
+
+export function smList() {
+  return axios.get(BASE_URL + "/public/monitoring/eum/listSM", {
+    headers: authHeader(),
+    head,
+  });
+}
+
+export function crlList() {
+  return axios.get(BASE_URL + "/public/monitoring/eum/listCRL", {
+    headers: authHeader(),
+    head,
+  });
+}
+
+export function pcList() {
+  return axios.get(BASE_URL + "/public/monitoring/eum/listPC", {
+    headers: authHeader(),
+    head,
+  });
+}
+
 export function updatePmv(id, pmv) {
   return axios.put(BASE_URL + "/public/monitoring/pmv/update/" + id, pmv, {
     headers: authHeader(),

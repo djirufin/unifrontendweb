@@ -19,27 +19,22 @@ export const SideMenuDataADMIN = [
     link: "/dashboard",
   },
   {
-    title: "Users",
-    icon: <Group />,
-    link: "/management/use",
-  },
-  {
-    title: "Organisations",
+    title: "Organizations",
     icon: <Sort />,
     link: "/management/org",
   },
   {
-    title: "Supply and Logistics",
+    title: "Users Managment",
+    icon: <Group />,
+    link: "/management/use",
+  },
+  {
+    title: "S&L - Transactions",
     icon: <LocalShipping />,
     childrens: [
       {
         title: "Transfer",
         link: "/logistic/no",
-        icon: null,
-      },
-      {
-        title: "Trace Product",
-        link: "/logistic/tp",
         icon: null,
       },
       {
@@ -65,28 +60,23 @@ export const SideMenuDataADMIN = [
     ],
   },
   {
-    title: "End User Monitoring",
+    title: "EUM - End User Monitoring",
     icon: <LiveHelp />,
     childrens: [
       {
-        title: "Nutrition",
-        link: "/monitoring/nu",
+        title: "Regular",
+        link: "/monitoring/regular",
         icon: null,
       },
       {
-        title: "Wash",
-        link: "/monitoring/wa",
-        icon: null,
-      },
-      {
-        title: "Education",
-        link: "/monitoring/ed",
+        title: "Adhoc",
+        link: "/monitoring/adhoc",
         icon: null,
       },
     ],
   },
   {
-    title: "Perform Monitoring Visit",
+    title: "Program Monitoring Visit",
     icon: <LeakAdd />,
     link: "/monitoring/pmv",
   },

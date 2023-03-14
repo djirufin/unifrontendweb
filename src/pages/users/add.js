@@ -60,9 +60,10 @@ export default function AddUserForm(props) {
       values.loading = true;
       values.password = generate();
       addOrEdit(values, resetForm);
+
       sendEmail(
         values.email,
-        "User creation",
+        "Création utilisateur",
         "Votre compte a ete cree dans la plateform trackiteum.org, veuillez y acceder en utilisant\nUsername : " +
           values.username +
           "\nPassword : " +

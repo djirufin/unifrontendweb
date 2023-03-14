@@ -9,7 +9,7 @@ const head = {
 export const Role = () => [
   { id: "user", title: "User" },
   { id: "supplier", title: "User-Supplier" },
-  { id: "mod", title: "Mod" },
+  { id: "ip", title: "IP" },
   { id: "admin", title: "Admin" },
 ];
 

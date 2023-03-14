@@ -18,6 +18,6 @@ export function login(username, password) {
     });
 }
 
-export function getCurrentUser() {
+export const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
-}
+};

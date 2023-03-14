@@ -43,7 +43,7 @@ const SideMenu = (props) => {
                 <Sidebar key={key} item={val} />
               ))}
             </ul>
-          ) : currentUser.roles.toString() === "ROLE_IPADMIN" ? (
+          ) : currentUser.roles.toString() === "ROLE_IP" ? (
             <ul className="SibeMenuList">
               {SideMenuDataIPADMIN.map((val, key) => (
                 <Sidebar key={key} item={val} />

@@ -38,7 +38,6 @@ const headCells = [
   { id: "email", label: "E-mail" },
   { id: "telephone", label: "Telephone" },
   { id: "address", label: "Address" },
-  { id: "city", label: "City" },
   { id: "activitySector", label: "Activity Sector" },
   { id: "actions", label: "Action", disableSorting: true },
 ];
@@ -72,8 +71,8 @@ export default function Supply(props) {
         else {
           return records.filter(
             (x) =>
-              x.companyName.toLowerCase() === target.value ||
-              x.email.toLowerCase() === target.value
+              x.companyName.toLowerCase().includes(target.value) ||
+              x.email.toLowerCase().includes(target.value)
           );
         }
       },
@@ -136,7 +135,6 @@ export default function Supply(props) {
                   <TableCell>{sup.email}</TableCell>
                   <TableCell>{sup.telephone1}</TableCell>
                   <TableCell>{sup.address}</TableCell>
-                  <TableCell>{sup.city}</TableCell>
                   <TableCell>{String(sup.activitySector)}</TableCell>
                   <TableCell>
                     <Controls.ActionButton

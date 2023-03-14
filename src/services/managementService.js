@@ -7,10 +7,9 @@ const head = {
 };
 
 export const Type = () => [
-  { id: "INTERN", title: "INTERN" },
+  { id: "UNICEF", title: "UNICEF" },
   { id: "SUPPLIER", title: "SUPPLIER" },
-  { id: "IPARTNER", title: "IPARTNER" },
-  { id: "UNDEFINED", title: "UNDEFINED" },
+  { id: "IPs", title: "IPs" },
 ];
 
 export function getOrganisation() {

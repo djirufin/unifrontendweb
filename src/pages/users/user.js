@@ -60,6 +60,12 @@ function Users(props) {
     subTitle: "",
   });
 
+  const [filterFn, setFilterFn] = useState({
+    fn: (records) => {
+      return records;
+    },
+  });
+
   const allUsers = () => {
     userService.listUsers().then((res) => {
       setRecords(res.data);
@@ -70,20 +76,14 @@ function Users(props) {
     allUsers();
   }, []);
 
-  const [filterFn, setFilterFn] = useState({
-    fn: (records) => {
-      return records;
-    },
-  });
-
   const handleSearch = (e) => {
     let target = e.target;
     setFilterFn({
       fn: (records) => {
         if (target.value === "") return records;
         else
-          return records.filter(
-            (x) => x.firstname.toLowerCase() === target.value
+          return records.filter((x) =>
+            x.firstname.toLowerCase().includes(target.value)
           );
       },
     });
@@ -148,12 +148,12 @@ function Users(props) {
     useTable(records, headCells, filterFn);
 
   return (
-    <>
+    <div style={{ width: "100%" }}>
       <Header />
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.Input
-            label="Search"
+            label="Search by Firstname"
             className={classes.searchInput}
             InputProps={{
               startAdornment: (
@@ -226,7 +226,7 @@ function Users(props) {
           setConfirmDialog={setConfirmDialog}
         />
       </Paper>
-    </>
+    </div>
   );
 }
 

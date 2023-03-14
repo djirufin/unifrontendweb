@@ -12,7 +12,6 @@ import Login from "../pages/authentication/Login";
 import NewOrder from "../pages/logistics/neworder";
 import Logistics from "../pages/logistics";
 import Organisation from "../pages/users/organisation";
-import Trace from "../pages/logistics/trace";
 import Issues from "../pages/logistics/issues";
 import Inventory from "../pages/logistics/inventory";
 import Dashboard from "../pages/dashboard/dashboard";
@@ -21,6 +20,9 @@ import Supplier from "../pages/users/supplier";
 import Supply from "../pages/logistics/supply";
 import DispatchList from "../pages/logistics/dispatchList";
 import Pmv from "../pages/monitoring/pmv";
+import policy_privacy from "../pages/users/policy_privacy";
+import Adhoc from "../pages/monitoring/adhoc";
+import Regular from "../pages/monitoring/regular";
 
 const theme = createMuiTheme({
   palette: {
@@ -65,12 +67,12 @@ function App() {
           <Switch>
             <Route exact path="/" component={Login} />
             <Route exact path="/suppliers" component={Supplier} />
+            <Route exact path="/privacy" component={policy_privacy} />
             <div className={classes.appMain}>
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/management/use" component={Users} />
               <Route exact path="/management/org" component={Organisation} />
               <Route exact path="/logistic/no" component={NewOrder} />
-              <Route exact path="/logistic/tp" component={Trace} />
               <Route exact path="/logistic/pf" component={TraceFound} />
               <Route exact path="/logistic/av" component={Logistics} />
               <Route exact path="/logistic/qp" component={Issues} />
@@ -78,6 +80,8 @@ function App() {
               <Route exact path="/logistic/dl" component={DispatchList} />
               <Route exact path="/logistic/sup" component={Supply} />
               <Route exact path="/monitoring/pmv" component={Pmv} />
+              <Route exact path="/monitoring/adhoc" component={Adhoc} />
+              <Route exact path="/monitoring/regular" component={Regular} />
             </div>
           </Switch>
           <CssBaseline />

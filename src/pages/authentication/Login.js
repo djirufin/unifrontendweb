@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, IconButton, InputAdornment, Paper } from "@material-ui/core";
 import Controls from "../../components/controls/Controls";
 import { useFormL, Form } from "../../components/useFormL";
 import { CircularProgress } from "@material-ui/core";
 import * as authService from "../../services/authService";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 const initialValues = {
   username: "",
@@ -17,7 +18,8 @@ const initialValues = {
 
 export default function Login(props) {
   //const { addOrEdit, recordForEdit } = props
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("username" in fieldValues)
@@ -34,26 +36,25 @@ export default function Login(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (validate()) {
       values.loading = true;
-      authService.login(values.username, values.password).then(
-        () => {
+      authService
+        .login(values.username, values.password)
+        .then(() => {
           props.history.push("/dashboard");
 
           window.location.reload();
-        },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
-          setValues((values.message = resMessage), (values.loading = false));
-        }
-      );
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            console.log("401", error.code);
+            setErrorMessage("BAD CREDENTIALS");
+            setValues((values.message = "test"), (values.loading = false));
+          } else {
+            console.log("401 TEST");
+            setErrorMessage("");
+          }
+        });
     }
   };
 
@@ -67,8 +68,21 @@ export default function Login(props) {
     height: "12vh",
     margin: "0rem",
   };
-  const paperStyle = {};
+  const paperStyle = {
+    padding: "0px",
+    height: "8vh",
+    margin: "0rem",
+    color: "red",
+  };
   const btnstyle = { margin: "8px 0" };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <div className="Uc2NEf">
@@ -79,34 +93,43 @@ export default function Login(props) {
             <h2>LOGIN IN</h2>
           </Grid>
           <br />
-          {values.message && (
-            <div className="form-group">
-              <div className="alert alert-danger" role="alert">
-                {values.message}
-              </div>
+          {errorMessage && (
+            <div align="center" style={paperStyle}>
+              {errorMessage}
             </div>
           )}
           <Controls.textField
-            label="Username"
-            placeholder="Nom utilisateur"
+            placeholder="Username"
             name="username"
             className="input"
             fullWidth
-            value={values.username}
             onChange={handleInputChange}
+            value={values.username}
             error={errors.username}
           />
           <br />
           <br />
           <Controls.textField
-            label="Password"
-            placeholder="Mot de passe"
-            type="password"
+            placeholder="Password"
+            type={showPassword ? "text" : "password"}
             name="password"
             fullWidth
-            value={values.password}
             onChange={handleInputChange}
+            value={values.password}
             error={errors.password}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <br />
           <br />

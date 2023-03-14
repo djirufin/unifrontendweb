@@ -119,8 +119,8 @@ export default function TraceFound(props) {
                     <TableCell>{zrost.dateTraceUpdate}</TableCell>
                     <TableCell>{zrost["Batch"]}</TableCell>
                     <TableCell>{zrost.consigneeTracer}</TableCell>
-                    <TableCell>{zrost.phoneTracer}</TableCell>
                     <TableCell>{zrost.emailTracer}</TableCell>
+                    <TableCell>{zrost.phoneTracer}</TableCell>
                   </TableRow>
                 );
               }
@@ -146,7 +146,7 @@ export default function TraceFound(props) {
                       <strong>RO Quantity</strong>
                     </TableCell>
                     <TableCell>
-                      <strong>Report Quantity</strong>
+                      <strong>Quantity found</strong>
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -159,26 +159,11 @@ export default function TraceFound(props) {
                         <TableCell align="center">
                           {item["RO Quantity"]}
                         </TableCell>
-                        <TableCell>
-                          <Controls.textField
-                            name={"qtyReport" + index}
-                            id={"qtyReport" + index}
-                            size="small"
-                            className={classes.qty}
-                          />
-                        </TableCell>
+                        <TableCell></TableCell>
                       </TableRow>
                     );
                   })}
                 </TableBody>
-                <TableRow>
-                  <TableCell />
-                  <TableCell />
-                  <TableCell />
-                  <TableCell>
-                    <Controls.Button type="submit" text="Submit" />
-                  </TableCell>
-                </TableRow>
               </Table>
             </Form>
           ) : null}
