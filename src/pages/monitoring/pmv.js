@@ -158,7 +158,15 @@ export default function Pmv(props) {
             {recordsAfterPagingAndSorting().map((pmv) => (
               <TableRow key={pmv.id}>
                 <TableCell>{pmv.officeLocation}</TableCell>
-                <TableCell>{pmv.officeGeoLocation}</TableCell>
+                <TableCell style={{ color: "blue" }}>
+                  <a
+                    href={
+                      "https://www.google.com/search?q=" + pmv.officeGeoLocation
+                    }
+                  >
+                    {pmv.officeGeoLocation}
+                  </a>
+                </TableCell>
                 <TableCell>{pmv.designationOrTitle}</TableCell>
                 <TableCell>{pmv.taNumber}</TableCell>
                 <TableCell>

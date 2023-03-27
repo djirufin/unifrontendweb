@@ -69,16 +69,16 @@ tbody tr.selected td {
 
 .cover {
     background-color: white;
-    width: 25em;
-    height: 37em;
+    width: 27em;
+    height: 35em;
     position: relative;
     border-radius: 8px;
     margin-top: 12px;
-    box-shadow: 1px solid #dadce0;
+    box-shadow: 1px solid #44474b;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    padding: 2em;
 }
 
 .Uc2NEf {

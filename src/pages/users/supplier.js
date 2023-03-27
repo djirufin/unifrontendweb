@@ -53,6 +53,10 @@ export default function Supplier(props) {
   const classes = useStyles();
   const [sector, setSector] = useState([]);
   const [file, setFile] = useState([]);
+  // for onchange event
+  const [pdfFile, setPdfFile] = useState(null);
+  const [pdfFileError, setPdfFileError] = useState("");
+
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -100,7 +104,7 @@ export default function Supplier(props) {
       //upload file
       //   let data = new FormData();
       //   data.append("file", file);
-      //   values.fichier = data;
+      values.fichier = pdfFile;
 
       values.activitySector = sector;
       supplier(values)
@@ -133,6 +137,27 @@ export default function Supplier(props) {
     var array = [];
     item.map((i) => array.push(i.value));
     setSector(array);
+  };
+
+  // onchange event
+  const fileType = ["application/pdf"];
+  const handlePdfFileChange = (e) => {
+    let selectedFile = e.target.files[0];
+    if (selectedFile) {
+      if (selectedFile && fileType.includes(selectedFile.type)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = (e) => {
+          setPdfFile(e.target.result);
+          setPdfFileError("");
+        };
+      } else {
+        setPdfFile(null);
+        setPdfFileError("Please select valid pdf file");
+      }
+    } else {
+      console.log("select your file");
+    }
   };
 
   return (
@@ -318,7 +343,8 @@ export default function Supplier(props) {
                 type="file"
                 placeholder="Your response"
                 name="ficher"
-                onChange={(e) => setFile(e.target.files[0])}
+                onChange={handlePdfFileChange}
+                error={pdfFileError}
               />
             </div>
           </div>

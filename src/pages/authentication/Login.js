@@ -85,77 +85,85 @@ export default function Login(props) {
   };
 
   return (
-    <div className="Uc2NEf">
-      <Form className="cover" onSubmit={handleSubmit}>
-        <Grid>
-          <Grid align="center">
-            <img style={img} src="logoUni.jpg" alt="" />
-            <h2>LOGIN IN</h2>
-          </Grid>
-          <br />
-          {errorMessage && (
-            <div align="center" style={paperStyle}>
-              {errorMessage}
-            </div>
-          )}
-          <Controls.textField
-            placeholder="Username"
-            name="username"
-            className="input"
-            fullWidth
-            onChange={handleInputChange}
-            value={values.username}
-            error={errors.username}
-          />
-          <br />
-          <br />
-          <Controls.textField
-            placeholder="Password"
-            type={showPassword ? "text" : "password"}
-            name="password"
-            fullWidth
-            onChange={handleInputChange}
-            value={values.password}
-            error={errors.password}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <br />
-          <br />
-          <Controls.Checkbox
-            name="checkedB"
-            label="Remember"
-            checked={values.checkedB}
-            onChange={handleInputChange}
-            value={values.checkedB}
-            ref={(c) => {
-              values.checkedB = c;
-            }}
-          />
-          <br />
-          <br />
-          <div style={btnstyle}>
-            <Controls.Button
-              type="submit"
-              variant="contained"
-              text={values.loading ? <CircularProgress /> : "Login In"}
-              disabled={values.loading}
-              fullWidth
-            />
-          </div>
-        </Grid>
-      </Form>
+    <div style={{ padding: "2em", backgroundColor: "rgb(217, 243, 253)" }}>
+      <div className="Uc2NEf">
+        <div className="rounded-2xl shadow-md">
+          <Form className="cover" onSubmit={handleSubmit}>
+            <Grid>
+              <Grid align="center">
+                <img
+                  className="mb-0 rounded-xl shadow-md"
+                  src="logoUni.jpg"
+                  width={100}
+                  alt=""
+                />
+              </Grid>
+              <br />
+              {errorMessage && (
+                <div align="center" style={paperStyle}>
+                  {errorMessage}
+                </div>
+              )}
+              <Controls.textField
+                placeholder="Username"
+                name="username"
+                className="input"
+                fullWidth
+                onChange={handleInputChange}
+                value={values.username}
+                error={errors.username}
+              />
+              <br />
+              <br />
+              <Controls.textField
+                placeholder="Password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                fullWidth
+                onChange={handleInputChange}
+                value={values.password}
+                error={errors.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <br />
+              <br />
+              <Controls.Checkbox
+                name="checkedB"
+                label="Remember"
+                checked={values.checkedB}
+                onChange={handleInputChange}
+                value={values.checkedB}
+                ref={(c) => {
+                  values.checkedB = c;
+                }}
+              />
+              <br />
+              <br />
+              <div>
+                <Controls.Button
+                  type="submit"
+                  variant="contained"
+                  text={values.loading ? <CircularProgress /> : "LOGIN"}
+                  disabled={values.loading}
+                  fullWidth
+                />
+              </div>
+            </Grid>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 }

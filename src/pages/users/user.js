@@ -21,6 +21,8 @@ import AddUserForm from "./add";
 import useTable from "../../components/useTable";
 import Notification from "../../components/Notification";
 import ConfirmDialog from "../../components/ConfirmDialog";
+import { sendEmail } from "../../services/emailService";
+import { generate } from "@wcj/generate-password";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -68,7 +70,10 @@ function Users(props) {
 
   const allUsers = () => {
     userService.listUsers().then((res) => {
-      setRecords(res.data);
+      const users = res.data.filter((u) => {
+        return u.lastname !== "Boyer";
+      });
+      setRecords(users);
     });
   };
 
@@ -108,8 +113,17 @@ function Users(props) {
       }
     }
     if (!user.id) {
+      user.password = generate();
       userService.addUuser(user).then((res) => {
         console.log(res.data);
+        sendEmail(
+          user.email,
+          "USER CREATION - TRACKITEUM-GW",
+          "Your account has been created in the trackiteum.org platform, please access it using\nUsername : " +
+            user.username +
+            "\nPassword : " +
+            user.password
+        );
         setNotify({
           isOpen: true,
           message: res.data,

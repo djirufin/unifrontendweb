@@ -23,6 +23,7 @@ import Pmv from "../pages/monitoring/pmv";
 import policy_privacy from "../pages/users/policy_privacy";
 import Adhoc from "../pages/monitoring/adhoc";
 import Regular from "../pages/monitoring/regular";
+import HomePage from "../pages/authentication/homePage";
 
 const theme = createMuiTheme({
   palette: {
@@ -65,7 +66,8 @@ function App() {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <Switch>
-            <Route exact path="/" component={Login} />
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/login" component={Login} />
             <Route exact path="/suppliers" component={Supplier} />
             <Route exact path="/privacy" component={policy_privacy} />
             <div className={classes.appMain}>

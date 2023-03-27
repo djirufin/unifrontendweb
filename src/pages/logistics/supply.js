@@ -134,7 +134,10 @@ export default function Supply(props) {
                   <TableCell>{sup.companyName}</TableCell>
                   <TableCell>{sup.email}</TableCell>
                   <TableCell>{sup.telephone1}</TableCell>
-                  <TableCell>{sup.address}</TableCell>
+                  <TableCell>
+                    {" "}
+                    <a href={sup.fichier}>{sup.address}</a>
+                  </TableCell>
                   <TableCell>{String(sup.activitySector)}</TableCell>
                   <TableCell>
                     <Controls.ActionButton

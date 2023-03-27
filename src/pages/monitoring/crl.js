@@ -28,7 +28,8 @@ const headCells = [
   { id: "isThereCurrentPlan", label: "Is there a current..." },
   { id: "hasAMetting", label: "Has a meeting..." },
   { id: "isTheRegionCovered", label: "Is the region..." },
-  { id: "whichOnes", label: "Were campaign...", disableSorting: true },
+  { id: "whichOnes", label: "Were campaign..." },
+  { id: "createBy", label: "Create By", disableSorting: true },
 ];
 
 function Crl(props) {
@@ -62,6 +63,7 @@ function Crl(props) {
               <TableCell>{sm.hasAMetting}</TableCell>
               <TableCell>{sm.isTheRegionCovered}</TableCell>
               <TableCell>{sm.whichOnes}</TableCell>
+              <TableCell>{sm.nameCreateBy}</TableCell>
             </TableRow>
           ))}
         </TableBody>

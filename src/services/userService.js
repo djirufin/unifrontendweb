@@ -7,10 +7,10 @@ const head = {
 };
 
 export const Role = () => [
-  { id: "user", title: "User" },
-  { id: "supplier", title: "User-Supplier" },
-  { id: "ip", title: "IP" },
-  { id: "admin", title: "Admin" },
+  { id: "supplier", title: "ROLE_SUPPLIER" },
+  { id: "admin", title: "ROLE_ADMIN" },
+  { id: "user", title: "ROLE_USER" },
+  { id: "ip", title: "ROLE_IP" },
 ];
 
 export function addUuser(user) {

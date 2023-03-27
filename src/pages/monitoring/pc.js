@@ -28,7 +28,8 @@ const headCells = [
   { id: "informVaccinationCampaign", label: "Have you been informed..." },
   { id: "communicationChannel", label: "Through which communication..." },
   { id: "quote", label: "Quote" },
-  { id: "whatCovidIs", label: "Do you know...", disableSorting: true },
+  { id: "whatCovidIs", label: "Do you know..." },
+  { id: "createBy", label: "Create By", disableSorting: true },
 ];
 
 function Pc(props) {
@@ -62,6 +63,7 @@ function Pc(props) {
               <TableCell>{sm.communicationChannel}</TableCell>
               <TableCell>{sm.quote}</TableCell>
               <TableCell>{sm.whatCovidIs}</TableCell>
+              <TableCell>{sm.nameCreateBy}</TableCell>
             </TableRow>
           ))}
         </TableBody>

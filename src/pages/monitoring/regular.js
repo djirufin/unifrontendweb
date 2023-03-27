@@ -145,7 +145,13 @@ function Regular(props) {
                 <TableCell>{eum.nameSite}</TableCell>
                 <TableCell>{eum.officeOrSection}</TableCell>
                 <TableCell>{eum.dateOfFieldVisit}</TableCell>
-                <TableCell>{eum.geoLocation}</TableCell>
+                <TableCell style={{ color: "blue" }}>
+                  <a
+                    href={"https://www.google.com/search?q=" + eum.geoLocation}
+                  >
+                    {eum.geoLocation}
+                  </a>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -25,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "country", label: "Country Name" },
   { id: "region", label: "Region Name" },
   { id: "district", label: "District Name" },
-  { id: "establishment", label: "Establishment Name", disableSorting: true },
+  { id: "establishment", label: "Establishment Name" },
+  { id: "createBy", label: "Create By", disableSorting: true },
 ];
 
 function Sm(props) {
@@ -59,10 +59,10 @@ function Sm(props) {
         <TableBody>
           {recordsAfterPagingAndSorting().map((sm) => (
             <TableRow key={sm.id}>
-              <TableCell>{sm.country}</TableCell>
               <TableCell>{sm.region}</TableCell>
               <TableCell>{sm.district}</TableCell>
               <TableCell>{sm.establishment}</TableCell>
+              <TableCell>{sm.nameCreateBy}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -58,17 +58,8 @@ export default function AddUserForm(props) {
     e.preventDefault();
     if (validate()) {
       values.loading = true;
-      values.password = generate();
+      // values.password = generate();
       addOrEdit(values, resetForm);
-
-      sendEmail(
-        values.email,
-        "Création utilisateur",
-        "Votre compte a ete cree dans la plateform trackiteum.org, veuillez y acceder en utilisant\nUsername : " +
-          values.username +
-          "\nPassword : " +
-          values.password
-      );
     }
   };
 
